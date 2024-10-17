@@ -1,0 +1,45 @@
+<div class="navBar sticky top-0 bg-white flex justify-content-between
+  align-items-center lg:m-3 ">
+
+  <div class="w-6 sm:w-5 md:w-4 lg:w-3 flex align-items-center pl-2">
+    <button class="border-none text-5xl md:text-6xl px-2 sm:px-3 md:px-4
+    line-height-1 lg:hidden bg-white" (click)="toggleMenu()">
+      &#9776;
+    </button>
+    <img src="assets/logo.jpg" alt="Logo" routerLink="/">
+  </div>
+
+  <div class="hidden h-full lg:flex lg:w-6 align-items-center
+  justify-content-evenly font-bold">
+    <a routerLink="/buscar-coche" class="link w-4 text-center cursor-pointer">Buscar coches</a>
+    <a routerLink="/vender-coche" class="link w-4 text-center cursor-pointer">Vende tu coche</a>
+    <a routerLink="/contacto" class="link w-4 text-center cursor-pointer">Contacto</a>
+  </div>
+
+  <ng-container *ngIf="!logueado">
+    <div class="w-4 lg:w-2 h-full flex justify-content-end">
+      <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3">
+        Iniciar sesión <br>o Regístrarse
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="logueado">
+    <div class="w-4 lg:w-2 h-full flex justify-content-end">
+      <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3">
+        Ir a mi perfil
+      </button>
+    </div>
+  </ng-container>
+
+
+  <div class="dropdown-menu lg:hidden bg-white flex justify-content-around p-2
+  absolute w-full font-bold text-sm md:text-base" [ngClass]="{'visible': isMenuVisible}">
+    <a routerLink="/buscar-coche" class="w-full text-center">Buscar coches</a>
+    <a routerLink="/vender-coche" class="w-full text-center">Vende tu coche</a>
+    <a routerLink="/contacto" class="w-full text-center">Contacto</a>
+  </div>
+
+</div>

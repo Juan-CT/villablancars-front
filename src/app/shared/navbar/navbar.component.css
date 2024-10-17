@@ -1,0 +1,55 @@
+.navBar {
+  min-width: 350px;
+  width: 100%;
+  height: 75px;
+}
+
+.register-btn {
+  background-color: #25d366;
+}
+
+img {
+  width: 100%;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+  color: #333;
+  top: 75px;
+  border: 1px solid #25d366;
+  z-index: 1000;
+  transform: scaleY(0); /* Escala vertical a 0 para ocultarlo */
+  transition: all 0.5s ease-out;
+  transform-origin: top; /* Aplicará efecto persiana desde la parte superior */
+
+}
+/* Estado visible */
+.dropdown-menu.visible {
+  opacity: 1;
+  transform: scaleY(1); /* Escala vertical normal */
+  height: auto; /* Altura automática según el contenido */
+}
+
+.dropdown-menu > a:active, .link:hover {
+  scale: 1.25;
+}
+
+@media (min-width: 992px) {
+  .navBar {
+    width: 950px;
+    border-radius: 10px;
+  }
+
+  .register-btn {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+}

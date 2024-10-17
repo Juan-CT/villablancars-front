@@ -1,16 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { SharedModule } from './shared/shared.module';
+import { PruebaConexionComponent } from './prueba-conexion/prueba-conexion.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { SellPageComponent } from './pages/sell-page/sell-page.component'
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PruebaConexionComponent,
+    LandingPageComponent,
+    SearchPageComponent,
+    SellPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
