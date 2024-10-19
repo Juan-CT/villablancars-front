@@ -1,3 +1,7 @@
-<app-navbar class="flex justify-content-center"></app-navbar>
+<div class="container-root">
+  <app-navbar (emitAbrirModal)="modalVisible = true"></app-navbar>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+
+  <app-modal *ngIf="modalVisible" (cerrar)="cerrarModal()"></app-modal>
+</div>

@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  modalVisible: boolean = false;
+
+  constructor() {}
+
+  abrirModal() {
+    this.modalVisible = true;
+  }
+
+  cerrarModal() {
+    this.modalVisible = false;
+  }
+
 }

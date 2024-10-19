@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
+import { AuthModule} from './auth/auth.module'
+import { FirebaseModule } from './firebase/firebase.module';
+
 import { PruebaConexionComponent } from './prueba-conexion/prueba-conexion.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
@@ -23,7 +26,9 @@ import { SellPageComponent } from './pages/sell-page/sell-page.component'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    AuthModule,
+    FirebaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]

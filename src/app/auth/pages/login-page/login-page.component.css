@@ -1,0 +1,13 @@
+.login {
+  background-color: #25d366;
+  width: 325px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.reg {
+  width: 325px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid var(--color-black);
+}
