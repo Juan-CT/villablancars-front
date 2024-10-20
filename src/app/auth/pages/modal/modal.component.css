@@ -1,6 +1,6 @@
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 9999;
+  z-index: 1001;
   color: var(--color-black);
 }
 
@@ -25,4 +25,3 @@
   top: 20px;
   right: 20px;
 }
-
