@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay } from 'rxjs';
+import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -20,10 +21,48 @@ export class LoginPageComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/)]]
     });
-   }
+  }
 
-  loginUsuario() {
+  async loginUsuario() {
+    if (this.formLogin.valid) {
+      const { email, password } = this.formLogin.value;
 
+      try {
+        const emailExiste = await firstValueFrom(this.authService.verificarEmail(email));
+
+        if (emailExiste.exists) {
+          console.log("email verificado ", emailExiste.exists);
+          await this.authService.login(email, password);
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'El email introducido no está registrado.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#25d366',
+            customClass: {
+              popup: 'swal'
+            }
+          });
+        }
+      } catch (error){
+        console.error("Error en el login:", error);
+        Swal.fire({
+          title: 'Error',
+          text: 'El email o contraseña son incorrectos.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          background: '#fff',
+          color: '#333',
+          confirmButtonColor: '#25d366',
+          customClass: {
+            popup: 'swal'
+          }
+        });
+      }
+    }
   }
 
   verificarLogin() {
@@ -43,7 +82,5 @@ export class LoginPageComponent {
   irARegistro() {
     this.aRegistro.emit();
   }
-
-
 
 }

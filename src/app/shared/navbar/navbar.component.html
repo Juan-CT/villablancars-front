@@ -17,7 +17,7 @@
       <a routerLink="/contacto" class="link w-4 text-center cursor-pointer">Contacto</a>
     </div>
 
-    <ng-container *ngIf="!logueado">
+    <ng-container *ngIf="usuarioLogueado === null">
       <div class="w-4 lg:w-2 h-full flex justify-content-end">
         <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
     font-bold text-white cursor-pointer lg:text-base line-height-3"
@@ -27,10 +27,10 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="logueado">
+    <ng-container *ngIf="usuarioLogueado !== null">
       <div class="w-4 lg:w-2 h-full flex justify-content-end">
         <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
-    font-bold text-white cursor-pointer lg:text-base line-height-3">
+    font-bold text-white cursor-pointer lg:text-base line-height-3" (click)="logout()">
           Ir a mi perfil
         </button>
       </div>

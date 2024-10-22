@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Usuario } from '../../auth/usuario';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,12 +8,21 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+
 
   @Output() emitAbrirModal = new EventEmitter<void>();
-
+  usuarioLogueado: Usuario | null = null;
   isMenuVisible: boolean = false; // Estado del menú desplegable
-  logueado: boolean = false;
+
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(){
+    this.authService.usuario$.subscribe(usuario => {
+      this.usuarioLogueado = usuario && usuario.emailVerificado ? usuario : null;
+    });
+  }
 
   toggleMenu() {
     this.isMenuVisible = !this.isMenuVisible; // Cambia el estado al hacer clic
@@ -20,4 +31,9 @@ export class NavbarComponent {
   abrirModal() {
     this.emitAbrirModal.emit();
   }
+
+  logout() {
+    this.authService.logout();
+  }
+
 }

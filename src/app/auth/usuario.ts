@@ -1,5 +1,6 @@
 export interface Usuario {
   idFirebase: string,
   nombre: string,
-  email: string
+  email: string,
+  emailVerificado: boolean
 }

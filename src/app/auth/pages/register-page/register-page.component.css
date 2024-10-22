@@ -12,9 +12,7 @@
   border: 2px solid var(--color-black);
 }
 
-.swal {
-  z-index: 9999;
-}
+
 
 input {
   border: 1px solid #25d366;

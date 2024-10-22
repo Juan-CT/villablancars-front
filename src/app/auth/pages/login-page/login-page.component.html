@@ -10,14 +10,16 @@
       <div class="flex flex-column">
 
         <label class="mb-1" for="email">Email:</label>
-        <input class="mb-1" type="email" placeholder="Introduce tu email" formControlName="email">
+        <input class="mb-1 p-2" type="email" placeholder="Introduce tu email" formControlName="email"
+        [ngClass]="{'input-invalid': formLogin.get('email')?.invalid && (formLogin.get('email')?.touched)}">
+
         <div *ngIf="formLogin.get('email')?.invalid && (formLogin.get('email')?.touched)"
           class="error-msg-form mb-1">
           <small>Introduce un correo electrónico válido.</small>
         </div>
 
         <label class="mb-1" for="password">Contraseña:</label>
-        <input class="mb-1" type="password" placeholder="Introduce tu contraseña" formControlName="password"
+        <input class="mb-1 p-2" type="password" placeholder="Introduce tu contraseña" formControlName="password"
         [ngClass]="{'input-invalid': formLogin.get('password')?.invalid && (formLogin.get('password')?.touched || formLogin.get('password')?.dirty)}">
         <div *ngIf="formLogin.get('password')?.invalid && (formLogin.get('password')?.touched
         || formLogin.get('password')?.dirty)" class="error-msg-form mb-1">

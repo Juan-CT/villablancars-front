@@ -37,3 +37,7 @@ body {
 .error-msg-form {
   color: var(--color-error);
 }
+
+.swal {
+  z-index: 9999;
+}

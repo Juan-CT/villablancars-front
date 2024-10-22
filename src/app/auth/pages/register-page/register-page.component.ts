@@ -38,7 +38,8 @@ export class RegisterPageComponent {
           const usuario: Usuario = {
             idFirebase: idFirebase,
             nombre: nombre,
-            email: email
+            email: email,
+            emailVerificado: false
           };
 
           this.authService.guardarUsuario(usuario).subscribe((res) => {
