@@ -6,6 +6,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SellPageComponent } from './pages/sell-page/sell-page.component';
 import { LoginPageComponent } from './auth/pages/login-page/login-page.component';
 import { RegisterPageComponent } from './auth/pages/register-page/register-page.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'vender-coche', component: SellPageComponent },
   { path: 'login', component: LoginPageComponent},
   { path: 'registro', component: RegisterPageComponent},
+  { path: 'usuario', component: UserPageComponent},
 
 
   { path: '**', redirectTo: '' }

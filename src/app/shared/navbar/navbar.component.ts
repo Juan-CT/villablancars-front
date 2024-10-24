@@ -13,8 +13,8 @@ export class NavbarComponent implements OnInit {
 
   @Output() emitAbrirModal = new EventEmitter<void>();
   usuarioLogueado: Usuario | null = null;
-  isMenuVisible: boolean = false; // Estado del menú desplegable
-
+  isMenuAppVisible: boolean = false; // Estado del menú desplegable
+  isMenuUserVisible: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -24,8 +24,18 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  toggleMenu() {
-    this.isMenuVisible = !this.isMenuVisible; // Cambia el estado al hacer clic
+  toggleAppMenu() {
+    this.isMenuAppVisible = !this.isMenuAppVisible; // Cambia el estado al hacer clic
+    if (this.isMenuUserVisible) {
+      this.isMenuUserVisible = !this.isMenuUserVisible;
+    }
+  }
+
+  toggleUserMenu() {
+    this.isMenuUserVisible = !this.isMenuUserVisible;
+    if (this.isMenuAppVisible) {
+      this.isMenuAppVisible = !this.isMenuAppVisible;
+    }
   }
 
   abrirModal() {

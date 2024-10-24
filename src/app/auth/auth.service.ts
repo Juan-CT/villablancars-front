@@ -4,7 +4,7 @@ import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signO
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { Usuario } from './usuario';
 import { environment } from '../environments/environment';
-import { sendEmailVerification } from 'firebase/auth';
+import { sendEmailVerification, updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -77,9 +77,7 @@ export class AuthService {
       }
 
       const token = await credencialesUsuario.user.getIdToken();
-      console.log('Token obtenido:', token);
       const response = await firstValueFrom(this.verificarToken(token));
-
 
       if (response.error) {
         Swal.fire({
@@ -105,16 +103,16 @@ export class AuthService {
       }
       this.userSubject.next(usuario);
 
-      console.log("todo bien Pepe Luis");
     } catch (error) {
       console.error("Error al iniciar sesión", error);
       throw error;
     }
   }
 
-  async registro(email: string, password: string): Promise<User | null> {
+  async registro(nombre: string, email: string, password: string): Promise<User | null> {
     try {
       const credencialesUsuario = await createUserWithEmailAndPassword(this.auth, email, password);
+      await updateProfile(credencialesUsuario.user, {displayName: nombre});
       await sendEmailVerification(credencialesUsuario.user);
       return credencialesUsuario.user;
     } catch (error) {

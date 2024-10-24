@@ -31,7 +31,7 @@ export class RegisterPageComponent {
     if (this.formRegistro.valid) {
       const {nombre, email, password} = this.formRegistro.value;
       try {
-        const credencialUsuario = await this.authService.registro(email, password);
+        const credencialUsuario = await this.authService.registro(nombre, email, password);
         const idFirebase = credencialUsuario?.uid;
 
         if (idFirebase) {

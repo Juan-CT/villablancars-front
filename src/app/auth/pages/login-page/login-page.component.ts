@@ -13,6 +13,8 @@ import { firstValueFrom } from 'rxjs';
 export class LoginPageComponent {
 
   @Output() aRegistro = new EventEmitter<void>();
+  @Output() cerrarModal = new EventEmitter<void>();
+
   formLogin: FormGroup;
   passwordError: boolean = false;
 
@@ -31,8 +33,8 @@ export class LoginPageComponent {
         const emailExiste = await firstValueFrom(this.authService.verificarEmail(email));
 
         if (emailExiste.exists) {
-          console.log("email verificado ", emailExiste.exists);
           await this.authService.login(email, password);
+          this.cerrarModal.emit();
         } else {
           Swal.fire({
             title: 'Error',

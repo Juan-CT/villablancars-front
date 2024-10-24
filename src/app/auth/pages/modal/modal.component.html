@@ -4,7 +4,7 @@
     <button class="border-none bg-white text-lg cursor-pointer font-bold absolute cerrar" (click)="cerrarModal()">X</button>
 
     <ng-container *ngIf="vistaLogin; else registerTemplate">
-      <app-login-page (aRegistro)="cambiarVistaRegistrar()"></app-login-page>
+      <app-login-page (aRegistro)="cambiarVistaRegistrar()" (cerrarModal)="cerrarModal()"></app-login-page>
     </ng-container>
 
     <ng-template #registerTemplate>

@@ -8,6 +8,11 @@
   background-color: var(--color-green);
 }
 
+.perfil-btn {
+  background-color: var(--color-black);
+  border: 1px solid var(--color-green);
+}
+
 img {
   width: 100%;
   height: fit-content;
