@@ -13,7 +13,8 @@ import { PruebaConexionComponent } from './prueba-conexion/prueba-conexion.compo
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SellPageComponent } from './pages/sell-page/sell-page.component';
-import { UserPageComponent } from './pages/user-page/user-page.component'
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserPageComponent } from './pages/user-page/user-page.component'
     LandingPageComponent,
     SearchPageComponent,
     SellPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,

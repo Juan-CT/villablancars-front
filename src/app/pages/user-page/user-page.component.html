@@ -1,3 +1,21 @@
 <div class="flex justify-content-center z-1 flex-column align-items-center">
-  <h2>Hola, </h2>
+
+  <div *ngIf="usuarioLogueado">
+
+    <div *ngIf="usuarioLogueado.rol === 'admin'; else perfilUsuario" class="flex flex-column align-items-center mt-6 h-30rem">
+      <p class="m-3 font-bold sm:text-2xl lg:text-3xl">Acceso al panel de Administración</p>
+      <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg md:w-16rem" (click)="irAdminPage()">
+        Ir a Administración
+      </button>
+    </div>
+
+    <ng-template #perfilUsuario>
+      <h1>Tus datos:</h1>
+      <p>Nombre: {{ usuarioLogueado.nombre }}</p>
+      <p>Email: {{ usuarioLogueado.email }}</p>
+      <!-- Más información del perfil del usuario -->
+    </ng-template>
+
+  </div>
+
 </div>

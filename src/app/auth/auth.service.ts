@@ -22,16 +22,25 @@ export class AuthService {
   constructor(private auth: Auth, private http: HttpClient) {
     // Se dispara si hay un cambio en la autenticación
     // También detecta al usuario autenticado y y guarda en userSubject
-    onAuthStateChanged(this.auth, (user) => {
+    onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        const usuario: Usuario = {
-          idFirebase: user.uid,
-          nombre: user.displayName || '',
-          email: user.email || '',
-          emailVerificado: user.emailVerified
-        };
+        const token = await user.getIdToken();
+        const response = await firstValueFrom(this.verificarToken(token));
 
-        this.userSubject.next(usuario);
+        if (response && response.rol) {
+          const usuario: Usuario = {
+            idFirebase: user.uid,
+            nombre: user.displayName || '',
+            email: user.email || '',
+            emailVerificado: user.emailVerified,
+            rol: response.rol || 'usuario'
+          };
+
+          this.userSubject.next(usuario);
+        } else {
+          console.error('Error al obtener los datos del usuario');
+          this.userSubject.next(null);
+        }
       } else {
         this.userSubject.next(null);
       }
@@ -103,7 +112,8 @@ export class AuthService {
         idFirebase: credencialesUsuario.user.uid,
         nombre: credencialesUsuario.user.displayName || '',
         email: credencialesUsuario.user.email || '',
-        emailVerificado: credencialesUsuario.user.emailVerified
+        emailVerificado: credencialesUsuario.user.emailVerified,
+        rol: response.rol || 'usuario'
       }
       this.userSubject.next(usuario);
 
@@ -116,7 +126,7 @@ export class AuthService {
   async registro(nombre: string, email: string, password: string): Promise<User | null> {
     try {
       const credencialesUsuario = await createUserWithEmailAndPassword(this.auth, email, password);
-      await updateProfile(credencialesUsuario.user, {displayName: nombre});
+      await updateProfile(credencialesUsuario.user, { displayName: nombre });
       await sendEmailVerification(credencialesUsuario.user);
       return credencialesUsuario.user;
     } catch (error) {
