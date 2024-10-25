@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-user-page',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './user-page.component.css'
 })
 export class UserPageComponent {
+
+  constructor(private authService: AuthService) { }
+
 
 }

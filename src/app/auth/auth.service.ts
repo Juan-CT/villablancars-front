@@ -13,12 +13,16 @@ import Swal from 'sweetalert2';
 
 export class AuthService {
 
+  // userSubject se actualiza con los datos del usuario autenticado
   private userSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
+  // usuario$ es un Observable público que expone el estado del usuario autenticado,
+  // permitiendo a otros components suscribirse y reaccionar a cambios
   public usuario$: Observable<Usuario | null> = this.userSubject.asObservable();
 
   constructor(private auth: Auth, private http: HttpClient) {
+    // Se dispara si hay un cambio en la autenticación
+    // También detecta al usuario autenticado y y guarda en userSubject
     onAuthStateChanged(this.auth, (user) => {
-
       if (user) {
         const usuario: Usuario = {
           idFirebase: user.uid,

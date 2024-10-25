@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Usuario } from '../../auth/usuario';
 import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   isMenuAppVisible: boolean = false; // Estado del menú desplegable
   isMenuUserVisible: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(){
     this.authService.usuario$.subscribe(usuario => {
@@ -25,7 +26,7 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleAppMenu() {
-    this.isMenuAppVisible = !this.isMenuAppVisible; // Cambia el estado al hacer clic
+    this.isMenuAppVisible = !this.isMenuAppVisible;
     if (this.isMenuUserVisible) {
       this.isMenuUserVisible = !this.isMenuUserVisible;
     }
@@ -42,8 +43,9 @@ export class NavbarComponent implements OnInit {
     this.emitAbrirModal.emit();
   }
 
-  logout() {
-    this.authService.logout();
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['/']);
   }
 
 }
