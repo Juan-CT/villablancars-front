@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,10 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SellPageComponent } from './pages/sell-page/sell-page.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
-import { AdminPageComponent } from './pages/admin-page/admin-page.component'
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { CochesComponent } from './pages/admin-page/coches/coches.component';
+import { CitasComponent } from './pages/admin-page/citas/citas.component';
+import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component'
     SearchPageComponent,
     SellPageComponent,
     UserPageComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    CochesComponent,
+    CitasComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +39,8 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component'
     HttpClientModule,
     SharedModule,
     AuthModule,
-    FirebaseModule
+    FirebaseModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

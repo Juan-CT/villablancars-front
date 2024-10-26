@@ -11,6 +11,9 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { CochesComponent } from './pages/admin-page/coches/coches.component';
+import { CitasComponent } from './pages/admin-page/citas/citas.component';
+import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -19,7 +22,13 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'registro', component: RegisterPageComponent },
   { path: 'usuario', component: UserPageComponent, canActivate: [authGuard] },
-  { path: 'admin', component: AdminPageComponent, canActivate: [adminGuard] },
+  {
+    path: 'admin', component: AdminPageComponent, canActivate: [adminGuard], children: [
+      { path: 'coches', component: CochesComponent },
+      { path: 'citas', component: CitasComponent },
+      { path: 'usuarios', component: UsuariosComponent },
+    ],
+  },
 
 
   { path: '**', redirectTo: '' }

@@ -1,0 +1,44 @@
+<div class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+
+    <div class="col-6 flex justify-content-center">
+      <button class="w-8rem md:w-10rem h-2rem md:h-3rem text-white m-3 font-bold cursor-pointer md:text-lg"
+      (click)="mostrarCrear()">
+        Añadir un coche</button>
+    </div>
+    <div class="col-6 flex justify-content-center">
+      <button class="w-8rem md:w-10rem  h-2rem md:h-3rem text-white m-3 font-bold cursor-pointer md:text-lg"
+      (click)="mostrarListar()">
+        Listar coches existentes</button>
+    </div>
+
+</div>
+
+<div *ngIf="!listarSelec && !crearSelec" class="h-30rem" ></div>
+
+<div *ngIf="crearSelec" class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+  <form [formGroup]="formCrearCoche" class="grid grid-nogutter" (ngSubmit)="guardarCoche()">
+
+    <div class="col-12 md:col-6">
+      <label for="marca">Marca:</label>
+      <select formControlName="marca" id="marca" class="w-full">
+        <option value="" disabled selected>Selecciona una marca</option>
+        <option *ngFor="let marca of marcas" [value]="marca.id">{{ marca.nombre }}</option>
+      </select>
+    </div>
+
+    <div class="col-12 md:col-6">
+      <label for="carroceria">Carrocería:</label>
+      <select formControlName="carroceria" id="carroceria" class="w-full">
+        <option value="" disabled selected>Selecciona una carrocería</option>
+        <option *ngFor="let carroceria of carrocerias" [value]="carroceria.id">{{ carroceria.nombre }}</option>
+      </select>
+    </div>
+
+  </form>
+</div>
+
+<div *ngIf="listarSelec" class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+
+</div>
+
+
