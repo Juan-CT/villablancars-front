@@ -2,3 +2,7 @@ button {
   background-color: var(--color-green);
   border-radius: 10px;
 }
+
+button:hover {
+  scale: 1.15;
+}

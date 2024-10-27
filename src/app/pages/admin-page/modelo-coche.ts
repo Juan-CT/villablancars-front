@@ -8,6 +8,11 @@ export interface Carroceria {
   nombre: string;
 }
 
+export interface Cambio {
+  id: number;
+  tipo: string;
+}
+
 export interface Coche {
   id: number;
   marca: Marca;
@@ -16,8 +21,23 @@ export interface Coche {
   anio: number;
   color: string;
   precio: number;
+  cambio: Cambio
   kilometros: number;
-  cilindrada: number;
+  autonomia: number;
   potencia: number;
-  descripción: string;
+  descripcion: string;
+}
+
+export interface CocheCreacion {
+  marca_id: number;
+  carroceria_id: number;
+  cambio_id: number;
+  modelo: string;
+  anio: number;
+  color: string;
+  precio: number;
+  kilometros: number;
+  autonomia: number;
+  potencia: number;
+  descripcion: string;
 }
