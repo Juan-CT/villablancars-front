@@ -15,13 +15,13 @@ export interface Cambio {
 
 export interface Coche {
   id: number;
-  marca: Marca;
-  carroceria: Carroceria;
+  marca_id: number;
+  carroceria_id: number;
+  cambio_id: number;
   modelo: string;
   anio: number;
   color: string;
   precio: number;
-  cambio: Cambio
   kilometros: number;
   autonomia: number;
   potencia: number;

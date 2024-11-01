@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarServiceService } from '../../../services/car-service.service';
-import { Carroceria, Coche, CocheCreacion, Marca } from '../modelo-coche';
+import { Cambio, Carroceria, Coche, CocheCreacion, Marca } from '../modelo-coche';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,10 +13,15 @@ export class CochesComponent implements OnInit {
 
   listarSelec: boolean = false;
   crearSelec: boolean = false;
+  anios: number[] = [];
 
   marcas: Marca[] = [];
   carrocerias: Carroceria[] = [];
-  anios: number[] = [];
+  coches: Coche[] = [];
+  cambios: Cambio[] = [
+    { id: 1, tipo: 'Automático' },
+    { id: 2, tipo: 'Manual' }
+  ];
 
   formCrearCoche: FormGroup;
 
@@ -64,6 +69,47 @@ export class CochesComponent implements OnInit {
   mostrarListar() {
     this.listarSelec = true;
     this.crearSelec = false;
+    this.obtenerCochesExistentes();
+  }
+
+  editarCoche() {
+
+  }
+
+  eliminarcoche(coche_id: number) {
+    Swal.fire({
+      title: 'Eliminar Coche',
+      text: '¿Está seguro de que quiere eliminar el coche seleccionado?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      background: '#fff',
+      color: '#333',
+      confirmButtonColor: '#25d366',
+      cancelButtonColor: '#ff6b6b',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.carService.eliminarCoche(coche_id).subscribe(
+          () =>{
+            Swal.fire('Éxito', 'Coche eliminado correctamente.', 'success');
+            this.obtenerCochesExistentes();
+          },
+          () => Swal.fire('Error', 'Ha surgido un error al eliminar el coche.', 'error')
+        );
+      }
+    })
+  }
+
+  obtenerCochesExistentes() {
+    this.carService.obtenerCoches().subscribe(
+      (coches) => {
+        this.coches = coches;
+        console.log(coches);
+      }, (error) => {
+        console.error('Error al obtener los coches existentes', error);
+      }
+    )
   }
 
   guardarCoche() {
@@ -122,6 +168,21 @@ export class CochesComponent implements OnInit {
 
   resetForm() {
     this.formCrearCoche.reset();
+  }
+
+  getNomberMarca(marca_Id: number): string {
+    const marca = this.marcas.find((m) => m.id === marca_Id);
+    return marca ? marca.nombre : '-';
+  }
+
+  getNombreCarroceria(carroceria_Id: number): string {
+    const carroceria = this.carrocerias.find((c) => c.id === carroceria_Id);
+    return carroceria ? carroceria.nombre : '-';
+  }
+
+  getTipoCambio(cambio_Id: number): string {
+    const cambio = this.cambios.find((c) => c.id === cambio_Id);
+    return cambio ? cambio.tipo : '-';
   }
 
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
-import { CocheCreacion } from '../pages/admin-page/modelo-coche';
+import { Coche, CocheCreacion } from '../pages/admin-page/modelo-coche';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +20,12 @@ export class CarServiceService {
 
   }
 
-  eliminarCoche(){
-
+  eliminarCoche(coche_id: number): Observable<any>{
+    return this.http.delete(`${environment.apiURL}/eliminar-coche/${coche_id}`);
   }
 
-  obtenerCoches() {
-
+  obtenerCoches(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/obtener-coches`);
   }
 
   obtenerMarcasCarrocerias(): Observable<any> {
