@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarServiceService } from '../../../services/car-service.service';
-import { Cambio, Carroceria, Coche, CocheCreacion, Marca } from '../modelo-coche';
+import { Cambio, Carroceria, Coche, Marca } from '../modelo-coche';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,8 +13,10 @@ export class CochesComponent implements OnInit {
 
   listarSelec: boolean = false;
   crearSelec: boolean = false;
+  editarSelec: boolean = false;
   anios: number[] = [];
-
+  cuadrados: number[] = Array.from({ length: 8 }, (_, i) => i);
+  selectedFiles: Array<{ file: File | null; url: string }> = [];
   marcas: Marca[] = [];
   carrocerias: Carroceria[] = [];
   coches: Coche[] = [];
@@ -29,6 +31,7 @@ export class CochesComponent implements OnInit {
     const anioActual = new Date().getFullYear();
 
     this.formCrearCoche = this.fb.group({
+      id: [null],
       marca: ['', Validators.required],
       carroceria: ['', Validators.required],
       modelo: ['', Validators.required],
@@ -39,15 +42,14 @@ export class CochesComponent implements OnInit {
       kilometros: ['', [Validators.required, Validators.min(0), Validators.max(999999)]],
       autonomia: ['', [Validators.required, Validators.min(0), Validators.max(1500)]],
       potencia: ['', [Validators.required, Validators.min(0), Validators.max(2000)]],
-      descripcion: ['', Validators.required]
+      descripcion: ['', Validators.required],
+      imagen: ['']
     });
 
     const currentYear: number = new Date().getFullYear();
     for (let anio = 2000; anio <= currentYear; anio++) {
       this.anios.push(anio);
     }
-
-
   }
 
   ngOnInit(): void {
@@ -62,8 +64,11 @@ export class CochesComponent implements OnInit {
   }
 
   mostrarCrear() {
-    this.crearSelec = true;
+    this.editarSelec = false;
+    this.resetForm();
+    this.selectedFiles = [];
     this.listarSelec = false;
+    this.crearSelec = true;
   }
 
   mostrarListar() {
@@ -72,8 +77,34 @@ export class CochesComponent implements OnInit {
     this.obtenerCochesExistentes();
   }
 
-  editarCoche() {
+  editarCoche(coche_id: number) {
+    this.listarSelec = false;
+    this.crearSelec = true;
+    this.editarSelec = true;
+    const cocheAEditar: Coche = this.coches.find((c) => c.id === coche_id)!;
+    if (cocheAEditar) {
+      this.formCrearCoche.patchValue({
+        id: cocheAEditar.id,
+        marca: cocheAEditar.marca_id,
+        carroceria: cocheAEditar.carroceria_id,
+        modelo: cocheAEditar.modelo,
+        anio: cocheAEditar.anio,
+        color: cocheAEditar.color,
+        precio: Number(cocheAEditar.precio),
+        cambio: cocheAEditar.cambio_id,
+        kilometros: Number(cocheAEditar.kilometros),
+        autonomia: Number(cocheAEditar.autonomia),
+        potencia: Number(cocheAEditar.potencia),
+        descripcion: cocheAEditar.descripcion
+      });
 
+      this.selectedFiles = [];
+      cocheAEditar.imagenes?.forEach((imagen, index) => {
+        if (index < 8) {
+          this.selectedFiles[index] = { file: null, url: imagen.url };
+        }
+      });
+    }
   }
 
   eliminarcoche(coche_id: number) {
@@ -91,7 +122,7 @@ export class CochesComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.carService.eliminarCoche(coche_id).subscribe(
-          () =>{
+          () => {
             Swal.fire('Éxito', 'Coche eliminado correctamente.', 'success');
             this.obtenerCochesExistentes();
           },
@@ -102,10 +133,10 @@ export class CochesComponent implements OnInit {
   }
 
   obtenerCochesExistentes() {
+    this.editarSelec = false;
     this.carService.obtenerCoches().subscribe(
       (coches) => {
         this.coches = coches;
-        console.log(coches);
       }, (error) => {
         console.error('Error al obtener los coches existentes', error);
       }
@@ -114,30 +145,34 @@ export class CochesComponent implements OnInit {
 
   guardarCoche() {
     const formValues = this.formCrearCoche.value;
+    const formData = new FormData();
     // Creación del coche para enviar al backend
-    const datosCoche: CocheCreacion = {
-      marca_id: Number(formValues.marca),
-      carroceria_id: Number(formValues.carroceria),
-      cambio_id: formValues.cambio === 'Automático' ? 1 : 2,
-      modelo: formValues.modelo,
-      anio: Number(formValues.anio),
-      color: formValues.color,
-      precio: formValues.precio,
-      kilometros: formValues.kilometros,
-      autonomia: formValues.autonomia,
-      potencia: formValues.potencia,
-      descripcion: formValues.descripcion
-    };
+    formData.append('marca_id', Number(formValues.marca).toString());
+    formData.append('carroceria_id', Number(formValues.carroceria).toString());
+    formData.append('cambio_id', Number(formValues.cambio).toString());
+    formData.append('modelo', formValues.modelo);
+    formData.append('anio', Number(formValues.anio).toString());
+    formData.append('color', formValues.color);
+    formData.append('precio', formValues.precio.toString());
+    formData.append('kilometros', formValues.kilometros.toString());
+    formData.append('autonomia', formValues.autonomia.toString());
+    formData.append('potencia', formValues.potencia.toString());
+    formData.append('descripcion', formValues.descripcion);
+
+    const archivosValidos = this.selectedFiles.filter(item => item.file !== null);
+    archivosValidos.forEach((item) => {
+      formData.append('imagenes[]', item.file!, item.file!.name);
+    });
     // Confirmación de envío
     Swal.fire({
       title: 'Confirmar cambios',
       html: `
-        <strong>Marca:</strong> ${this.marcas.find(m => m.id === datosCoche.marca_id)?.nombre} <br>
-        <strong>Carrocería:</strong> ${this.carrocerias.find(c => c.id === datosCoche.carroceria_id)?.nombre} <br>
+        <strong>Marca:</strong> ${this.marcas.find(m => m.id === formValues.marca_id)?.nombre} <br>
+        <strong>Carrocería:</strong> ${this.carrocerias.find(c => c.id === formValues.carroceria_id)?.nombre} <br>
         <strong>Modelo:</strong> ${formValues.modelo} <br>
         <strong>Año:</strong> ${formValues.anio} <br>
         <strong>Color:</strong> ${formValues.color} <br>
-        <strong>Cambio:</strong> ${formValues.cambio} <br>
+        <strong>Cambio:</strong> ${this.cambios.find(c => c.id === formValues.cambio_id)?.tipo} <br>
         <strong>Kilómetros:</strong> ${formValues.kilometros} Km <br>
         <strong>Autonomía:</strong> ${formValues.autonomia} Km <br>
         <strong>Potencia:</strong> ${formValues.potencia} CV <br>
@@ -154,14 +189,86 @@ export class CochesComponent implements OnInit {
       cancelButtonColor: '#ff6b6b',
     }).then((result) => {
       if (result.isConfirmed) {
-        // Envío del coche al backend
-        this.carService.crearCoche(datosCoche).subscribe(() => {
+
+        this.carService.crearCoche(formData).subscribe(() => {
           Swal.fire('Éxito', 'El coche ha sido guardado correctamente.', 'success');
           this.resetForm();
-        }, () => {
-          Swal.fire('Error', 'Ocurrió un problema al guardar el coche.', 'error');
-        }
-        );
+          this.mostrarListar();
+        }, (error) => {
+          if (error.status === 422) {
+            Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+          } else {
+            Swal.fire('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+          }
+        });
+      }
+    });
+  }
+
+  modificarCoche() {
+    const formValues = this.formCrearCoche.value;
+    const cocheSinCambios = this.coches.find((c) => c.id === formValues.id)!;
+    const formData = new FormData();
+
+    formData.append('_method', 'PUT');
+    formData.append('marca_id', Number(formValues.marca).toString());
+    formData.append('carroceria_id', Number(formValues.carroceria).toString());
+    formData.append('cambio_id', Number(formValues.cambio).toString());
+    formData.append('modelo', formValues.modelo);
+    formData.append('anio', Number(formValues.anio).toString());
+    formData.append('color', formValues.color);
+    formData.append('precio', formValues.precio.toString());
+    formData.append('kilometros', formValues.kilometros.toString());
+    formData.append('autonomia', formValues.autonomia.toString());
+    formData.append('potencia', formValues.potencia.toString());
+    formData.append('descripcion', formValues.descripcion);
+
+    const archivosValidos = this.selectedFiles.filter(item => item.file !== null);
+    archivosValidos.forEach((item) => {
+      formData.append('imagenes[]', item.file!, item.file!.name);
+    });
+
+    Swal.fire({
+      title: 'Confirmar cambios',
+      html: `
+        <strong>Marca:</strong> ${this.marcas.find(m => m.id === cocheSinCambios.marca_id)?.nombre} ->
+        ${this.marcas.find(m => m.id === formValues.marca_id)?.nombre} <br>
+        <strong>Carrocería:</strong> ${this.carrocerias.find
+          (c => c.id === cocheSinCambios.carroceria_id)?.nombre} ->
+        ${this.carrocerias.find(c => c.id === formValues.carroceria_id)?.nombre} <br>
+        <strong>Modelo:</strong> ${cocheSinCambios.modelo} -> ${formValues.modelo} <br>
+        <strong>Año:</strong> ${cocheSinCambios.anio} -> ${formValues.anio} <br>
+        <strong>Color:</strong> ${cocheSinCambios.color} -> ${formValues.color} <br>
+        <strong>Cambio:</strong> ${this.cambios.find(c => c.id === cocheSinCambios.cambio_id)?.tipo} ->
+        ${this.cambios.find(c => c.id === formValues.cambio_id)?.tipo} <br>
+        <strong>Kilómetros:</strong> ${cocheSinCambios.kilometros} -> ${formValues.kilometros} Km <br>
+        <strong>Autonomía:</strong> ${cocheSinCambios.autonomia} -> ${formValues.autonomia} Km <br>
+        <strong>Potencia:</strong> ${cocheSinCambios.potencia} -> ${formValues.potencia} CV <br>
+        <strong>Precio:</strong> ${cocheSinCambios.precio} -> ${formValues.precio} Euros <br>
+        <strong>Descripción:</strong> ${cocheSinCambios.descripcion} -> ${formValues.descripcion} <br>
+      `,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      background: '#fff',
+      color: '#333',
+      confirmButtonColor: '#25d366',
+      cancelButtonColor: '#ff6b6b',
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.carService.editarCoche(formData, cocheSinCambios.id).subscribe(() => {
+          Swal.fire('Éxito', 'El coche ha sido guardado correctamente.', 'success');
+          this.resetForm();
+          this.mostrarListar();
+        }, (error) => {
+          if (error.status === 422) {
+            Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+          } else {
+            Swal.fire('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+          }
+        });
       }
     });
   }
@@ -170,7 +277,7 @@ export class CochesComponent implements OnInit {
     this.formCrearCoche.reset();
   }
 
-  getNomberMarca(marca_Id: number): string {
+  getNombreMarca(marca_Id: number): string {
     const marca = this.marcas.find((m) => m.id === marca_Id);
     return marca ? marca.nombre : '-';
   }
@@ -185,4 +292,76 @@ export class CochesComponent implements OnInit {
     return cambio ? cambio.tipo : '-';
   }
 
+  elegirArchivo(index: number) {
+    if (!this.selectedFiles[index]?.url) {
+      const input = document.getElementById(`imagen${index}`) as HTMLInputElement;
+      input.click();
+    }
+  }
+
+  eliminarImg(index: number) {
+    const urlImagen = this.selectedFiles[index].url;
+    const urlAEliminar = urlImagen.replace('http://127.0.0.1:8000', '');
+
+    Swal.fire({
+      title: 'Eliminar imagen',
+      icon: 'info',
+      text: '¿Está seguro de que quiere eliminar la imagen seleccionada?',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      background: '#fff',
+      color: '#333',
+      confirmButtonColor: '#25d366',
+      cancelButtonColor: '#ff6b6b',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.carService.eliminarImagen(urlAEliminar).subscribe(() => {
+          this.selectedFiles.splice(index, 1);
+          Swal.fire('Éxito', 'Imagen eliminada correctamente.', 'success');
+        }, () => {
+          Swal.fire('Error', 'Ocurrió un problema al eliminar la imagen.', 'error');
+        });
+      }
+    })
+
+  }
+
+  onFileSelected(event: Event, index: number) {
+    const archivos = event.target as HTMLInputElement;
+    if (archivos.files && archivos.files.length > 0) {
+      const archivo = archivos.files[0];
+
+      if (this.selectedFiles.length >= 8) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Se ha alcanzado el límite de 8 imágenes.',
+        });
+        return;
+      }
+
+      const fileExiste = this.selectedFiles.some(
+        (selectedFile) => selectedFile.file?.name === archivo.name
+      );
+
+      if (fileExiste) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'La imagen ya ha sido seleccionado.',
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedFiles[index] = { file: archivo, url: e.target?.result as string };
+      };
+      reader.readAsDataURL(archivo);
+    }
+  }
+
 }
+
+

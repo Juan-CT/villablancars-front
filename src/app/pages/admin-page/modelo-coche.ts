@@ -26,18 +26,9 @@ export interface Coche {
   autonomia: number;
   potencia: number;
   descripcion: string;
+  imagenes?: Imagen[];
 }
 
-export interface CocheCreacion {
-  marca_id: number;
-  carroceria_id: number;
-  cambio_id: number;
-  modelo: string;
-  anio: number;
-  color: string;
-  precio: number;
-  kilometros: number;
-  autonomia: number;
-  potencia: number;
-  descripcion: string;
+export interface Imagen {
+  url: string;
 }

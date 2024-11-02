@@ -63,7 +63,7 @@
     <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
       <label for="cambio">Cambio </label>
       <select class="mb-1 p-2" formControlName="cambio" id="cambio" required>
-        <option class="pr-2" *ngFor="let cambio of cambios" [value]="cambio.tipo">{{cambio.tipo}}</option>
+        <option class="pr-2" *ngFor="let cambio of cambios" [value]="cambio.id">{{cambio.tipo}}</option>
       </select>
     </div>
 
@@ -71,8 +71,7 @@
 
     <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
       <label for="kilometros">Kilómetros </label>
-      <input class="mb-1 p-2" formControlName="kilometros" min="0" step="0.01" id="kilometros" max="999999"
-        type="number" required>
+      <input class="mb-1 p-2" formControlName="kilometros" min="0" id="kilometros" max="999999" type="number" required>
       <span class="ml-2">Km</span>
     </div>
 
@@ -96,7 +95,7 @@
 
     <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
       <label for="precio">Precio </label>
-      <input class="mb-1 p-2" formControlName="precio" min="0" step="0.01" id="precio" type="number" required>
+      <input class="mb-1 p-2" formControlName="precio" min="0" id="precio" type="number" required>
       <span class="ml-2">Euros</span>
     </div>
 
@@ -110,10 +109,29 @@
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex flex-column">
+      <label for="imagen" class="text-center p-3 mb-2">Fotos del coche {{selectedFiles.length}} / 8</label>
+
+      <div class="flex flex-wrap">
+
+        <div *ngFor="let cuadrado of cuadrados; let i = index" (click)="elegirArchivo(i)"
+          class="mr-2 cuadrado flex justify-content-center align-items-center overflow-hidden relative">
+          <input type="file" formControlName="imagen" id="imagen" (change)="onFileSelected($event, i)" accept="image/*"
+            class="hidden" [id]="'imagen' + i">
+          <img *ngIf="selectedFiles[i]" [src]="selectedFiles[i].url" alt="Imagen coche" class="miniatura">
+          <p *ngIf="selectedFiles[i]" class="text-center z-5 absolute cursor-pointer borrarImg"
+          (click)="eliminarImg(i)">X</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
     <div class="col-12 md:col-6 mt-2 mb-2 md:pl-7 flex align-items-center
     justify-content-center flex-column sm:flex-row">
-      <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg" (click)="guardarCoche()"
-        [disabled]="formCrearCoche.invalid">
+      <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg"
+        (click)="editarSelec ? modificarCoche() : guardarCoche()" [disabled]="formCrearCoche.invalid">
         Guardar cambios</button>
       <button class="btn-reset m-3 font-bold cursor-pointer md:text-lg" (click)="resetForm()">
         Reiniciar</button>
@@ -124,11 +142,12 @@
 
 <div *ngIf="listarSelec" class="w-full mw-992 flex align-items-center flex-column bg-white mt-4 p-3">
   <h3 class="text-center mb-4 text-base md:text-lg">Coches existentes en la base de datos:</h3>
-  <div *ngFor="let coche of coches; let last = last" class="grid grid-nogutter align-items-center justify-content-center w-full">
+  <div *ngFor="let coche of coches; let last = last"
+    class="grid grid-nogutter align-items-center justify-content-center w-full">
 
     <div class="col-12 md:col-8 flex flex-column lg:flex-row">
       <p class="text-center">
-        {{getNomberMarca(coche.marca_id)}} {{coche.modelo}} - {{coche.precio}} Euros
+        {{getNombreMarca(coche.marca_id)}} {{coche.modelo}} - {{coche.precio}} Euros
       </p>
       <span class="hidden lg:block ml-2 mr-2"> - </span>
       <p class="text-center">
@@ -137,7 +156,7 @@
     </div>
 
     <div class="col-12 md:col-4 flex justify-content-center">
-      <button (click)="editarCoche()" class="btn-green text-white m-3 font-bold cursor-pointer md:text-lg">
+      <button (click)="editarCoche(coche.id)" class="btn-green text-white m-3 font-bold cursor-pointer md:text-lg">
         Editar
       </button>
       <button (click)="eliminarcoche(coche.id)" class="btn-red text-white m-3 font-bold cursor-pointer md:text-lg">
