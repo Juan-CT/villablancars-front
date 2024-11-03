@@ -18,7 +18,8 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { CochesComponent } from './pages/admin-page/coches/coches.component';
 import { CitasComponent } from './pages/admin-page/citas/citas.component';
-import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component'
+import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component';
+import { CarCardComponent } from './pages/search-page/car-card/car-card.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.componen
     AdminPageComponent,
     CochesComponent,
     CitasComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    CarCardComponent
   ],
   imports: [
     BrowserModule,

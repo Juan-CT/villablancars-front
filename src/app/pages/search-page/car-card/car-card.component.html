@@ -1,0 +1,24 @@
+<div class="card flex flex-column lg:flex-row mb-3 mr-3 lg:mr-0">
+
+  <div *ngIf="coche.imagenes && coche.imagenes.length > 0; else sinImagen" class="imgSlider relative w-full">
+    <button (click)="imagenAnterior()" class="absolute border-none cursor-pointer text-5xl">
+      ❮</button>
+    <img [src]="coche.imagenes![indexImagen].url" alt="Imagen coche" [class.fade]="imagenFade">
+    <button (click)="imagenSiguiente()" class="absolute  border-none cursor-pointer btnRight text-5xl">
+      ❯</button>
+  </div>
+
+  <ng-template #sinImagen class="imgSlider relative w-full">
+    <div class="imgSlider relative w-full">
+      <img src="assets/car-placeholder.jpg" alt="Sin imagen">
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column w-full">
+    <h3>{{ coche.modelo }} ({{ coche.anio }})</h3>
+    <p>Color: {{ coche.color }}</p>
+    <p>Precio: {{ coche.precio }} €</p>
+    <p>Kilómetros: {{ coche.kilometros }}</p>
+
+  </div>
+</div>

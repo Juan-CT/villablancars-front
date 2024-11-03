@@ -42,6 +42,10 @@ body {
   z-index: 9999;
 }
 
+input{
+  font-family: 'Roboto', sans-serif;
+}
+
 .btn-black {
   background-color: var(--color-black);
   width: 175px;

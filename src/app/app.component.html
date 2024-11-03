@@ -4,6 +4,7 @@
   <router-outlet></router-outlet>
 
   <app-modal *ngIf="modalVisible" (cerrar)="cerrarModal()"></app-modal>
-
+  <button id="botonScrollTop" class="fixed opacity-0 cursor-pointer text-3xl text-white"
+  [class.visible]="botonVisible" (click)="scrollToTop()">⬆</button>
   <app-footer></app-footer>
 </div>
