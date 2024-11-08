@@ -33,8 +33,14 @@ textarea {
   border: 2px dashed var(--color-green);
   width: 50px;
   height: 50px;
+  margin-bottom: 8px;
 }
 
 .borrarImg {
   color: var(--color-green);
+}
+
+input::placeholder {
+  color: var(--color-black);
+  opacity: 0.6;
 }

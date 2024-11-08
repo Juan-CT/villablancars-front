@@ -18,18 +18,18 @@
 <div *ngIf="crearSelec" class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
   <form [formGroup]="formCrearCoche" class="grid grid-nogutter align-items-center">
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="marca">Marca </label>
-      <select class="mb-1 p-2" formControlName="marca" id="marca" class="" required>
+      <select class="mb-1 p-2" formControlName="marca" id="marca" required>
         <option *ngFor="let marca of marcas" [value]="marca.id">{{ marca.nombre }}</option>
       </select>
     </div>
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="carroceria">Carrocería </label>
-      <select class="mb-1 p-2" formControlName="carroceria" id="carroceria" class="" required>
+      <select class="mb-1 p-2" formControlName="carroceria" id="carroceria" required>
         <option class="pr-2" *ngFor="let carroceria of carrocerias" [value]="carroceria.id">{{ carroceria.nombre }}
         </option>
       </select>
@@ -37,14 +37,14 @@
 
     <div class="separador mt-2 mb-2"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="modelo">Modelo </label>
-      <input class="mb-1 p-2" formControlName="modelo" type="text" id="modelo" required>
+      <input class="mb-1 p-2 w-8rem" formControlName="modelo" type="text" id="modelo" placeholder="Nombre" required>
     </div>
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="anio">Año </label>
       <select class="mb-1 p-2" formControlName="anio" id="anio" required>
         <option class="pr-2" *ngFor="let anio of anios" [value]="anio">{{ anio }}</option>
@@ -53,14 +53,14 @@
 
     <div class="separador mt-2 mb-2"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="color">Color </label>
-      <input class="mb-1 p-2" formControlName="color" id="color" type="text" required>
+      <input class="mb-1 p-2 w-8rem" formControlName="color" id="color" type="text" placeholder="Color" required>
     </div>
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="cambio">Cambio </label>
       <select class="mb-1 p-2" formControlName="cambio" id="cambio" required>
         <option class="pr-2" *ngFor="let cambio of cambios" [value]="cambio.id">{{cambio.tipo}}</option>
@@ -69,41 +69,41 @@
 
     <div class="separador mt-2 mb-2"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
-      <label for="kilometros">Kilómetros </label>
-      <input class="mb-1 p-2" formControlName="kilometros" min="0" id="kilometros" max="999999" type="number" required>
-      <span class="ml-2">Km</span>
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="kilometros">Kilómetros (Km)</label>
+      <input class="mb-1 p-2" formControlName="kilometros" min="0" id="kilometros" placeholder="Km" max="999999"
+        type="number" required>
     </div>
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
-      <label for="autonomia">Autonomía </label>
-      <input class="mb-1 p-2" formControlName="autonomia" min="0" max="1500" id="autonomia" type="number" required>
-      <span class="ml-2">Km</span>
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="autonomia">Autonomía (Km)</label>
+      <input class="mb-1 p-2" formControlName="autonomia" min="0" max="1500" placeholder="Km" id="autonomia"
+        type="number" required>
     </div>
 
     <div class="separador mt-2 mb-2"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
-      <label for="potencia">Potencia </label>
-      <input class="mb-1 p-2" formControlName="potencia" min="0" max="2000" id="potencia" type="number" required>
-      <span class="ml-2">CV</span>
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="potencia">Potencia (CV)</label>
+      <input class="mb-1 p-2" formControlName="potencia" min="0" max="2000" id="potencia" placeholder="CV"
+      type="number" required>
     </div>
 
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
-    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
-      <label for="precio">Precio </label>
-      <input class="mb-1 p-2" formControlName="precio" min="0" id="precio" type="number" required>
-      <span class="ml-2">Euros</span>
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="precio">Precio (Euros)</label>
+      <input class="mb-1 p-2 w-5rem" formControlName="precio" min="0" id="precio" placeholder="...€"
+      type="number" required>
     </div>
 
     <div class="separador mt-2 mb-2"></div>
 
     <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
       <label for="descripcion">Descripción </label><br>
-      <textarea class="mb-1 p-2" formControlName="descripcion" type="text" id="descripcion" rows="4" cols="30"
+      <textarea class="mt-2 p-2" formControlName="descripcion" type="text" id="descripcion" rows="4" cols="30"
         required></textarea>
     </div>
 
@@ -120,7 +120,7 @@
             class="hidden" [id]="'imagen' + i">
           <img *ngIf="selectedFiles[i]" [src]="selectedFiles[i].url" alt="Imagen coche" class="miniatura">
           <p *ngIf="selectedFiles[i]" class="text-center z-5 absolute cursor-pointer borrarImg"
-          (click)="eliminarImg(i)">X</p>
+            (click)="eliminarImg(i)">X</p>
         </div>
 
       </div>

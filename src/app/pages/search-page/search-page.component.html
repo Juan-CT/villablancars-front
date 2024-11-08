@@ -6,41 +6,33 @@
         <circle cx="10" cy="10" r="7" stroke="#25d366" stroke-width="2" fill="transparent" />
         <line x1="15" y1="15" x2="21" y2="21" stroke="#25d366" stroke-width="2" />
       </svg>
-      <input type="text" placeholder="Buscar coche..." class="ml-2 border-none w-full md:text-lg">
+      <input type="text" placeholder="Buscar coche..." class="ml-2 border-none w-full md:text-lg"
+        [(ngModel)]="textoBuscar" (input)="filtrarCochesModelo()">
     </div>
   </div>
 
-  <div class="col-12 lg:col-6 flex flex-row mb-3 p-2">
+  <div class="col-12 lg:col-6 flex flex-column sm:flex-row align-items-center mb-3 p-2">
 
-    <div class="w-6 lg:hidden">
-      <button class="btnSelect relative flex align-items-center justify-content-center w-full  ">
-        <span>Filtrar por</span>
+    <div class="w-6 lg:hidden mb-3 sm:mb-0 sm:mr-3">
+      <button class="btnSelect relative flex align-items-center justify-content-center w-full" (click)="modalFiltros()">
+        <span class="font-bold">Filtrar por...</span>
         <img src="" alt="">
-        <select class="w-full appearance-none absolute top-0 right-0 left-0 bottom-0 opacity-0 cursor-pointer"
-          name="filtrar" id="filtrar">
-          <option value="a">a</option>
-          <option value="b">a</option>
-        </select>
       </button>
+
     </div>
 
-    <div class=" w-6 lg:w-full">
+    <div class="w-6 lg:w-full">
       <button class="btnSelect relative flex align-items-center justify-content-center w-full  ">
-        <span>Ordenar por</span>
+        <span class="font-bold">Ordenar por...</span>
         <img src="" alt="">
-        <select class="w-full appearance-none absolute top-0 right-0 left-0 bottom-0 opacity-0 cursor-pointer"
-          name="ordenar" id="ordenar">
-          <option value="a">a</option>
-          <option value="b">a</option>
+        <select class="w-full appearance-none absolute top-0 right-0 left-0 bottom-0 opacity-0 cursor-pointer
+          text-center" name="ordenar" id="ordenar" #selectOrd (change)="ordenarCoches(selectOrd.value)">
+          <option *ngFor="let opcion of opcionesOrdenamiento" [value]="opcion.id">{{opcion.label}}</option>
         </select>
       </button>
     </div>
 
   </div>
-
-
-
-
 
 </div>
 
@@ -50,7 +42,61 @@
   </div>
 
   <div class="w-full lg:w-9 grid grid-nogutter align-items-center justify-content-around">
-    <app-car-card *ngFor="let coche of coches" [coche]="coche"></app-car-card>
+    <app-car-card *ngFor="let coche of cochesFiltrados" [coche]="coche" [marcas]="marcas" [carrocerias]="carrocerias"
+      [cambios]="cambios"></app-car-card>
   </div>
 
 </div>
+
+
+<div *ngIf="modalVisible"
+  class="modal-overlay fixed top-0 left-0 right-0 bottom-0 flex align-items-center justify-content-center">
+  <div class="modal-content h-screen w-screen relative bg-white md:h-auto md:w-full">
+    <button class="" (click)="modalFiltros()">X</button>
+
+    <div class="filter-section">
+      <button class="filter-toggle" (click)="desplegarFiltros('cambios')">
+        Cambios
+      </button>
+
+      <div *ngIf="mostrarCambios" class="filter-options">
+        <ul>
+          <li *ngFor="let cambio of cambios">
+            <button id="cambio" (click)="aplicarFiltro(cambio, $event)">{{cambio.tipo}}</button>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="filter-section">
+      <button class="filter-toggle" (click)="desplegarFiltros('carrocerias')">
+        Carrocerias
+      </button>
+
+      <div *ngIf="mostrarCarrocerias" class="filter-options">
+        <ul>
+          <li *ngFor="let carroceria of carrocerias">
+            <button id="carroceria" (click)="aplicarFiltro(carroceria, $event)">{{carroceria.nombre}}</button>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="filter-section">
+      <button class="filter-toggle" (click)="desplegarFiltros('marcas')">
+        Marcas
+      </button>
+
+      <div *ngIf="mostrarMarcas" class="filter-options">
+        <ul>
+          <li *ngFor="let marca of marcas">
+            <button id="marca" (click)="aplicarFiltro(marca, $event)">{{marca.nombre}}</button>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>

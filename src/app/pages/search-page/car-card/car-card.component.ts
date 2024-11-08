@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Coche } from '../../admin-page/modelo-coche';
+import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
 
 @Component({
   selector: 'app-car-card',
@@ -9,6 +9,9 @@ import { Coche } from '../../admin-page/modelo-coche';
 export class CarCardComponent {
 
   @Input() coche!: Coche;
+  @Input() marcas: Marca[] = [];
+  @Input() carrocerias: Carroceria[] = [];
+  @Input() cambios: Cambio[] = [];
 
   indexImagen: number = 0;
   imagenFade: boolean = false;
