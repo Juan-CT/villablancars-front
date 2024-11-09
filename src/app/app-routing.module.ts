@@ -14,10 +14,12 @@ import { adminGuard } from './guards/admin.guard';
 import { CochesComponent } from './pages/admin-page/coches/coches.component';
 import { CitasComponent } from './pages/admin-page/citas/citas.component';
 import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component';
+import { CarPageComponent } from './pages/search-page/car-page/car-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'buscar-coche', component: SearchPageComponent },
+  { path: 'coches/:id', component: CarPageComponent },
   { path: 'vender-coche', component: SellPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'registro', component: RegisterPageComponent },

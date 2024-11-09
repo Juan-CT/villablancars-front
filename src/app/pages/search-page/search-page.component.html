@@ -14,7 +14,8 @@
   <div class="col-12 lg:col-6 flex flex-column sm:flex-row align-items-center mb-3 p-2">
 
     <div class="w-6 lg:hidden mb-3 sm:mb-0 sm:mr-3">
-      <button class="btnSelect relative flex align-items-center justify-content-center w-full" (click)="modalFiltros()">
+      <button class="btnSelect relative flex align-items-center justify-content-center w-full cursor-pointer"
+        (click)="modalFiltros()">
         <span class="font-bold">Filtrar por...</span>
         <img src="" alt="">
       </button>
@@ -37,11 +38,87 @@
 </div>
 
 <div class="w-full mw-992 flex bg-white mt-4 p-3">
-  <div class="hidden lg:flex w-3 h-full ">
-    <div>Filtrar resultados</div>
+  <div class="hidden lg:flex flex-column w-3 h-full ">
+
+    <div class="mb-2 w-full p-2">
+      <button class="btn-reset text-white text-lg cursor-pointer font-bold w-full text-center"
+        (click)="desplegarFiltros('reset')" [disabled]="cochesFiltrados.length === coches.length">
+        Resetear filtros
+      </button>
+    </div>
+
+    <h3 class="text-center mb-4">Filtrar resultados por...</h3>
+    <div class="flex flex-column">
+
+
+
+      <div class="mb-2 w-full p-2">
+        <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+          (click)="desplegarFiltros('cambios')" [ngClass]="{ 'filtroSelActivo' : mostrarCambios}">
+          Cambios
+        </button>
+
+        <div *ngIf="mostrarCambios" class="mb-2">
+          <ul class="list-none pl-0">
+            <li *ngFor="let cambio of cambios" class="m-2">
+              <button id="cambio"
+                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+                (click)="aplicarFiltro(cambio, $event)"
+                [ngClass]="{ 'filtroSelActivo': filtroCambioActivo && filtroCambioActivo.id === cambio.id }">
+                {{cambio.tipo}}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="separador mt-1 mb-1"></div>
+
+      <div class="mb-2 w-full p-2">
+        <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+          (click)="desplegarFiltros('carrocerias')" [ngClass]="{ 'filtroSelActivo' : mostrarCarrocerias}">
+          Carrocerias
+        </button>
+
+        <div *ngIf="mostrarCarrocerias" class="mb-2">
+          <ul class="list-none pl-0">
+            <li *ngFor="let carroceria of carrocerias" class="m-2">
+              <button id="carroceria"
+                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+                (click)="aplicarFiltro(carroceria, $event)"
+                [ngClass]="{ 'filtroSelActivo': filtroCarroceriaActivo && filtroCarroceriaActivo.id === carroceria.id }">
+                {{carroceria.nombre}}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="separador mt-1 mb-1"></div>
+
+      <div class="mb-2 w-full p-2">
+        <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+          (click)="desplegarFiltros('marcas')" [ngClass]="{ 'filtroSelActivo' : mostrarMarcas}">
+          Marcas
+        </button>
+
+        <div *ngIf="mostrarMarcas" class="">
+          <ul class="list-none pl-0">
+            <li *ngFor="let marca of marcas" class="m-2">
+              <button id="marca"
+                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+                (click)="aplicarFiltro(marca, $event)"
+                [ngClass]="{ 'filtroSelActivo': filtroMarcaActivo && filtroMarcaActivo.id === marca.id }">
+                {{marca.nombre}}
+              </button>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-  <div class="w-full lg:w-9 grid grid-nogutter align-items-center justify-content-around">
+  <div class="w-full lg:w-9 grid grid-nogutter align-content-start justify-content-around">
     <app-car-card *ngFor="let coche of cochesFiltrados" [coche]="coche" [marcas]="marcas" [carrocerias]="carrocerias"
       [cambios]="cambios"></app-car-card>
   </div>
@@ -50,53 +127,80 @@
 
 
 <div *ngIf="modalVisible"
-  class="modal-overlay fixed top-0 left-0 right-0 bottom-0 flex align-items-center justify-content-center">
-  <div class="modal-content h-screen w-screen relative bg-white md:h-auto md:w-full">
-    <button class="" (click)="modalFiltros()">X</button>
+  class="modal-overlay fixed top-0 left-0 right-0 bottom-0 flex align-items-center justify-content-center lg:hidden">
+  <div class="modal-content h-screen w-screen relative bg-white md:w-full overflow-auto"
+    (click)="$event.stopPropagation()">
 
-    <div class="filter-section">
-      <button class="filter-toggle" (click)="desplegarFiltros('cambios')">
+    <button class="border-none bg-white text-lg cursor-pointer font-bold absolute cerrar"
+      (click)="modalFiltros()">X</button>
+
+    <p class="text-lg font-bold mb-4">Seleccione un filtro</p>
+
+    <div class="mb-2 w-full filtroSel pt-2">
+      <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+        (click)="desplegarFiltros('cambios')" [ngClass]="{ 'filtroSelActivo' : mostrarCambios}">
         Cambios
       </button>
 
-      <div *ngIf="mostrarCambios" class="filter-options">
-        <ul>
-          <li *ngFor="let cambio of cambios">
-            <button id="cambio" (click)="aplicarFiltro(cambio, $event)">{{cambio.tipo}}</button>
+      <div *ngIf="mostrarCambios" class="mb-2">
+        <ul class="list-none pl-0">
+          <li *ngFor="let cambio of cambios" class="m-2">
+            <button id="cambio" class="border-none bg-white text-sm cursor-pointer font-bold  w-full text-center"
+              (click)="aplicarFiltro(cambio, $event)"
+              [ngClass]="{ 'filtroSelActivo': filtroCambioActivo && filtroCambioActivo.id === cambio.id }">
+              {{cambio.tipo}}
+            </button>
           </li>
         </ul>
       </div>
-
     </div>
 
-    <div class="filter-section">
-      <button class="filter-toggle" (click)="desplegarFiltros('carrocerias')">
+
+    <div class="mb-2 w-full filtroSel pt-2">
+      <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+        (click)="desplegarFiltros('carrocerias')" [ngClass]="{ 'filtroSelActivo' : mostrarCarrocerias}">
         Carrocerias
       </button>
 
-      <div *ngIf="mostrarCarrocerias" class="filter-options">
-        <ul>
-          <li *ngFor="let carroceria of carrocerias">
-            <button id="carroceria" (click)="aplicarFiltro(carroceria, $event)">{{carroceria.nombre}}</button>
+      <div *ngIf="mostrarCarrocerias" class="mb-2">
+        <ul class="list-none pl-0">
+          <li *ngFor="let carroceria of carrocerias" class="m-2">
+            <button id="carroceria" class="border-none bg-white text-sm cursor-pointer font-bold  w-full text-center"
+              (click)="aplicarFiltro(carroceria, $event)"
+              [ngClass]="{ 'filtroSelActivo': filtroCarroceriaActivo && filtroCarroceriaActivo.id === carroceria.id }">
+              {{carroceria.nombre}}
+            </button>
           </li>
         </ul>
       </div>
-
     </div>
 
-    <div class="filter-section">
-      <button class="filter-toggle" (click)="desplegarFiltros('marcas')">
+
+    <div class="mb-2 w-full filtroSel pt-2">
+      <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+        (click)="desplegarFiltros('marcas')" [ngClass]="{ 'filtroSelActivo' : mostrarMarcas}">
         Marcas
       </button>
 
-      <div *ngIf="mostrarMarcas" class="filter-options">
-        <ul>
-          <li *ngFor="let marca of marcas">
-            <button id="marca" (click)="aplicarFiltro(marca, $event)">{{marca.nombre}}</button>
+      <div *ngIf="mostrarMarcas" class="">
+        <ul class="list-none pl-0">
+          <li *ngFor="let marca of marcas" class="m-2">
+            <button id="marca" class="border-none bg-white text-sm cursor-pointer font-bold  w-full text-center"
+              (click)="aplicarFiltro(marca, $event)"
+              [ngClass]="{ 'filtroSelActivo': filtroMarcaActivo && filtroMarcaActivo.id === marca.id }">
+              {{marca.nombre}}
+            </button>
           </li>
         </ul>
       </div>
+    </div>
 
+
+    <div class="w-full filtroSel pt-2">
+      <button class="border-none bg-white text-lg cursor-pointer font-bold w-full text-center"
+        (click)="desplegarFiltros('reset')">
+        Resetear filtros
+      </button>
     </div>
 
   </div>

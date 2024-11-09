@@ -167,12 +167,12 @@ export class CochesComponent implements OnInit {
     Swal.fire({
       title: 'Confirmar cambios',
       html: `
-        <strong>Marca:</strong> ${this.marcas.find(m => m.id === formValues.marca_id)?.nombre} <br>
-        <strong>Carrocería:</strong> ${this.carrocerias.find(c => c.id === formValues.carroceria_id)?.nombre} <br>
+        <strong>Marca:</strong> ${this.marcas.find(m => m.id == formValues.marca)?.nombre} <br>
+        <strong>Carrocería:</strong> ${this.carrocerias.find(c => c.id == formValues.carroceria)?.nombre} <br>
         <strong>Modelo:</strong> ${formValues.modelo} <br>
         <strong>Año:</strong> ${formValues.anio} <br>
         <strong>Color:</strong> ${formValues.color} <br>
-        <strong>Cambio:</strong> ${this.cambios.find(c => c.id === formValues.cambio_id)?.tipo} <br>
+        <strong>Cambio:</strong> ${this.cambios.find(c => c.id == formValues.cambio)?.tipo} <br>
         <strong>Kilómetros:</strong> ${formValues.kilometros} Km <br>
         <strong>Autonomía:</strong> ${formValues.autonomia} Km <br>
         <strong>Potencia:</strong> ${formValues.potencia} CV <br>
@@ -232,15 +232,15 @@ export class CochesComponent implements OnInit {
       title: 'Confirmar cambios',
       html: `
         <strong>Marca:</strong> ${this.marcas.find(m => m.id === cocheSinCambios.marca_id)?.nombre} ->
-        ${this.marcas.find(m => m.id === formValues.marca_id)?.nombre} <br>
+        ${this.marcas.find(m => m.id == formValues.marca)?.nombre} <br>
         <strong>Carrocería:</strong> ${this.carrocerias.find
           (c => c.id === cocheSinCambios.carroceria_id)?.nombre} ->
-        ${this.carrocerias.find(c => c.id === formValues.carroceria_id)?.nombre} <br>
+        ${this.carrocerias.find(c => c.id == formValues.carroceria)?.nombre} <br>
         <strong>Modelo:</strong> ${cocheSinCambios.modelo} -> ${formValues.modelo} <br>
         <strong>Año:</strong> ${cocheSinCambios.anio} -> ${formValues.anio} <br>
         <strong>Color:</strong> ${cocheSinCambios.color} -> ${formValues.color} <br>
         <strong>Cambio:</strong> ${this.cambios.find(c => c.id === cocheSinCambios.cambio_id)?.tipo} ->
-        ${this.cambios.find(c => c.id === formValues.cambio_id)?.tipo} <br>
+        ${this.cambios.find(c => c.id == formValues.cambio)?.tipo} <br>
         <strong>Kilómetros:</strong> ${cocheSinCambios.kilometros} -> ${formValues.kilometros} Km <br>
         <strong>Autonomía:</strong> ${cocheSinCambios.autonomia} -> ${formValues.autonomia} Km <br>
         <strong>Potencia:</strong> ${cocheSinCambios.potencia} -> ${formValues.potencia} CV <br>

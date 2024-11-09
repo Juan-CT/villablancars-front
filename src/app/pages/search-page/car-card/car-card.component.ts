@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
+import { Router } from '@angular/router';
+import { CarDataService } from '../../../services/car-data.service';
 
 @Component({
   selector: 'app-car-card',
@@ -15,6 +17,21 @@ export class CarCardComponent {
 
   indexImagen: number = 0;
   imagenFade: boolean = false;
+
+  constructor(private router: Router, private carDataService: CarDataService) {
+
+  }
+
+  verCoche(): void {
+    this.carDataService.setDatosCoche({
+      coche: this.coche,
+      marca: this.marcas[this.coche.marca_id - 1].nombre,
+      carroceria: this.carrocerias[this.coche.carroceria_id - 1].nombre,
+      cambio: this.cambios[this.coche.cambio_id - 1].tipo
+    });
+
+    this.router.navigate(['/coches', this.coche.id],);
+  }
 
   imagenSiguiente() {
     this.imagenFade = true;

@@ -29,8 +29,12 @@ export class SearchPageComponent implements OnInit {
     { id: 'km-asc', label: 'Menos kilómetros' },
     { id: 'km-desc', label: 'Más kilómetros' },
   ];
-  textoBuscar: string = '';
 
+  textoBuscar: string = '';
+  filtrosActivos: { [key: string]: any } = {};
+  filtroCambioActivo: any = null;
+  filtroMarcaActivo: any = null;
+  filtroCarroceriaActivo: any = null;
   modalVisible: boolean = false;
   mostrarCambios: boolean = false;
   mostrarCarrocerias: boolean = false;
@@ -42,7 +46,9 @@ export class SearchPageComponent implements OnInit {
     this.carService.obtenerMarcasCarrocerias().subscribe(
       (datos) => {
         this.marcas = datos.marcas;
+        this.marcas.sort((a, b) => a.id - b.id);
         this.carrocerias = datos.carrocerias;
+        this.carrocerias.sort((a, b) => a.id - b.id);
       }, (error) => {
         console.error('Error al obtener los datos', error);
       }
@@ -69,29 +75,57 @@ export class SearchPageComponent implements OnInit {
   }
 
   desplegarFiltros(filtro: string): void {
-    if (filtro === 'cambios') this.mostrarCambios = !this.mostrarCambios;
-    if (filtro === 'carrocerias') this.mostrarCarrocerias = !this.mostrarCarrocerias;
-    if (filtro === 'marcas') this.mostrarMarcas = !this.mostrarMarcas;
+    if (filtro === 'cambios') {
+      this.mostrarCambios = !this.mostrarCambios;
+    }
+    if (filtro === 'carrocerias') {
+      this.mostrarCarrocerias = !this.mostrarCarrocerias;
+    }
+    if (filtro === 'marcas') {
+      this.mostrarMarcas = !this.mostrarMarcas;
+    }
+    if (filtro === 'reset') {
+      this.cochesFiltrados = this.coches;
+      this.mostrarCarrocerias = false;
+      this.mostrarMarcas = false;
+      this.mostrarCambios = false;
+      this.filtrosActivos = {};
+      this.modalFiltros();
+    }
+
   }
 
   aplicarFiltro(filtro: any, event: Event){
     const idBoton: string = (event.target as HTMLButtonElement).id;
 
     if (idBoton === 'cambio') {
-      this.cochesFiltrados = this.coches.filter(coche => coche.cambio_id === filtro.id);
-      this.mostrarCambios = !this.mostrarCambios;
+      this.filtroCambioActivo = this.filtroCambioActivo && this.filtroCambioActivo.id === filtro.id ? null : filtro;
+    } else if (idBoton === 'marca') {
+      this.filtroMarcaActivo = this.filtroMarcaActivo && this.filtroMarcaActivo.id === filtro.id ? null : filtro;
+    } else if (idBoton === 'carroceria') {
+      this.filtroCarroceriaActivo = this.filtroCarroceriaActivo && this.filtroCarroceriaActivo.id === filtro.id ? null : filtro;
     }
 
-    if (idBoton === 'carroceria') {
-      this.cochesFiltrados = this.coches.filter(coche => coche.carroceria_id === filtro.id);
-      this.mostrarCarrocerias = !this.mostrarCarrocerias;
-    }
+    this.filtrosActivos[idBoton] = this.filtrosActivos[idBoton] && this.filtrosActivos[idBoton].id === filtro.id ? null : filtro;
+    this.filtrarCoches();
 
-    if (idBoton === 'marca') {
-      this.cochesFiltrados = this.coches.filter(coche => coche.marca_id === filtro.id);
-      this.mostrarMarcas = !this.mostrarMarcas;
-    }
     this.modalFiltros();
+  }
+
+  filtrarCoches(): void {
+    let cochesFiltrados = [...this.coches];
+
+    if (this.filtrosActivos['marca']) {
+      cochesFiltrados = cochesFiltrados.filter(coche => coche.marca_id === this.filtrosActivos['marca'].id);
+    }
+    if (this.filtrosActivos['cambio']) {
+      cochesFiltrados = cochesFiltrados.filter(coche => coche.cambio_id === this.filtrosActivos['cambio'].id);
+    }
+    if (this.filtrosActivos['carroceria']) {
+      cochesFiltrados = cochesFiltrados.filter(coche => coche.carroceria_id === this.filtrosActivos['carroceria'].id);
+    }
+
+    this.cochesFiltrados = cochesFiltrados;
   }
 
   getNombreMarca(marca_Id: number): string {

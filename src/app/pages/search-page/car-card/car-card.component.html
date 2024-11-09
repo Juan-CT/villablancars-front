@@ -1,21 +1,21 @@
-<div class="card flex flex-column lg:flex-row mb-3 mr-3 lg:mr-0">
+<div class="card flex flex-column lg:flex-row mb-3 mr-3 lg:mr-0 cursor-pointer">
 
   <div *ngIf="coche.imagenes && coche.imagenes.length > 0; else sinImagen" class="imgSlider relative w-full">
-    <button (click)="imagenAnterior()" class="absolute border-none cursor-pointer text-5xl">
+    <button (click)="imagenAnterior()" class="absolute border-none cursor-pointer text-6xl">
       ❮</button>
-    <img [src]="coche.imagenes![indexImagen].url" alt="Imagen coche" [class.fade]="imagenFade">
-    <button (click)="imagenSiguiente()" class="absolute  border-none cursor-pointer btnRight text-5xl">
+    <img [src]="coche.imagenes![indexImagen].url" alt="Imagen coche" [class.fade]="imagenFade" (click)="verCoche()">
+    <button (click)="imagenSiguiente()" class="absolute  border-none cursor-pointer btnRight text-6xl">
       ❯</button>
   </div>
 
-  <ng-template #sinImagen class="imgSlider relative w-full">
+  <ng-template #sinImagen class="imgSlider relative w-full" >
     <div class="imgSlider relative w-full">
-      <img src="assets/car-placeholder.jpg" alt="Sin imagen">
+      <img src="assets/car-placeholder.jpg" alt="Sin imagen" (click)="verCoche()">
     </div>
   </ng-template>
 
-  <div class="flex flex-column w-full p-3 justify-content-around h-full">
-    <h2>{{marcas[coche.marca_id].nombre}} {{ coche.modelo }} </h2>
+  <div class="flex flex-column w-full p-3 justify-content-around h-full" (click)="verCoche()">
+    <h2>{{marcas[coche.marca_id-1].nombre}} {{ coche.modelo }} </h2>
     <div class="separador mt-1 mb-1"></div>
     <div class="flex justify-content-between mb-1">
       <p>Año: <strong>{{ coche.anio }}</strong></p>

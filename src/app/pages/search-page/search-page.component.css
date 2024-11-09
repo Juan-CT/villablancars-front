@@ -19,7 +19,8 @@ input[type="text"]:focus {
 
 .modal-content {
   padding: 40px;
-  max-width: 750px;
+  max-width: 350px;
+
 }
 
 @media(min-width: 768px) {
@@ -38,3 +39,32 @@ input[type="text"]:focus {
   top: 20px;
   right: 20px;
 }
+
+.filtroSel {
+  border-top: 2px solid var(--color-green);
+}
+
+.filtroSelActivo {
+  background-color: var(--color-black)!important;
+  color: white;
+  border-radius: 10px;
+}
+
+.btn-li {
+  background-color: var(--color-bg);
+  border-radius: 10px;
+}
+
+.btn-li:hover {
+  scale: 1.15;
+}
+
+.btn-reset {
+  background-color: var(--color-green);
+  border-color: white;
+}
+
+.btn-reset:disabled {
+  background-color: var(--color-bg);
+}
+
