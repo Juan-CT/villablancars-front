@@ -5,10 +5,15 @@
   background-color: white;
 }
 
+input[type="text"] {
+  box-shadow: inset 0px 0px 2px var(--color-green);
+  padding-left: 10px;
+  border-radius: 10px;
+}
+
 input[type="text"]:focus {
   outline: none;
   border: none;
-  box-shadow: none;
 }
 
 .modal-overlay {

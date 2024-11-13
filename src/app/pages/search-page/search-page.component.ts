@@ -40,6 +40,11 @@ export class SearchPageComponent implements OnInit {
   mostrarCarrocerias: boolean = false;
   mostrarMarcas: boolean = false;
 
+  pagActual: number = 1;
+  itemsPorPag: number = 10;
+  totalCoches: number = 0;
+  totalPag: number = 0;
+
   constructor(private carService: CarServiceService) { }
 
   ngOnInit(): void {
@@ -97,7 +102,7 @@ export class SearchPageComponent implements OnInit {
 
   aplicarFiltro(filtro: any, event: Event){
     const idBoton: string = (event.target as HTMLButtonElement).id;
-
+    this.pagActual = 1;
     if (idBoton === 'cambio') {
       this.filtroCambioActivo = this.filtroCambioActivo && this.filtroCambioActivo.id === filtro.id ? null : filtro;
     } else if (idBoton === 'marca') {
@@ -125,7 +130,19 @@ export class SearchPageComponent implements OnInit {
       cochesFiltrados = cochesFiltrados.filter(coche => coche.carroceria_id === this.filtrosActivos['carroceria'].id);
     }
 
-    this.cochesFiltrados = cochesFiltrados;
+    this.totalCoches = cochesFiltrados.length;
+    this.totalPag = Math.ceil(this.totalCoches / this.itemsPorPag);
+
+    const inicioIndex = (this.pagActual -1) * this.itemsPorPag;
+
+    this.cochesFiltrados = cochesFiltrados.slice(inicioIndex, inicioIndex + this.itemsPorPag);
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPag) {
+      this.pagActual = pagina;
+      this.filtrarCoches();
+    }
   }
 
   getNombreMarca(marca_Id: number): string {
