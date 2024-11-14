@@ -15,6 +15,9 @@ export class CarPageComponent implements OnInit {
   carroceria: string = '';
   cambio: string = '';
 
+  indexImagen: number = 0;
+  imagenFade: boolean = false;
+
   constructor(private router: Router, private carDataService: CarDataService) {
 
   }
@@ -29,5 +32,21 @@ export class CarPageComponent implements OnInit {
     if (!this.coche) {
      this.router.navigate(['/']);
     }
+  }
+
+  imagenSiguiente() {
+    this.imagenFade = true;
+    setTimeout(() => {
+      this.indexImagen = (this.indexImagen + 1) % this.coche!.imagenes!.length;
+      this.imagenFade = false;
+    }, 400);
+  }
+
+  imagenAnterior() {
+    this.imagenFade = true;
+    setTimeout(() => {
+      this.indexImagen = (this.indexImagen - 1 + this.coche!.imagenes!.length) % this.coche!.imagenes!.length;
+      this.imagenFade = false;
+    }, 400);
   }
 }

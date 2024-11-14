@@ -1,0 +1,16 @@
+img.fade{
+  opacity: 0;
+}
+
+img {
+  object-fit: cover;
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+
+.imgSlider button {
+  background-color: var(--color-black);
+  color: white;
+  border: 1px solid var(--color-black);
+  border-radius: 10px;
+}

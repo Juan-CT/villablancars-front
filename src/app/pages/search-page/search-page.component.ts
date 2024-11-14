@@ -43,7 +43,7 @@ export class SearchPageComponent implements OnInit {
   pagActual: number = 1;
   itemsPorPag: number = 10;
   totalCoches: number = 0;
-  totalPag: number = 0;
+  totalPag: number = 1;
 
   constructor(private carService: CarServiceService) { }
 

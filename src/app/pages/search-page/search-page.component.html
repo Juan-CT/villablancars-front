@@ -37,7 +37,8 @@
 
 </div>
 
-<div class="w-full mw-992 flex bg-white mt-4 p-3">
+<div class="w-full mw-992 flex flex-wrap bg-white mt-4 p-3">
+
   <div class="hidden lg:flex flex-column w-3 h-full ">
 
     <div class="mb-2 w-full p-2">
@@ -61,8 +62,7 @@
         <div *ngIf="mostrarCambios" class="mb-2">
           <ul class="list-none pl-0">
             <li *ngFor="let cambio of cambios" class="m-2">
-              <button id="cambio"
-                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+              <button id="cambio" class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
                 (click)="aplicarFiltro(cambio, $event)"
                 [ngClass]="{ 'filtroSelActivo': filtroCambioActivo && filtroCambioActivo.id === cambio.id }">
                 {{cambio.tipo}}
@@ -82,8 +82,7 @@
         <div *ngIf="mostrarCarrocerias" class="mb-2">
           <ul class="list-none pl-0">
             <li *ngFor="let carroceria of carrocerias" class="m-2">
-              <button id="carroceria"
-                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+              <button id="carroceria" class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
                 (click)="aplicarFiltro(carroceria, $event)"
                 [ngClass]="{ 'filtroSelActivo': filtroCarroceriaActivo && filtroCarroceriaActivo.id === carroceria.id }">
                 {{carroceria.nombre}}
@@ -103,8 +102,7 @@
         <div *ngIf="mostrarMarcas" class="">
           <ul class="list-none pl-0">
             <li *ngFor="let marca of marcas" class="m-2">
-              <button id="marca"
-                class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
+              <button id="marca" class="border-none text-sm cursor-pointer font-bold  w-full text-center btn-li"
                 (click)="aplicarFiltro(marca, $event)"
                 [ngClass]="{ 'filtroSelActivo': filtroMarcaActivo && filtroMarcaActivo.id === marca.id }">
                 {{marca.nombre}}
@@ -119,8 +117,22 @@
   </div>
 
   <div class="w-full lg:w-9 grid grid-nogutter align-content-start justify-content-around">
+
     <app-car-card *ngFor="let coche of cochesFiltrados" [coche]="coche" [marcas]="marcas" [carrocerias]="carrocerias"
       [cambios]="cambios"></app-car-card>
+
+    <div class="paginacion w-full flex justify-content-center align-items-center">
+      <button (click)="cambiarPagina(pagActual - 1)" [disabled]="pagActual === 1"
+        class="outline-none bg-white p-2 mr-2 font-bold">
+        Anterior
+      </button>
+      <span>Página {{ pagActual }} de {{ totalPag }}</span>
+      <button (click)="cambiarPagina(pagActual + 1)" [disabled]="pagActual === totalPag"
+        class="outline-none bg-white p-2 ml-2 font-bold">
+        Siguiente
+      </button>
+    </div>
+
   </div>
 
 </div>

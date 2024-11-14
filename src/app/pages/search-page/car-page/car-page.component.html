@@ -1,5 +1,30 @@
 <div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
-  <p>{{marca}}</p>
+
+  <div class="car-container w-full flex flex-column md:flex-row p-3">
+
+    <div *ngIf="coche!.imagenes && coche!.imagenes!.length > 0; else sinImagen"
+      class="imgSlider w-full md:w-5 flex flex-wrap justify-content-between p-2">
+      <img [src]="coche!.imagenes![indexImagen].url" alt="Imagen coche" [class.fade]="imagenFade"
+      class="w-full h-16rem sm:h-22rem md:h-18rem">
+      <button (click)="imagenAnterior()" class="mt-2 p-2 cursor-pointer text-sm sm:text-base md:text-sm">
+        ❮ Anterior</button>
+      <button (click)="imagenSiguiente()" class="mt-2 p-2 cursor-pointer text-sm sm:text-base md:text-sm">
+        Siguiente ❯</button>
+    </div>
+    <ng-template #sinImagen class="imgSlider w-full p-2">
+      <div class="imgSlider w-full md:w-5">
+        <img src="assets/car-placeholder.jpg" alt="Sin imagen">
+      </div>
+    </ng-template>
+
+    <div class="w-full md:w-7 flex flex-column">
+      <p>Marca: {{marca}}</p>
+      <p>Modelo: {{coche?.modelo}}</p>
+      <p>Año: {{coche?.anio}}</p>
+    </div>
+
+  </div>
+
 </div>
 
 <div class="w-full mw-992 h-30rem flex flex-column align-items-center bg-white mt-4 p-3">
