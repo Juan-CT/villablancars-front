@@ -20,7 +20,10 @@ import { CochesComponent } from './pages/admin-page/coches/coches.component';
 import { CitasComponent } from './pages/admin-page/citas/citas.component';
 import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component';
 import { CarCardComponent } from './pages/search-page/car-card/car-card.component';
-import { CarPageComponent } from './pages/search-page/car-page/car-page.component'
+import { CarPageComponent } from './pages/search-page/car-page/car-page.component';
+import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-usuario.component';
+import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
+import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { CarPageComponent } from './pages/search-page/car-page/car-page.componen
     CitasComponent,
     UsuariosComponent,
     CarCardComponent,
-    CarPageComponent
+    CarPageComponent,
+    CochesUsuarioComponent,
+    CitasUsuarioComponent,
+    DatosPerfilUsuarioComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Coche } from '../../admin-page/modelo-coche';
 import { CarDataService } from '../../../services/car-data.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-car-page',
@@ -14,13 +15,17 @@ export class CarPageComponent implements OnInit {
   marca: string = '';
   carroceria: string = '';
   cambio: string = '';
+  imagenMuestra: string = "assets/car-placeholder.jpg";
 
   indexImagen: number = 0;
   imagenFade: boolean = false;
+  cuadrados: number[] = [];
 
-  constructor(private router: Router, private carDataService: CarDataService) {
+  usuarioLogueado: boolean = false;
 
-  }
+  constructor(private router: Router, private carDataService: CarDataService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     const datosCoche = this.carDataService.getdatosCoche();
@@ -30,23 +35,25 @@ export class CarPageComponent implements OnInit {
     this.cambio = datosCoche.cambio;
 
     if (!this.coche) {
-     this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
+
+    if (this.coche!.imagenes && this.coche!.imagenes.length > 0) {
+      this.imagenMuestra = this.coche!.imagenes[0].url;
+      this.cuadrados = Array.from({ length: this.coche!.imagenes.length }, (_, i) => i);
+    }
+
+    this.authService.usuario$.subscribe(usuario => {
+      this.usuarioLogueado = usuario && usuario.emailVerificado ? true : false;
+    });
   }
 
-  imagenSiguiente() {
+  cambiarImagen(index: number) {
     this.imagenFade = true;
     setTimeout(() => {
-      this.indexImagen = (this.indexImagen + 1) % this.coche!.imagenes!.length;
+      this.imagenMuestra = this.coche!.imagenes![index].url;
       this.imagenFade = false;
-    }, 400);
+    }, 200);
   }
 
-  imagenAnterior() {
-    this.imagenFade = true;
-    setTimeout(() => {
-      this.indexImagen = (this.indexImagen - 1 + this.coche!.imagenes!.length) % this.coche!.imagenes!.length;
-      this.imagenFade = false;
-    }, 400);
-  }
 }

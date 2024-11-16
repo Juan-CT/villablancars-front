@@ -15,6 +15,9 @@ import { CochesComponent } from './pages/admin-page/coches/coches.component';
 import { CitasComponent } from './pages/admin-page/citas/citas.component';
 import { UsuariosComponent } from './pages/admin-page/usuarios/usuarios.component';
 import { CarPageComponent } from './pages/search-page/car-page/car-page.component';
+import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-usuario.component';
+import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
+import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -23,7 +26,13 @@ const routes: Routes = [
   { path: 'vender-coche', component: SellPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'registro', component: RegisterPageComponent },
-  { path: 'usuario', component: UserPageComponent, canActivate: [authGuard] },
+  {
+    path: 'usuario', component: UserPageComponent, canActivate: [authGuard], children: [
+      { path: 'coches-usuario', component: CochesUsuarioComponent },
+      { path: 'citas-usuario', component: CitasUsuarioComponent },
+      { path: 'datos-perfil-usuario', component: DatosPerfilUsuarioComponent}
+    ]
+  },
   {
     path: 'admin', component: AdminPageComponent, canActivate: [adminGuard], children: [
       { path: 'coches', component: CochesComponent },

@@ -23,6 +23,6 @@
     </div>
     <p class="mb-1 ">Autonomía: <strong>{{ coche.autonomia }} Km</strong></p>
     <p class="mb-1">Potencia: <strong>{{ coche.potencia }} CV</strong></p>
-    <p class="mt-1 text-2xl"><strong>{{ coche.precio | currency:'EUR':'symbol':'1.0-0'}}</strong></p>
+    <p class="mt-1 text-2xl"><strong>{{ coche.precio | number:'1.0-0'}} €</strong></p>
   </div>
 </div>

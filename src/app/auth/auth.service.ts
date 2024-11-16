@@ -1,6 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
+import {
+  Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User,
+  onAuthStateChanged, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential,
+} from '@angular/fire/auth';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { Usuario } from './usuario';
 import { environment } from '../environments/environment';
@@ -154,6 +157,128 @@ export class AuthService {
     });
 
     return this.http.get(`${environment.apiURL}/verificar-token`, { headers });
+  }
+
+  async cambiarEmail(nuevoEmail: string): Promise<void> {
+    const usuario = this.auth.currentUser!;
+
+    const password = await this.pedirPassword();
+
+    if (!this.validarPassword(password)) {
+      return;
+    }
+
+    try {
+      await this.reautenticar(usuario, password);
+
+      await updateEmail(usuario, nuevoEmail);
+      await sendEmailVerification(usuario);
+
+      const token = await usuario.getIdToken();
+      const response = await firstValueFrom(this.verificarToken(token));
+
+      if (response && response.rol) {
+        const usuarioActualizado: Usuario = {
+          idFirebase: usuario.uid,
+          nombre: usuario.displayName || '',
+          email: nuevoEmail,
+          emailVerificado: usuario.emailVerified,
+          rol: response.rol || 'usuario'
+        };
+        this.userSubject.next(usuarioActualizado);
+      }
+
+      this.http.post(`${environment.apiURL}/actualizar-correo`, {
+        idFirebase: usuario.uid,
+        email: nuevoEmail,
+        _method: 'PUT'
+      }, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }).subscribe(
+        () =>
+          this.mostrarMensaje(
+            'Correo electrónico actualizado', 'Tu correo electrónico ha sido actualizado correctamente. Valida la nueva dirección en tu bandeja personal', 'success'
+          ),
+        error => console.log('Error al hacer la solicitud:', error)
+      );
+    } catch {
+      this.mostrarMensaje('Error', 'Hubo un problema al actualizar tu correo electrónico. Inténtalo de nuevo más tarde.', 'error');
+    }
+  }
+
+  async cambiarPassword(nuevaPassword: string): Promise<void> {
+    const usuario = this.auth.currentUser!;
+    const password = await this.pedirPassword();
+
+    if (!this.validarPassword(password)) {
+      return;
+    }
+
+    try {
+      await this.reautenticar(usuario, password);
+      await updatePassword(usuario, nuevaPassword);
+      this.mostrarMensaje('Contraseña actualizado', 'Tu Contraseña ha sido actualizado correctamente.', 'success');
+    } catch {
+      this.mostrarMensaje('Error', 'Hubo un problema al actualizar tu contraseña. Inténtalo de nuevo más tarde.', 'error');
+    }
+  }
+
+  async pedirPassword(): Promise<string> {
+    const { value: password } = await Swal.fire({
+      title: 'Introduce tu contraseña',
+      input: 'password',
+      inputAttributes: {
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      },
+      inputPlaceholder: 'Introduce tu contraseña',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      background: '#fff',
+      color: '#333',
+      confirmButtonColor: '#25d366',
+      cancelButtonColor: '#ff6b6b',
+      showLoaderOnConfirm: true,
+      preConfirm: (password) => {
+        if (!password || password.trim() === '') {
+          Swal.showValidationMessage('Por favor, introduce una contraseña');
+        } else {
+          return password;
+        }
+      }
+    });
+
+    return password || null;
+  }
+
+  validarPassword(password: string): boolean {
+    const passwordPatron = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordPatron.test(password)) {
+      this.mostrarMensaje('Error', 'El formato de la contraseña no es el correcto.', 'error');
+      return false;
+    }
+    return true;
+  }
+
+  async reautenticar(usuario: any, password: string): Promise<void> {
+    const credencial = EmailAuthProvider.credential(usuario.email!, password);
+    await reauthenticateWithCredential(usuario, credencial);
+  }
+
+  mostrarMensaje(titulo: string, texto: string, icono: any): void {
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      icon: icono,
+      confirmButtonText: 'Aceptar',
+      background: '#fff',
+      color: '#333',
+      confirmButtonColor: '#25d366',
+      cancelButtonColor: '#ff6b6b',
+    });
   }
 
 }
