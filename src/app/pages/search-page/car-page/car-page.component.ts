@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Coche } from '../../admin-page/modelo-coche';
 import { CarDataService } from '../../../services/car-data.service';
 import { AuthService } from '../../../auth/auth.service';
+import { GestUserService } from '../../../services/gest-user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-car-page',
@@ -24,8 +26,8 @@ export class CarPageComponent implements OnInit {
   usuarioLogueado: boolean = false;
 
   constructor(private router: Router, private carDataService: CarDataService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService, private gestUserService: GestUserService,
+    private location: Location) { }
 
   ngOnInit(): void {
     const datosCoche = this.carDataService.getdatosCoche();
@@ -54,6 +56,28 @@ export class CarPageComponent implements OnInit {
       this.imagenMuestra = this.coche!.imagenes![index].url;
       this.imagenFade = false;
     }, 200);
+  }
+
+  guardarCocheUsuario() {
+    let idF: any;
+    this.authService.usuario$.subscribe(usuario => {
+      idF = usuario?.idFirebase;
+    });
+    this.gestUserService.guardarCocheUsuario(this.coche!.id, idF)
+      .subscribe(() => {
+        this.authService.mostrarMensaje('Hecho', 'El coche ha sido guardado en tu historial', 'success')
+      }, error => {
+        this.authService.mostrarMensaje('Error', 'Ya tienes guardado este coche en tu historial', 'error')
+        console.error('Error al guardar el coche en el historial', error)
+      });
+  }
+
+  pedirCita() {
+
+  }
+
+  volverAtras() {
+    this.location.back();
   }
 
 }

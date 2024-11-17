@@ -1,10 +1,71 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CarServiceService } from '../../../services/car-service.service';
+import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
+import { GestUserService } from '../../../services/gest-user.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-coches-usuario',
   templateUrl: './coches-usuario.component.html',
   styleUrl: './coches-usuario.component.css'
 })
-export class CochesUsuarioComponent {
+
+export class CochesUsuarioComponent implements OnInit {
+
+  marcas: Marca[] = [];
+  carrocerias: Carroceria[] = [];
+  cambios: Cambio[] = [
+    { id: 1, tipo: 'Automático' },
+    { id: 2, tipo: 'Manual' }
+  ];
+  coches: Coche[] = [];
+  idF: string = '';
+
+  constructor(private carService: CarServiceService, private gestUserService: GestUserService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit(): void {
+
+    this.carService.obtenerMarcasCarrocerias().subscribe(
+      (datos) => {
+        this.marcas = datos.marcas;
+        this.marcas.sort((a, b) => a.id - b.id);
+        this.carrocerias = datos.carrocerias;
+        this.carrocerias.sort((a, b) => a.id - b.id);
+      }, (error) => {
+        console.error('Error al obtener los datos', error);
+      });
+
+    this.authService.usuario$.subscribe(usuario => {
+      if (usuario?.idFirebase) {
+        this.idF = usuario.idFirebase;
+        this.gestUserService.obtenerCochesUsuario(this.idF).subscribe(
+          (datos) => {
+            this.coches = datos.coches;
+          }, (error) => {
+            this.authService.mostrarMensaje('Error', 'Error al obtener el historial de coches', 'error');
+            console.error('Error al obtener los coches del historial', error);
+          });
+      }
+    });
+  }
+
+  pedirCita() {
+
+  }
+
+  eliminarCoche(idCoche: number) {
+    this.gestUserService.eliminarCocheUsuario(idCoche, this.idF).subscribe(
+      () => {
+        this.authService.mostrarMensaje('Borrado', 'Eliminado del historial', 'success');
+        this.coches = this.coches.filter(coche => coche.id !== idCoche);
+      }, (error) => {
+        this.authService.mostrarMensaje('Error', 'No se pudo eliminar el coche del historial', 'error');
+        console.error('Error: ', error);
+      }
+    )
+  }
+
 
 }

@@ -48,6 +48,7 @@ export class SearchPageComponent implements OnInit {
   constructor(private carService: CarServiceService) { }
 
   ngOnInit(): void {
+
     this.carService.obtenerMarcasCarrocerias().subscribe(
       (datos) => {
         this.marcas = datos.marcas;
@@ -56,8 +57,8 @@ export class SearchPageComponent implements OnInit {
         this.carrocerias.sort((a, b) => a.id - b.id);
       }, (error) => {
         console.error('Error al obtener los datos', error);
-      }
-    );
+      });
+
     this.carService.obtenerCoches().subscribe(
       (coches) => {
         this.coches = coches;
@@ -100,7 +101,7 @@ export class SearchPageComponent implements OnInit {
 
   }
 
-  aplicarFiltro(filtro: any, event: Event){
+  aplicarFiltro(filtro: any, event: Event) {
     const idBoton: string = (event.target as HTMLButtonElement).id;
     this.pagActual = 1;
     if (idBoton === 'cambio') {
@@ -133,7 +134,7 @@ export class SearchPageComponent implements OnInit {
     this.totalCoches = cochesFiltrados.length;
     this.totalPag = Math.ceil(this.totalCoches / this.itemsPorPag);
 
-    const inicioIndex = (this.pagActual -1) * this.itemsPorPag;
+    const inicioIndex = (this.pagActual - 1) * this.itemsPorPag;
 
     this.cochesFiltrados = cochesFiltrados.slice(inicioIndex, inicioIndex + this.itemsPorPag);
   }

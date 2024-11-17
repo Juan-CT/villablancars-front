@@ -1,34 +1,47 @@
-<div class="flex justify-content-center z-1 flex-column align-items-center">
+<div class="flex justify-content-center z-1 flex-column align-items-center p-3">
 
-  <div class="w-full flex flex-column md:flex-row p-3">
-    <h3>Tu información</h3>
-    <p><strong>Nombre:</strong> {{ usuarioLogueado!.nombre }}</p>
-    <p><strong>Email:</strong> {{ usuarioLogueado!.email }}</p>
+  <div class="w-full mw-992 grid grid-nogutter align-items-center bg-white mt-4 p-3">
+
+    <div class="w-full flex flex-column p-3">
+      <h3 class="mb-2">Tu información</h3>
+      <p class="mb-1"><strong>Nombre:</strong> {{ usuarioLogueado!.nombre }}</p>
+      <p class="mb-1"><strong>Email:</strong> {{ usuarioLogueado!.email }}</p>
+    </div>
+
+    <div class="w-full flex flex-column md:flex-row p-3 md:justify-content-around">
+      <form [formGroup]="cambiarEmailForm" (ngSubmit)="cambiarEmail()" class="mb-2 w-full">
+
+        <h3 class="mb-2">Cambiar Email</h3>
+        <div class="w-full mb-2">
+          <label for="nuevoEmail">Nuevo Email: </label>
+          <input id="nuevoEmail" formControlName="nuevoEmail" type="email" class="mb-1 p-2 w-13rem"
+            placeholder="Ingresa el nuevo email">
+          <div *ngIf="cambiarEmailForm.get('nuevoEmail')?.invalid && cambiarEmailForm.get('nuevoEmail')?.touched"
+            class="text-danger">
+            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['required']">El email es obligatorio.</small>
+            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['email']">El email no es válido.</small>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="cambiarEmailForm.invalid"
+          class="btn-green text-white font-bold border-none md:text-lg">Actualizar Email</button>
+      </form>
+      <div class="separador mt-1 mb-1 md:hidden"></div>
+      <form [formGroup]="cambiarPasswordForm" (ngSubmit)="cambiarPassword()" class="mb-2 w-full">
+
+        <h3 class="mb-2">Cambiar Contraseña </h3>
+        <div class="w-full mb-2">
+          <label for="nuevaPassword">Nueva Contraseña: </label>
+          <input id="nuevaPassword" formControlName="nuevaPassword" type="password" class="mb-1 p-2 w-12rem"
+            placeholder="Ingresa la nueva contraseña">
+        </div>
+
+        <button type="submit" [disabled]="cambiarPasswordForm.invalid"
+          class="btn-green text-white font-bold border-none md:text-lg">Actualizar Contraseña</button>
+      </form>
+
+    </div>
+
   </div>
-
-  <form [formGroup]="cambiarEmailForm" (ngSubmit)="cambiarEmail()">
-    <h3>Cambiar Email</h3>
-    <div class="form-group">
-      <label for="nuevoEmail">Nuevo Email</label>
-      <input id="nuevoEmail" formControlName="nuevoEmail" type="email" class="form-control" placeholder="Ingresa el nuevo email">
-      <div *ngIf="cambiarEmailForm.get('nuevoEmail')?.invalid && cambiarEmailForm.get('nuevoEmail')?.touched" class="text-danger">
-        <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['required']">El email es obligatorio.</small>
-        <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['email']">El email no es válido.</small>
-      </div>
-    </div>
-    <button type="submit" [disabled]="cambiarEmailForm.invalid" class="">Actualizar Email</button>
-  </form>
-
-  <br>
-
-  <form [formGroup]="cambiarPasswordForm" (ngSubmit)="cambiarPassword()">
-    <h3>Cambiar Contraseña</h3>
-    <div class="form-group">
-      <label for="nuevaPassword">Nueva Contraseña</label>
-      <input id="nuevaPassword" formControlName="nuevaPassword" type="password" class="form-control" placeholder="Ingresa la nueva contraseña">
-
-    </div>
-    <button type="submit" [disabled]="cambiarPasswordForm.invalid" class="">Actualizar Contraseña</button>
-  </form>
 
 </div>
