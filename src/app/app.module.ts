@@ -10,7 +10,6 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule} from './auth/auth.module'
 import { FirebaseModule } from './firebase/firebase.module';
 
-import { PruebaConexionComponent } from './prueba-conexion/prueba-conexion.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { SellPageComponent } from './pages/sell-page/sell-page.component';
@@ -23,12 +22,12 @@ import { CarCardComponent } from './pages/search-page/car-card/car-card.componen
 import { CarPageComponent } from './pages/search-page/car-page/car-page.component';
 import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-usuario.component';
 import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
-import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component'
+import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component';
+import { AppointmentPageComponent } from './pages/appointment-page/appointment-page.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    PruebaConexionComponent,
     LandingPageComponent,
     SearchPageComponent,
     SellPageComponent,
@@ -41,7 +40,8 @@ import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usua
     CarPageComponent,
     CochesUsuarioComponent,
     CitasUsuarioComponent,
-    DatosPerfilUsuarioComponent
+    DatosPerfilUsuarioComponent,
+    AppointmentPageComponent
   ],
   imports: [
     BrowserModule,

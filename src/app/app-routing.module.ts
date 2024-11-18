@@ -18,6 +18,7 @@ import { CarPageComponent } from './pages/search-page/car-page/car-page.componen
 import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-usuario.component';
 import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
 import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component';
+import { AppointmentPageComponent } from './pages/appointment-page/appointment-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -26,6 +27,8 @@ const routes: Routes = [
   { path: 'vender-coche', component: SellPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'registro', component: RegisterPageComponent },
+  { path: 'cita', component: AppointmentPageComponent, canActivate: [authGuard]},
+
   {
     path: 'usuario', component: UserPageComponent, canActivate: [authGuard], children: [
       { path: 'coches-usuario', component: CochesUsuarioComponent },
@@ -40,8 +43,6 @@ const routes: Routes = [
       { path: 'usuarios', component: UsuariosComponent },
     ],
   },
-
-
   { path: '**', redirectTo: '' }
 ];
 

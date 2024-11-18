@@ -3,6 +3,8 @@ import { CarServiceService } from '../../../services/car-service.service';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
 import { GestUserService } from '../../../services/gest-user.service';
 import { AuthService } from '../../../auth/auth.service';
+import { CarDataService } from '../../../services/car-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-coches-usuario',
@@ -22,7 +24,7 @@ export class CochesUsuarioComponent implements OnInit {
   idF: string = '';
 
   constructor(private carService: CarServiceService, private gestUserService: GestUserService,
-    private authService: AuthService
+    private authService: AuthService, private carDataService: CarDataService, private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -51,10 +53,6 @@ export class CochesUsuarioComponent implements OnInit {
     });
   }
 
-  pedirCita() {
-
-  }
-
   eliminarCoche(idCoche: number) {
     this.gestUserService.eliminarCocheUsuario(idCoche, this.idF).subscribe(
       () => {
@@ -65,6 +63,14 @@ export class CochesUsuarioComponent implements OnInit {
         console.error('Error: ', error);
       }
     )
+  }
+
+  citaCocheSeleccionado(coche: Coche) {
+    this.carDataService.setDatosCoche({
+      coche: coche
+    });
+
+    this.router.navigate(['/cita'],);
   }
 
 

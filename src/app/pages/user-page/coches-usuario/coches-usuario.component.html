@@ -13,7 +13,8 @@
         </app-car-card>
 
         <div class="mt-2 mb-2 flex flex-column sm:flex-row align-items-center lg:align-items-start">
-          <button class="btn-green border-none text-white font-bold cursor-pointer sm:mr-4" (click)="pedirCita()">
+          <button class="btn-green border-none text-white font-bold cursor-pointer sm:mr-4"
+          (click)="citaCocheSeleccionado(coche)">
             Pedir cita
           </button>
           <button class="btn-red border-none text-white font-bold cursor-pointer mt-2 sm:mt-0" (click)="eliminarCoche(coche.id)">
