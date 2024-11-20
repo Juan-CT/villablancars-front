@@ -31,4 +31,26 @@ export class GestUserService {
       }
     });
   }
+
+  obtenerHorasCitasDia(fecha: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/usuario/horas-citas`, {
+      params: { fecha: fecha }
+    });
+  }
+
+  obtenerUsuarios(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/usuarios`);
+  }
+  // ADMIN-TODAS LAS CITAS
+  obtenerCitas(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/citas`);
+  }
+
+  crearCita(cita: FormData): Observable<any> {
+    return this.http.post(`${environment.apiURL}/guardar-cita`, cita);
+  }
+
+  obtenerCitasUsuario(): Observable<any> {
+    return this.http.get(`${environment.apiURL}/usuario/citas`)
+  }
 }

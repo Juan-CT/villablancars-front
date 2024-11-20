@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
@@ -9,6 +10,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule} from './auth/auth.module'
 import { FirebaseModule } from './firebase/firebase.module';
+import { CalendarModule } from 'primeng/calendar';
 
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
@@ -45,13 +47,15 @@ import { AppointmentPageComponent } from './pages/appointment-page/appointment-p
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     SharedModule,
     AuthModule,
     FirebaseModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
