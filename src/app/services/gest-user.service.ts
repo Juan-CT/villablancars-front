@@ -49,8 +49,10 @@ export class GestUserService {
   crearCita(cita: FormData): Observable<any> {
     return this.http.post(`${environment.apiURL}/guardar-cita`, cita);
   }
-
-  obtenerCitasUsuario(): Observable<any> {
-    return this.http.get(`${environment.apiURL}/usuario/citas`)
+  // USUARIO-CITAS
+  obtenerCitasUsuario(idF: string): Observable<any> {
+    return this.http.get(`${environment.apiURL}/usuario/citas`, {
+      params: {idFirebase: idF}
+    });
   }
 }

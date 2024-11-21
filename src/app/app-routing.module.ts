@@ -31,6 +31,7 @@ const routes: Routes = [
 
   {
     path: 'usuario', component: UserPageComponent, canActivate: [authGuard], children: [
+      { path: '', redirectTo: 'citas-usuario', pathMatch: 'full' },
       { path: 'coches-usuario', component: CochesUsuarioComponent },
       { path: 'citas-usuario', component: CitasUsuarioComponent },
       { path: 'datos-perfil-usuario', component: DatosPerfilUsuarioComponent}

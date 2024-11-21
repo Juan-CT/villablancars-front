@@ -7,6 +7,6 @@ export interface Cita {
   coche: Coche;
   fecha: string;
   hora: string;
-  estado: 'pendiente' | 'confirmada' | 'cancelada';
+  estado: 'pendiente' | 'confirmada' | 'cancelada' | 'completada';
   descripcion?: string;
 }
