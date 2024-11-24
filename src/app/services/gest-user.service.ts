@@ -55,4 +55,12 @@ export class GestUserService {
       params: {idFirebase: idF}
     });
   }
+
+  anularCita(idCita: number): Observable<any> {
+    return this.http.delete(`${environment.apiURL}/usuario/eliminar-cita`, {
+      body: {
+        idCita: idCita
+      }
+    });
+  }
 }

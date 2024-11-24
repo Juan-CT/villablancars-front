@@ -57,12 +57,13 @@ export class AppointmentPageComponent implements OnInit {
     formData.append('fecha', formValues.fecha);
     formData.append('hora', formValues.hora);
     formData.append('descripcion', formValues.descripcion);
+    const fechaSwal: string = new Date(formValues.fecha).toLocaleDateString('es-ES');
 
     Swal.fire({
       title: 'Confirmar envío',
       html: `
         <strong>Modelo coche: </strong> ${this.coche?.modelo}<br>
-        <strong>Fecha: </strong> ${formValues.fecha }<br>
+        <strong>Fecha: </strong> ${fechaSwal}<br>
         <strong>Hora: </strong> ${formValues.hora}<br>
         <strong>Mensaje: </strong> ${formValues.descripcion}<br>
       `,

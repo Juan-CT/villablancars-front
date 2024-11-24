@@ -42,7 +42,7 @@ export class CitasUsuarioComponent {
               usuario: this.usuarioLogueado
             }));
             this.citas.forEach(cita => {
-              cita.hora = cita.hora.substring(0, 5); // Recorta los segundos (HH:mm:ss -> HH:mm)
+              cita.hora = cita.hora.substring(0, 5);
             });
           } else {
             this.citas = [];
@@ -65,7 +65,14 @@ export class CitasUsuarioComponent {
   }
 
   anularCita(idCita: number) {
-
+    this.gestUserService.anularCita(idCita).subscribe(
+      () => {
+        this.authService.mostrarMensaje('Exito', 'Cita anulada', 'success');
+        this.citas.filter(cita => cita.id !== idCita);
+      }, () => {
+        this.authService.mostrarMensaje('Error', 'Error al intentar anular la cita', 'error');
+      }
+    )
   }
 
   verCoche(coche: Coche) {
