@@ -6,7 +6,7 @@ import { Cita } from '../../admin-page/modelo-cita';
 import { Router } from '@angular/router';
 import { CarServiceService } from '../../../services/car-service.service';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
-import { CarDataService } from '../../../services/car-data.service';
+import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
 
 @Component({
   selector: 'app-citas-usuario',
@@ -25,7 +25,7 @@ export class CitasUsuarioComponent {
   ];
 
   constructor(private authService: AuthService, private gestUserService: GestUserService,
-    private router: Router, private carService: CarServiceService, private carDataService: CarDataService
+    private router: Router, private carService: CarServiceService, private carAppointmentDataService: CarAppointmentDataService
   ) {}
 
   ngOnInit() {
@@ -75,8 +75,13 @@ export class CitasUsuarioComponent {
     )
   }
 
+  modificarCita(cita: Cita) {
+    this.carAppointmentDataService.setDatosCita({cita});
+    this.router.navigate(['/cita']);
+  }
+
   verCoche(coche: Coche) {
-    this.carDataService.setDatosCoche({
+    this.carAppointmentDataService.setDatosCoche({
       coche: coche,
       marca: this.marcas[coche.marca_id - 1].nombre,
       carroceria: this.carrocerias[coche.carroceria_id - 1].nombre,

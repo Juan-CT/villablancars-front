@@ -1,0 +1,21 @@
+@media (min-width: 768px) {
+
+  .btn-green,
+  .btn-black,
+  .btn-red,
+  .btn-reset {
+    width: 175px;
+    height: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .btn-green,
+  .btn-black,
+  .btn-red,
+  .btn-reset {
+    width: 250px;
+    height: 50px;
+  }
+}

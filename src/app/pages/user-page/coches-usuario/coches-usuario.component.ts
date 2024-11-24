@@ -3,7 +3,7 @@ import { CarServiceService } from '../../../services/car-service.service';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
 import { GestUserService } from '../../../services/gest-user.service';
 import { AuthService } from '../../../auth/auth.service';
-import { CarDataService } from '../../../services/car-data.service';
+import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -24,7 +24,7 @@ export class CochesUsuarioComponent implements OnInit {
   idF: string = '';
 
   constructor(private carService: CarServiceService, private gestUserService: GestUserService,
-    private authService: AuthService, private carDataService: CarDataService, private router: Router
+    private authService: AuthService, private carDataService: CarAppointmentDataService, private router: Router
   ) { }
 
   ngOnInit(): void {

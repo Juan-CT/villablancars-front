@@ -65,9 +65,9 @@
 
     <div class="dropdown-menu lg:hidden bg-white flex justify-content-around p-2 app-menu
   absolute w-full font-bold text-sm md:text-base" [ngClass]="{'visible': isMenuAppVisible}">
-      <a routerLink="/buscar-coche" class="link w-full text-center">Buscar coches</a>
-      <a routerLink="/vender-coche" class="link w-full text-center">Vende tu coche</a>
-      <a routerLink="/contacto" class="link w-full text-center">Contacto</a>
+      <a routerLink="/buscar-coche" class="link w-full text-center" (click)="toggleAppMenu($event)">Buscar coches</a>
+      <a routerLink="/vender-coche" class="link w-full text-center" (click)="toggleAppMenu($event)">Vende tu coche</a>
+      <a routerLink="/contacto" class="link w-full text-center" (click)="toggleAppMenu($event)">Contacto</a>
     </div>
 
   </div>

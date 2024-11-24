@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
 
   @Output() emitAbrirModal = new EventEmitter<void>();
   usuarioLogueado: Usuario | null = null;
-  isMenuAppVisible: boolean = false; // Estado del menú desplegable
+  isMenuAppVisible: boolean = false;
   isMenuUserVisible: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}

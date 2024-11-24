@@ -6,3 +6,16 @@ a.link {
   text-decoration: none;
   color: inherit;
 }
+
+.rrss {
+  gap: 15px;
+}
+
+.rrss > svg {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.rrss > svg:hover {
+  transform: scale(1.2);
+}

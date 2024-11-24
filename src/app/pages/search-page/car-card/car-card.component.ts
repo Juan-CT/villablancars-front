@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
 import { Router } from '@angular/router';
-import { CarDataService } from '../../../services/car-data.service';
+import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
 
 @Component({
   selector: 'app-car-card',
@@ -18,7 +18,7 @@ export class CarCardComponent {
   indexImagen: number = 0;
   imagenFade: boolean = false;
 
-  constructor(private router: Router, private carDataService: CarDataService) {
+  constructor(private router: Router, private carDataService: CarAppointmentDataService) {
 
   }
 

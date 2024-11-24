@@ -45,9 +45,15 @@ export class GestUserService {
   obtenerCitas(): Observable<any> {
     return this.http.get(`${environment.apiURL}/citas`);
   }
-
+  // USUARIO-CREAR-CITA
   crearCita(cita: FormData): Observable<any> {
     return this.http.post(`${environment.apiURL}/guardar-cita`, cita);
+  }
+  // USUARIO-MODIFICAR-CITA
+  modificarCita(cita: FormData, citaId: number): Observable<any> {
+    return this.http.post(`${environment.apiURL}/guardar-cita`, cita, {
+      params: {citaId: citaId}
+    });
   }
   // USUARIO-CITAS
   obtenerCitasUsuario(idF: string): Observable<any> {
@@ -55,7 +61,7 @@ export class GestUserService {
       params: {idFirebase: idF}
     });
   }
-
+  // USUARIO-ANULAR-CITA
   anularCita(idCita: number): Observable<any> {
     return this.http.delete(`${environment.apiURL}/usuario/eliminar-cita`, {
       body: {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Coche } from '../../admin-page/modelo-coche';
-import { CarDataService } from '../../../services/car-data.service';
+import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
 import { AuthService } from '../../../auth/auth.service';
 import { GestUserService } from '../../../services/gest-user.service';
 import { Location } from '@angular/common';
@@ -25,7 +25,7 @@ export class CarPageComponent implements OnInit {
 
   usuarioLogueado: boolean = false;
 
-  constructor(private router: Router, private carDataService: CarDataService,
+  constructor(private router: Router, private carDataService: CarAppointmentDataService,
     private authService: AuthService, private gestUserService: GestUserService,
     private location: Location) { }
 

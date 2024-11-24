@@ -24,7 +24,7 @@
         </div>
 
         <div class="mt-2 mb-2 flex flex-column lg:h-full lg:align-items-center lg:justify-content-center w-full lg:w-6">
-          <button class="btn-green border-none text-white font-bold cursor-pointer">
+          <button class="btn-green border-none text-white font-bold cursor-pointer" (click)="modificarCita(cita)">
             Modificar cita
           </button>
           <button class="btn-red border-none text-white font-bold cursor-pointer mt-2 lg:mt-4" (click)="anularCita(cita.id)">

@@ -85,3 +85,6 @@ input[type="text"]:focus {
   border: none;
 }
 
+.cars-container {
+  gap: 20px;
+}

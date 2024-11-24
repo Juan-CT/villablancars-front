@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { CarDataService } from '../../services/car-data.service';
+import { CarAppointmentDataService } from '../../services/car-appointment-data.service';
 import { Coche } from '../admin-page/modelo-coche';
 import { AuthService } from '../../auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from '../../auth/usuario';
 import { GestUserService } from '../../services/gest-user.service';
 import Swal from 'sweetalert2';
+import { Cita } from '../admin-page/modelo-cita';
 
 @Component({
   selector: 'app-appointment-page',
@@ -17,18 +18,20 @@ export class AppointmentPageComponent implements OnInit {
 
   usuario: Usuario | null = null;
   coche: Coche | null = null;
+  cita: Cita | null = null;
+  editarCita: boolean = false;
   formCrearCita: FormGroup;
 
   hoy: Date = new Date();
   diaElegido: string | null = null;
   horasCitas: string[] = [
     '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
-    '16:00', '17:00', '18:00', '19:00'
+    '16:00', '17:00', '18:00', '19:00', '20:00'
   ];
   horasOcupadas: string[] = [];
   horaElegida: string = '';
 
-  constructor(private carDataService: CarDataService, private authService: AuthService,
+  constructor(private carDataService: CarAppointmentDataService, private authService: AuthService,
     private fb: FormBuilder, private gestUserService: GestUserService, private location: Location
   ) {
     this.formCrearCita = this.fb.group({
@@ -42,10 +45,21 @@ export class AppointmentPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.coche = this.carDataService.getdatosCoche().coche;
     this.authService.usuario$.subscribe(usuario => {
       this.usuario = usuario;
     });
+
+    this.cita = this.carDataService.getDatosCita().cita;
+    if (this.cita) {
+      this.editarCita = true;
+      this.coche = this.cita.coche;
+      this.formCrearCita.patchValue({
+        descripcion: this.cita.descripcion || ''
+      });
+    } else {
+      this.coche = this.carDataService.getdatosCoche().coche;
+    }
+
   }
 
   guardarCita() {
@@ -77,16 +91,30 @@ export class AppointmentPageComponent implements OnInit {
       cancelButtonColor: '#ff6b6b',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.gestUserService.crearCita(formData).subscribe(() => {
-          Swal.fire('Éxito', 'Cita creada correctamente.', 'success');
-          this.location.back();
-        }, (error) => {
-          if (error.status === 422) {
-            Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
-          } else {
-            Swal.fire('Error', 'Ocurrió un problema al crear la cita.', 'error');
-          }
-        });
+        if (this.editarCita) {
+          this.gestUserService.modificarCita(formData, this.cita!.id).subscribe(() => {
+            Swal.fire('Éxito', 'Cita modificada correctamente.', 'success');
+            this.editarCita = false;
+            this.location.back();
+          }, (error) => {
+            if (error.status === 422) {
+              Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            } else {
+              Swal.fire('Error', 'Ocurrió un problema al crear la cita.', 'error');
+            }
+          });
+        } else {
+          this.gestUserService.crearCita(formData).subscribe(() => {
+            Swal.fire('Éxito', 'Cita creada correctamente.', 'success');
+            this.location.back();
+          }, (error) => {
+            if (error.status === 422) {
+              Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            } else {
+              Swal.fire('Error', 'Ocurrió un problema al crear la cita.', 'error');
+            }
+          });
+        }
       }
     });
   }

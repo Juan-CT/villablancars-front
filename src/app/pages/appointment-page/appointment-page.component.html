@@ -10,6 +10,10 @@
 <div class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
   <form [formGroup]="formCrearCita" class="grid grid-nogutter align-items-center">
 
+    <div *ngIf="editarCita" class="col-12 mt-3 mb-4 text-center text-xl">
+      Selecciona una nueva fecha y hora
+    </div>
+
     <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
       <label for="nombre">Nombre: </label>
       <input class="mb-1 p-2 w-8rem" formControlName="nombre" type="text" id="nombre" [value]="this.usuario?.nombre"
@@ -36,7 +40,7 @@
     <div class="separador mt-2 mb-2 md:hidden"></div>
 
     <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
-      <label>Fecha y hora: </label>
+      <label>Elija una Fecha: </label>
       <p-calendar [minDate]="hoy" [showIcon]="true" dateFormat="dd.mm.yy" [disabledDays]="[0,6]"
         (onSelect)="diaSeleccionado($event)"></p-calendar>
     </div>

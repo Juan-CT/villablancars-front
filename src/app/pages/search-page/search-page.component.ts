@@ -62,7 +62,9 @@ export class SearchPageComponent implements OnInit {
     this.carService.obtenerCoches().subscribe(
       (coches) => {
         this.coches = coches;
-        this.cochesFiltrados = coches;
+        this.totalCoches = coches.length;
+        this.totalPag = Math.ceil( this.totalCoches / this.itemsPorPag);
+        this.filtrarCoches();
       }, (error) => {
         console.error('Error al obtener los coches existentes', error);
       }
@@ -143,6 +145,11 @@ export class SearchPageComponent implements OnInit {
     if (pagina >= 1 && pagina <= this.totalPag) {
       this.pagActual = pagina;
       this.filtrarCoches();
+
+      window.scrollTo( {
+        top: 100,
+        behavior: 'smooth'
+      });
     }
   }
 
