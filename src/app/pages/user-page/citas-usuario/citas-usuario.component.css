@@ -23,6 +23,16 @@
   width: 175px;
 }
 
+.btn-car:hover {
+  scale: 1.15;
+}
+
+.btn-red:disabled, .btn-green:disabled {
+  color: white;
+  background-color: var(--color-bg);
+  cursor: default !important;
+}
+
 @media (min-width: 768px) {
 
   .btn-green,

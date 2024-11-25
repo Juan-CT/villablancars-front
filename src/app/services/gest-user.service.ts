@@ -45,6 +45,13 @@ export class GestUserService {
   obtenerCitas(): Observable<any> {
     return this.http.get(`${environment.apiURL}/citas`);
   }
+  // ADMIN-ACTUALIZAR-ESTADO-CITA
+  actualizarEstadoCita(idCita: number, nuevoEstado: string): Observable<any> {
+    return this.http.put(`${environment.apiURL}/citas/${idCita}/estado`, {
+        estado: nuevoEstado
+      }
+    );
+  }
   // USUARIO-CREAR-CITA
   crearCita(cita: FormData): Observable<any> {
     return this.http.post(`${environment.apiURL}/guardar-cita`, cita);
@@ -52,13 +59,13 @@ export class GestUserService {
   // USUARIO-MODIFICAR-CITA
   modificarCita(cita: FormData, citaId: number): Observable<any> {
     return this.http.post(`${environment.apiURL}/guardar-cita`, cita, {
-      params: {citaId: citaId}
+      params: { citaId: citaId }
     });
   }
   // USUARIO-CITAS
   obtenerCitasUsuario(idF: string): Observable<any> {
     return this.http.get(`${environment.apiURL}/usuario/citas`, {
-      params: {idFirebase: idF}
+      params: { idFirebase: idF }
     });
   }
   // USUARIO-ANULAR-CITA
