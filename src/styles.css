@@ -59,6 +59,7 @@ input{
   width: 175px;
   height: 40px;
   border-radius: 10px;
+  border: 1px solid var(--color-black);
 }
 
 .btn-red {
@@ -66,6 +67,7 @@ input{
   width: 175px;
   height: 40px;
   border-radius: 10px;
+  border: 1px solid var(--color-black);
 }
 
 .btn-reset {

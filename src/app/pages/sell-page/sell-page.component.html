@@ -17,6 +17,110 @@
 
 <div class="w-full mw-992 h-30rem flex flex-column align-items-center bg-white mt-4 p-3">
   <p class="text-center sm:text-lg md:text-xl">
-    Para facilitar la comunicación, inicia sesión o regístrate.
+    Rellena el siguiente formulario con los datos de tu coche.
   </p>
+
+  <form [formGroup]="formVenderCoche" class="grid grid-nogutter align-items-center">
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="marca">Marca </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="marca" type="text" id="marca">
+
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="carroceria">Carrocería </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="carroceria" type="text" id="carroceria">
+
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="modelo">Modelo </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="modelo" type="text" id="modelo">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="anio">Año </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="anio" type="number" id="anio">
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="color">Color </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="color" id="color" type="text">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="cambio">Cambio </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="cambio" id="cambio" type="text">
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="kilometros">Kilómetros (Km)</label>
+      <input class="mb-1 p-2" formControlName="kilometros" min="0" id="kilometros" placeholder="Km" max="999999"
+        type="number">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="autonomia">Autonomía (Km)</label>
+      <input class="mb-1 p-2" formControlName="autonomia" min="0" max="1500" placeholder="Km" id="autonomia"
+        type="number" required>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="potencia">Potencia (CV)</label>
+      <input class="mb-1 p-2" formControlName="potencia" min="0" max="2000" id="potencia" placeholder="CV"
+      type="number" required>
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="precio">Precio (Euros)</label>
+      <input class="mb-1 p-2 w-5rem" formControlName="precio" min="0" id="precio" placeholder="...€"
+      type="number" required>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0">
+      <label for="descripcion">Descripción </label><br>
+      <textarea class="mt-2 p-2" formControlName="descripcion" type="text" id="descripcion" rows="4" cols="30"
+        required></textarea>
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-7 md:pl-0 flex flex-column">
+      <label for="imagen" class="text-center p-3 mb-2">Fotos del coche {{selectedFiles.length}} / 8</label>
+
+      <div class="flex flex-wrap">
+
+        <div *ngFor="let cuadrado of cuadrados; let i = index" (click)="elegirArchivo(i)"
+          class="mr-2 cuadrado flex justify-content-center align-items-center overflow-hidden relative">
+          <input type="file" formControlName="imagen" id="imagen" (change)="onFileSelected($event, i)" accept="image/*"
+            class="hidden" [id]="'imagen' + i">
+          <img *ngIf="selectedFiles[i]" [src]="selectedFiles[i].url" alt="Imagen coche" class="miniatura">
+          <p *ngIf="selectedFiles[i]" class="text-center z-5 absolute cursor-pointer borrarImg"
+            (click)="eliminarImg(i)">X</p>
+        </div>
+
+      </div>
+    </div>
+
 </div>
