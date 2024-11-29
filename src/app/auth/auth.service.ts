@@ -9,6 +9,7 @@ import { Usuario } from './usuario';
 import { environment } from '../environments/environment';
 import { sendEmailVerification, updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import { SwalService } from '../shared/swal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthService {
   // permitiendo a otros components suscribirse y reaccionar a cambios
   public usuario$: Observable<Usuario | null> = this.userSubject.asObservable();
 
-  constructor(private auth: Auth, private http: HttpClient) {
+  constructor(private auth: Auth, private http: HttpClient, private swalService: SwalService) {
     // Se dispara si hay un cambio en la autenticación
     // También detecta al usuario autenticado y y guarda en userSubject
     onAuthStateChanged(this.auth, async (user) => {
@@ -198,13 +199,13 @@ export class AuthService {
         })
       }).subscribe(
         () =>
-          this.mostrarMensaje(
+          this.swalService.mostrarMensaje(
             'Correo electrónico actualizado', 'Tu correo electrónico ha sido actualizado correctamente. Valida la nueva dirección en tu bandeja personal', 'success'
           ),
         error => console.log('Error al hacer la solicitud:', error)
       );
     } catch {
-      this.mostrarMensaje('Error', 'Hubo un problema al actualizar tu correo electrónico. Inténtalo de nuevo más tarde.', 'error');
+      this.swalService.mostrarMensaje('Error', 'Hubo un problema al actualizar tu correo electrónico. Inténtalo de nuevo más tarde.', 'error');
     }
   }
 
@@ -219,9 +220,9 @@ export class AuthService {
     try {
       await this.reautenticar(usuario, password);
       await updatePassword(usuario, nuevaPassword);
-      this.mostrarMensaje('Contraseña actualizado', 'Tu Contraseña ha sido actualizado correctamente.', 'success');
+      this.swalService.mostrarMensaje('Contraseña actualizado', 'Tu Contraseña ha sido actualizado correctamente.', 'success');
     } catch {
-      this.mostrarMensaje('Error', 'Hubo un problema al actualizar tu contraseña. Inténtalo de nuevo más tarde.', 'error');
+      this.swalService.mostrarMensaje('Error', 'Hubo un problema al actualizar tu contraseña. Inténtalo de nuevo más tarde.', 'error');
     }
   }
 
@@ -257,7 +258,7 @@ export class AuthService {
   validarPassword(password: string): boolean {
     const passwordPatron = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordPatron.test(password)) {
-      this.mostrarMensaje('Error', 'El formato de la contraseña no es el correcto.', 'error');
+      this.swalService.mostrarMensaje('Error', 'El formato de la contraseña no es el correcto.', 'error');
       return false;
     }
     return true;
@@ -266,19 +267,6 @@ export class AuthService {
   async reautenticar(usuario: any, password: string): Promise<void> {
     const credencial = EmailAuthProvider.credential(usuario.email!, password);
     await reauthenticateWithCredential(usuario, credencial);
-  }
-
-  mostrarMensaje(titulo: string, texto: string, icono: any): void {
-    Swal.fire({
-      title: titulo,
-      text: texto,
-      icon: icono,
-      confirmButtonText: 'Aceptar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    });
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GestUserService } from '../../../services/gest-user.service';
 import { Cita } from '../modelo-cita';
-import { AuthService } from '../../../auth/auth.service';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-citas',
@@ -16,7 +16,7 @@ export class CitasComponent implements OnInit {
   estados: ('confirmada' | 'cancelada' | 'completada')[] = [
     'confirmada', 'cancelada', 'completada'];
 
-  constructor(private gestUserService: GestUserService, private authService: AuthService) {
+  constructor(private gestUserService: GestUserService, private swalService: SwalService) {
 
   }
 
@@ -41,11 +41,11 @@ export class CitasComponent implements OnInit {
       if (citaActualizada) {
         citaActualizada.estado = nuevoEstado;
       }
-      this.authService.mostrarMensaje('Estado modificado', 'Notificación enviada al usuario', 'success');
+      this.swalService.mostrarMensaje('Estado modificado', 'Notificación enviada al usuario', 'success');
       this.mostrarModal = false;
     },
       (error) => {
-        this.authService.mostrarMensaje('Error', 'No se ha podido modificar el estado de la cita', 'error');
+        this.swalService.mostrarMensaje('Error', 'No se ha podido modificar el estado de la cita', 'error');
         console.error('Error al actualizar el estado:', error);
       }
     );

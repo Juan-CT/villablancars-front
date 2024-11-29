@@ -76,4 +76,8 @@ export class GestUserService {
       }
     });
   }
+  // FORMULARIO-VENDER
+  enviarFormVenta(datos: FormData): Observable<any> {
+    return this.http.post(`${environment.apiURL}/formulario-venta`, datos);
+  }
 }

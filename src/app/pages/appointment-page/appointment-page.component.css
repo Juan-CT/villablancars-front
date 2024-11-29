@@ -11,6 +11,7 @@ input, select {
   border-radius: 10px;
   height: 32px;
   text-align: end;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .input-invalid  {
@@ -19,8 +20,8 @@ input, select {
 
 textarea {
   border: 1px solid var(--color-green);
-  background-color: var(--color-bg);
   border-radius: 10px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 input::placeholder {

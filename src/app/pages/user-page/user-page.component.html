@@ -1,6 +1,6 @@
 <div class="flex justify-content-center z-1 flex-column align-items-center">
 
-  <div *ngIf="usuarioLogueado" class="w-full flex flex-column p-3">
+  <div *ngIf="usuarioLogueado" class="w-full flex flex-column">
 
     <div *ngIf="usuarioLogueado.rol === 'admin'; else perfilUsuario"
       class="flex flex-column align-items-center mt-6 h-30rem">

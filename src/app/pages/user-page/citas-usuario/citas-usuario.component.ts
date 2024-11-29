@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CarServiceService } from '../../../services/car-service.service';
 import { Cambio, Carroceria, Coche, Marca } from '../../admin-page/modelo-coche';
 import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-citas-usuario',
@@ -25,7 +26,8 @@ export class CitasUsuarioComponent {
   ];
 
   constructor(private authService: AuthService, private gestUserService: GestUserService,
-    private router: Router, private carService: CarServiceService, private carAppointmentDataService: CarAppointmentDataService
+    private router: Router, private carService: CarServiceService, private carAppointmentDataService: CarAppointmentDataService,
+    private swalService: SwalService
   ) {}
 
   ngOnInit() {
@@ -48,7 +50,7 @@ export class CitasUsuarioComponent {
             this.citas = [];
           }
         }, () => {
-          this.authService.mostrarMensaje('Error', 'No se han podido obtener las citas', 'error');
+          this.swalService.mostrarMensaje('Error', 'No se han podido obtener las citas', 'error');
         }
       )
     }
@@ -67,10 +69,10 @@ export class CitasUsuarioComponent {
   anularCita(idCita: number) {
     this.gestUserService.anularCita(idCita).subscribe(
       () => {
-        this.authService.mostrarMensaje('Exito', 'Cita anulada', 'success');
+        this.swalService.mostrarMensaje('Exito', 'Cita anulada', 'success');
         this.citas.filter(cita => cita.id !== idCita);
       }, () => {
-        this.authService.mostrarMensaje('Error', 'Error al intentar anular la cita', 'error');
+        this.swalService.mostrarMensaje('Error', 'Error al intentar anular la cita', 'error');
       }
     )
   }

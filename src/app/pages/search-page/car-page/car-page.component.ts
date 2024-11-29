@@ -5,6 +5,7 @@ import { CarAppointmentDataService } from '../../../services/car-appointment-dat
 import { AuthService } from '../../../auth/auth.service';
 import { GestUserService } from '../../../services/gest-user.service';
 import { Location } from '@angular/common';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-car-page',
@@ -27,7 +28,7 @@ export class CarPageComponent implements OnInit {
 
   constructor(private router: Router, private carDataService: CarAppointmentDataService,
     private authService: AuthService, private gestUserService: GestUserService,
-    private location: Location) { }
+    private location: Location, private swalService: SwalService) { }
 
   ngOnInit(): void {
     const datosCoche = this.carDataService.getdatosCoche();
@@ -65,9 +66,9 @@ export class CarPageComponent implements OnInit {
     });
     this.gestUserService.guardarCocheUsuario(this.coche!.id, idF)
       .subscribe(() => {
-        this.authService.mostrarMensaje('Hecho', 'El coche ha sido guardado en tu historial', 'success')
+        this.swalService.mostrarMensaje('Hecho', 'El coche ha sido guardado en tu historial', 'success')
       }, error => {
-        this.authService.mostrarMensaje('Error', 'Ya tienes guardado este coche en tu historial', 'error')
+        this.swalService.mostrarMensaje('Error', 'Ya tienes guardado este coche en tu historial', 'error')
         console.error('Error al guardar el coche en el historial', error)
       });
   }

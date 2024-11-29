@@ -5,6 +5,7 @@ import { GestUserService } from '../../../services/gest-user.service';
 import { AuthService } from '../../../auth/auth.service';
 import { CarAppointmentDataService } from '../../../services/car-appointment-data.service';
 import { Router } from '@angular/router';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-coches-usuario',
@@ -24,7 +25,8 @@ export class CochesUsuarioComponent implements OnInit {
   idF: string = '';
 
   constructor(private carService: CarServiceService, private gestUserService: GestUserService,
-    private authService: AuthService, private carDataService: CarAppointmentDataService, private router: Router
+    private authService: AuthService, private carDataService: CarAppointmentDataService,
+    private router: Router, private swalService: SwalService
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class CochesUsuarioComponent implements OnInit {
           (datos) => {
             this.coches = datos.coches;
           }, (error) => {
-            this.authService.mostrarMensaje('Error', 'Error al obtener el historial de coches', 'error');
+            this.swalService.mostrarMensaje('Error', 'Error al obtener el historial de coches', 'error');
             console.error('Error al obtener los coches del historial', error);
           });
       }
@@ -56,10 +58,10 @@ export class CochesUsuarioComponent implements OnInit {
   eliminarCoche(idCoche: number) {
     this.gestUserService.eliminarCocheUsuario(idCoche, this.idF).subscribe(
       () => {
-        this.authService.mostrarMensaje('Borrado', 'Eliminado del historial', 'success');
+        this.swalService.mostrarMensaje('Borrado', 'Eliminado del historial', 'success');
         this.coches = this.coches.filter(coche => coche.id !== idCoche);
       }, (error) => {
-        this.authService.mostrarMensaje('Error', 'No se pudo eliminar el coche del historial', 'error');
+        this.swalService.mostrarMensaje('Error', 'No se pudo eliminar el coche del historial', 'error');
         console.error('Error: ', error);
       }
     )

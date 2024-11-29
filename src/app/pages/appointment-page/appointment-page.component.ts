@@ -8,6 +8,7 @@ import { Usuario } from '../../auth/usuario';
 import { GestUserService } from '../../services/gest-user.service';
 import Swal from 'sweetalert2';
 import { Cita } from '../admin-page/modelo-cita';
+import { SwalService } from '../../shared/swal.service';
 
 @Component({
   selector: 'app-appointment-page',
@@ -32,7 +33,8 @@ export class AppointmentPageComponent implements OnInit {
   horaElegida: string = '';
 
   constructor(private carDataService: CarAppointmentDataService, private authService: AuthService,
-    private fb: FormBuilder, private gestUserService: GestUserService, private location: Location
+    private fb: FormBuilder, private gestUserService: GestUserService, private location: Location,
+    private swalService: SwalService
   ) {
     this.formCrearCita = this.fb.group({
       nombre: [{ value: this.usuario?.nombre, disabled: true }],
@@ -93,25 +95,25 @@ export class AppointmentPageComponent implements OnInit {
       if (result.isConfirmed) {
         if (this.editarCita) {
           this.gestUserService.modificarCita(formData, this.cita!.id).subscribe(() => {
-            Swal.fire('Éxito', 'Cita modificada correctamente.', 'success');
+            this.swalService.mostrarMensaje('Éxito', 'Cita modificada correctamente.', 'success');
             this.editarCita = false;
             this.location.back();
           }, (error) => {
             if (error.status === 422) {
-              Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+              this.swalService.mostrarMensaje('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
             } else {
-              Swal.fire('Error', 'Ocurrió un problema al crear la cita.', 'error');
+              this.swalService.mostrarMensaje('Error', 'Ocurrió un problema al crear la cita.', 'error');
             }
           });
         } else {
           this.gestUserService.crearCita(formData).subscribe(() => {
-            Swal.fire('Éxito', 'Cita creada correctamente.', 'success');
+            this.swalService.mostrarMensaje('Éxito', 'Cita creada correctamente.', 'success');
             this.location.back();
           }, (error) => {
             if (error.status === 422) {
-              Swal.fire('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+              this.swalService.mostrarMensaje('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
             } else {
-              Swal.fire('Error', 'Ocurrió un problema al crear la cita.', 'error');
+              this.swalService.mostrarMensaje('Error', 'Ocurrió un problema al crear la cita.', 'error');
             }
           });
         }

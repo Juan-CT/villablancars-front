@@ -23,7 +23,7 @@
   width: 175px;
 }
 
-.btn-car:hover {
+button:hover {
   scale: 1.15;
 }
 
