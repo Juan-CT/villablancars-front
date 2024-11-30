@@ -80,4 +80,8 @@ export class GestUserService {
   enviarFormVenta(datos: FormData): Observable<any> {
     return this.http.post(`${environment.apiURL}/formulario-venta`, datos);
   }
+  // FORMULARIO-CONTACTO
+  enviarFormContacto(datos: any): Observable<any> {
+    return this.http.post(`${environment.apiURL}/formulario-contacto`, datos);
+  }
 }

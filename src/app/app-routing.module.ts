@@ -19,22 +19,24 @@ import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-
 import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
 import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component';
 import { AppointmentPageComponent } from './pages/appointment-page/appointment-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'buscar-coche', component: SearchPageComponent },
   { path: 'coches/:id', component: CarPageComponent },
   { path: 'vender-coche', component: SellPageComponent },
+  { path: 'contacto', component: ContactPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'registro', component: RegisterPageComponent },
-  { path: 'cita', component: AppointmentPageComponent, canActivate: [authGuard]},
+  { path: 'cita', component: AppointmentPageComponent, canActivate: [authGuard] },
 
   {
     path: 'usuario', component: UserPageComponent, canActivate: [authGuard], children: [
       { path: '', redirectTo: 'citas-usuario', pathMatch: 'full' },
       { path: 'coches-usuario', component: CochesUsuarioComponent },
       { path: 'citas-usuario', component: CitasUsuarioComponent },
-      { path: 'datos-perfil-usuario', component: DatosPerfilUsuarioComponent}
+      { path: 'datos-perfil-usuario', component: DatosPerfilUsuarioComponent }
     ]
   },
   {

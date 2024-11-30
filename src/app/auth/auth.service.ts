@@ -56,18 +56,11 @@ export class AuthService {
       const credencialesUsuario = await signInWithEmailAndPassword(this.auth, email, password);
 
       if (!credencialesUsuario.user.emailVerified) {
-        Swal.fire({
-          title: 'Correo no verificado',
-          html: 'Por favor, verifica tu correo electrónico antes de iniciar sesión. <br> Si no has recibido el correo, <a href="#" id="reenv-verif">haz clic aquí</a> para reenviarlo.',
-          icon: 'info',
-          confirmButtonText: 'Aceptar',
-          background: '#fff',
-          color: '#333',
-          confirmButtonColor: '#25d366',
-          customClass: {
-            popup: 'swal'
-          },
-          didRender: () => {
+        this.swalService.mostrarMensajeHtml(
+          'Correo no verificado',
+          'Por favor, verifica tu correo electrónico antes de iniciar sesión. <br> Si no has recibido el correo, <a href="#" id="reenv-verif">haz clic aquí</a> para reenviarlo.',
+          'info',
+          () => {
             const reenviarLink = document.getElementById('reenv-verif');
 
             if (reenviarLink) {
@@ -76,20 +69,16 @@ export class AuthService {
 
                 try {
                   await sendEmailVerification(credencialesUsuario.user);
-                  Swal.update({
-                    html: 'Hemos enviado nuevamente el correo de verificación. Por favor, revisa tu bandeja de entrada.',
-                  });
+                  this.swalService.updateMensaje(
+                    'Hemos enviado nuevamente el correo de verificación. Por favor, revisa tu bandeja de entrada.', 'success');
                 } catch (error) {
-                  Swal.update({
-                    html: 'Hubo un problema al reenviar el correo de verificación. Inténtalo de nuevo más tarde.',
-                    icon: 'error'
-                  });
+                  this.swalService.updateMensaje(
+                    'Hubo un problema al reenviar el correo de verificación. Inténtalo de nuevo más tarde.', 'error');
                 }
               });
             }
           }
-        });
-
+        );
         return;
       }
 
@@ -97,18 +86,7 @@ export class AuthService {
       const response = await firstValueFrom(this.verificarToken(token));
 
       if (response.error) {
-        Swal.fire({
-          title: 'Error de autenticación',
-          text: response.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          background: '#fff',
-          color: '#333',
-          confirmButtonColor: '#25d366',
-          customClass: {
-            popup: 'swal'
-          }
-        });
+        this.swalService.mostrarMensajeText('Error de autenticación', response.message, 'error');
         return;
       }
 
@@ -199,13 +177,13 @@ export class AuthService {
         })
       }).subscribe(
         () =>
-          this.swalService.mostrarMensaje(
+          this.swalService.mostrarMensajeText(
             'Correo electrónico actualizado', 'Tu correo electrónico ha sido actualizado correctamente. Valida la nueva dirección en tu bandeja personal', 'success'
           ),
         error => console.log('Error al hacer la solicitud:', error)
       );
     } catch {
-      this.swalService.mostrarMensaje('Error', 'Hubo un problema al actualizar tu correo electrónico. Inténtalo de nuevo más tarde.', 'error');
+      this.swalService.mostrarMensajeText('Error', 'Hubo un problema al actualizar tu correo electrónico. Inténtalo de nuevo más tarde.', 'error');
     }
   }
 
@@ -220,9 +198,9 @@ export class AuthService {
     try {
       await this.reautenticar(usuario, password);
       await updatePassword(usuario, nuevaPassword);
-      this.swalService.mostrarMensaje('Contraseña actualizado', 'Tu Contraseña ha sido actualizado correctamente.', 'success');
+      this.swalService.mostrarMensajeText('Contraseña actualizado', 'Tu Contraseña ha sido actualizado correctamente.', 'success');
     } catch {
-      this.swalService.mostrarMensaje('Error', 'Hubo un problema al actualizar tu contraseña. Inténtalo de nuevo más tarde.', 'error');
+      this.swalService.mostrarMensajeText('Error', 'Hubo un problema al actualizar tu contraseña. Inténtalo de nuevo más tarde.', 'error');
     }
   }
 
@@ -258,7 +236,7 @@ export class AuthService {
   validarPassword(password: string): boolean {
     const passwordPatron = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordPatron.test(password)) {
-      this.swalService.mostrarMensaje('Error', 'El formato de la contraseña no es el correcto.', 'error');
+      this.swalService.mostrarMensajeText('Error', 'El formato de la contraseña no es el correcto.', 'error');
       return false;
     }
     return true;

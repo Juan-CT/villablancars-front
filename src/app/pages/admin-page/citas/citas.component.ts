@@ -41,11 +41,11 @@ export class CitasComponent implements OnInit {
       if (citaActualizada) {
         citaActualizada.estado = nuevoEstado;
       }
-      this.swalService.mostrarMensaje('Estado modificado', 'Notificación enviada al usuario', 'success');
+      this.swalService.mostrarMensajeText('Estado modificado', 'Notificación enviada al usuario', 'success');
       this.mostrarModal = false;
     },
       (error) => {
-        this.swalService.mostrarMensaje('Error', 'No se ha podido modificar el estado de la cita', 'error');
+        this.swalService.mostrarMensajeText('Error', 'No se ha podido modificar el estado de la cita', 'error');
         console.error('Error al actualizar el estado:', error);
       }
     );

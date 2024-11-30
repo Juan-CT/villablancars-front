@@ -126,10 +126,10 @@ export class CochesComponent implements OnInit {
       if (result.isConfirmed) {
         this.carService.eliminarCoche(coche_id).subscribe(
           () => {
-            this.swalService.mostrarMensaje('Éxito', 'Coche eliminado correctamente.', 'success');
+            this.swalService.mostrarMensajeText('Éxito', 'Coche eliminado correctamente.', 'success');
             this.obtenerCochesExistentes();
           },
-          () => this.swalService.mostrarMensaje('Error', 'Ha surgido un error al eliminar el coche.', 'error')
+          () => this.swalService.mostrarMensajeText('Error', 'Ha surgido un error al eliminar el coche.', 'error')
         );
       }
     })
@@ -194,14 +194,14 @@ export class CochesComponent implements OnInit {
       if (result.isConfirmed) {
 
         this.carService.crearCoche(formData).subscribe(() => {
-          this.swalService.mostrarMensaje('Éxito', 'El coche ha sido guardado correctamente.', 'success');
+          this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
           this.resetForm();
           this.mostrarListar();
         }, (error) => {
           if (error.status === 422) {
-            this.swalService.mostrarMensaje('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
           } else {
-            this.swalService.mostrarMensaje('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+            this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
           }
         });
       }
@@ -262,14 +262,14 @@ export class CochesComponent implements OnInit {
       if (result.isConfirmed) {
 
         this.carService.editarCoche(formData, cocheSinCambios.id).subscribe(() => {
-          this.swalService.mostrarMensaje('Éxito', 'El coche ha sido guardado correctamente.', 'success');
+          this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
           this.resetForm();
           this.mostrarListar();
         }, (error) => {
           if (error.status === 422) {
-            this.swalService.mostrarMensaje('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
           } else {
-            this.swalService.mostrarMensaje('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+            this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
           }
         });
       }
@@ -321,9 +321,9 @@ export class CochesComponent implements OnInit {
       if (result.isConfirmed) {
         this.carService.eliminarImagen(urlAEliminar).subscribe(() => {
           this.selectedFiles.splice(index, 1);
-          this.swalService.mostrarMensaje('Éxito', 'Imagen eliminada correctamente.', 'success');
+          this.swalService.mostrarMensajeText('Éxito', 'Imagen eliminada correctamente.', 'success');
         }, () => {
-          this.swalService.mostrarMensaje('Error', 'Ocurrió un problema al eliminar la imagen.', 'error');
+          this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al eliminar la imagen.', 'error');
         });
       }
     })

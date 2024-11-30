@@ -66,9 +66,9 @@ export class CarPageComponent implements OnInit {
     });
     this.gestUserService.guardarCocheUsuario(this.coche!.id, idF)
       .subscribe(() => {
-        this.swalService.mostrarMensaje('Hecho', 'El coche ha sido guardado en tu historial', 'success')
+        this.swalService.mostrarMensajeText('Hecho', 'El coche ha sido guardado en tu historial', 'success')
       }, error => {
-        this.swalService.mostrarMensaje('Error', 'Ya tienes guardado este coche en tu historial', 'error')
+        this.swalService.mostrarMensajeText('Error', 'Ya tienes guardado este coche en tu historial', 'error')
         console.error('Error al guardar el coche en el historial', error)
       });
   }

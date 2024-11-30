@@ -48,7 +48,7 @@ export class CochesUsuarioComponent implements OnInit {
           (datos) => {
             this.coches = datos.coches;
           }, (error) => {
-            this.swalService.mostrarMensaje('Error', 'Error al obtener el historial de coches', 'error');
+            this.swalService.mostrarMensajeText('Error', 'Error al obtener el historial de coches', 'error');
             console.error('Error al obtener los coches del historial', error);
           });
       }
@@ -58,10 +58,10 @@ export class CochesUsuarioComponent implements OnInit {
   eliminarCoche(idCoche: number) {
     this.gestUserService.eliminarCocheUsuario(idCoche, this.idF).subscribe(
       () => {
-        this.swalService.mostrarMensaje('Borrado', 'Eliminado del historial', 'success');
+        this.swalService.mostrarMensajeText('Borrado', 'Eliminado del historial', 'success');
         this.coches = this.coches.filter(coche => coche.id !== idCoche);
       }, (error) => {
-        this.swalService.mostrarMensaje('Error', 'No se pudo eliminar el coche del historial', 'error');
+        this.swalService.mostrarMensajeText('Error', 'No se pudo eliminar el coche del historial', 'error');
         console.error('Error: ', error);
       }
     )

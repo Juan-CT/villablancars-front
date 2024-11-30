@@ -50,7 +50,7 @@ export class CitasUsuarioComponent {
             this.citas = [];
           }
         }, () => {
-          this.swalService.mostrarMensaje('Error', 'No se han podido obtener las citas', 'error');
+          this.swalService.mostrarMensajeText('Error', 'No se han podido obtener las citas', 'error');
         }
       )
     }
@@ -69,10 +69,10 @@ export class CitasUsuarioComponent {
   anularCita(idCita: number) {
     this.gestUserService.anularCita(idCita).subscribe(
       () => {
-        this.swalService.mostrarMensaje('Exito', 'Cita anulada', 'success');
+        this.swalService.mostrarMensajeText('Exito', 'Cita anulada', 'success');
         this.citas.filter(cita => cita.id !== idCita);
       }, () => {
-        this.swalService.mostrarMensaje('Error', 'Error al intentar anular la cita', 'error');
+        this.swalService.mostrarMensajeText('Error', 'Error al intentar anular la cita', 'error');
       }
     )
   }

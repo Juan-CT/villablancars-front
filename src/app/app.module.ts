@@ -25,7 +25,8 @@ import { CarPageComponent } from './pages/search-page/car-page/car-page.componen
 import { CochesUsuarioComponent } from './pages/user-page/coches-usuario/coches-usuario.component';
 import { CitasUsuarioComponent } from './pages/user-page/citas-usuario/citas-usuario.component';
 import { DatosPerfilUsuarioComponent } from './pages/user-page/datos-perfil-usuario/datos-perfil-usuario.component';
-import { AppointmentPageComponent } from './pages/appointment-page/appointment-page.component'
+import { AppointmentPageComponent } from './pages/appointment-page/appointment-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component'
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AppointmentPageComponent } from './pages/appointment-page/appointment-p
     CochesUsuarioComponent,
     CitasUsuarioComponent,
     DatosPerfilUsuarioComponent,
-    AppointmentPageComponent
+    AppointmentPageComponent,
+    ContactPageComponent
   ],
   imports: [
     BrowserModule,

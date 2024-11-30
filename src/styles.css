@@ -42,7 +42,7 @@ body {
   z-index: 9999;
 }
 
-input{
+input, textarea{
   font-family: 'Roboto', sans-serif;
 }
 

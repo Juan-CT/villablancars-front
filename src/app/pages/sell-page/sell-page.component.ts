@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Usuario } from '../../auth/usuario';
-import Swal from 'sweetalert2';
 import { SwalService } from '../../shared/swal.service';
 import { GestUserService } from '../../services/gest-user.service';
 
@@ -22,10 +21,10 @@ export class SellPageComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService,
     private swalService: SwalService, private gestUserService: GestUserService) {
     this.formVenderCoche = this.fb.group({
-      marca: '',
+      marca: ['', [Validators.required]],
       carroceria: '',
-      modelo: '',
-      anio: '',
+      modelo: ['', [Validators.required]],
+      anio: ['', [Validators.required]],
       color: '',
       cambio: '',
       kilometros: '',
@@ -35,11 +34,6 @@ export class SellPageComponent implements OnInit {
       nombre: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
     });
-
-    if (this.usuarioLogueado) {
-      this.formVenderCoche.controls['nombre'].disable();
-      this.formVenderCoche.controls['email'].disable();
-    }
   }
 
   ngOnInit(): void {
@@ -63,7 +57,6 @@ export class SellPageComponent implements OnInit {
 
       const formData = new FormData();
       const formValues = this.formVenderCoche.value;
-      console.log(formValues)
 
       for (const key in formValues) {
         if (formValues[key] !== null && formValues[key] !== undefined) {
@@ -75,15 +68,20 @@ export class SellPageComponent implements OnInit {
         formData.append('imagenes[]', item.file!, item.file!.name);
       });
 
-      this.gestUserService.enviarFormVenta(formData).subscribe(() => {
-        this.swalService.mostrarMensaje('Éxito', 'Formulario enviado. Recibirá una copia del mismo en su correo personal', 'success');
-        this.resetForm();
-        this.selectedFiles = [];
-      }, () => {
-        this.swalService.mostrarMensaje('Error', 'Hubo un problema al enviar el formulario, inténtalo de nuevo', 'error');
-      })
+      this.swalService.mostrarMensajeForm('Confirma tus datos', formValues.nombre, formValues.email, 'warning')
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.gestUserService.enviarFormVenta(formData).subscribe(() => {
+              this.swalService.mostrarMensajeText('Éxito', 'Formulario enviado. Recibirá una copia del mismo en su correo personal', 'success');
+              this.resetForm();
+              this.selectedFiles = [];
+            }, () => {
+              this.swalService.mostrarMensajeText('Error', 'Hubo un problema al enviar el formulario, inténtalo de nuevo', 'error');
+            });
+          }
+        });
     } else {
-      this.swalService.mostrarMensaje('Error', 'Es necesario especificar Nombre y Email para enviar el formulario', 'error');
+      this.swalService.mostrarMensajeText('Error', 'Es necesario especificar Nombre y Email para enviar el formulario', 'error');
     }
   }
 
@@ -110,7 +108,7 @@ export class SellPageComponent implements OnInit {
       const archivo = archivos.files[0];
 
       if (this.selectedFiles.length >= 8) {
-        this.swalService.mostrarMensaje('Error', 'Se ha alcanzado el límite de 8 imágenes', 'error');
+        this.swalService.mostrarMensajeText('Error', 'Se ha alcanzado el límite de 8 imágenes', 'error');
         return;
       }
 
@@ -119,7 +117,7 @@ export class SellPageComponent implements OnInit {
       );
 
       if (fileExiste) {
-        this.swalService.mostrarMensaje('Error', 'La imagen ya ha sido seleccionada', 'error');
+        this.swalService.mostrarMensajeText('Error', 'La imagen ya ha sido seleccionada', 'error');
         return;
       }
 
