@@ -25,6 +25,7 @@ button:hover {
   background-color: var(--color-black);
   opacity: 0.5;
   color: white;
+  scale: 1 !important;
 }
 
 img {

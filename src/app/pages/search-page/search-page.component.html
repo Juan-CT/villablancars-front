@@ -43,7 +43,7 @@
 
     <div class="mb-2 w-full p-2">
       <button class="btn-reset text-white text-lg cursor-pointer font-bold w-full text-center"
-        (click)="desplegarFiltros('reset')" [disabled]="cochesFiltrados.length === coches.length">
+        (click)="desplegarFiltros('reset')" [disabled]="!hayFiltrosActivos()">
         Resetear filtros
       </button>
     </div>

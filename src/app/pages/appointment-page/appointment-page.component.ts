@@ -6,7 +6,6 @@ import { AuthService } from '../../auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from '../../auth/usuario';
 import { GestUserService } from '../../services/gest-user.service';
-import Swal from 'sweetalert2';
 import { Cita } from '../admin-page/modelo-cita';
 import { SwalService } from '../../shared/swal.service';
 
@@ -75,50 +74,35 @@ export class AppointmentPageComponent implements OnInit {
     formData.append('descripcion', formValues.descripcion);
     const fechaSwal: string = new Date(formValues.fecha).toLocaleDateString('es-ES');
 
-    Swal.fire({
-      title: 'Confirmar envío',
-      html: `
-        <strong>Modelo coche: </strong> ${this.coche?.modelo}<br>
-        <strong>Fecha: </strong> ${fechaSwal}<br>
-        <strong>Hora: </strong> ${formValues.hora}<br>
-        <strong>Mensaje: </strong> ${formValues.descripcion}<br>
-      `,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if (this.editarCita) {
-          this.gestUserService.modificarCita(formData, this.cita!.id).subscribe(() => {
-            this.swalService.mostrarMensajeText('Éxito', 'Cita modificada correctamente.', 'success');
-            this.editarCita = false;
-            this.location.back();
-          }, (error) => {
-            if (error.status === 422) {
-              this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
-            } else {
-              this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al crear la cita.', 'error');
-            }
-          });
-        } else {
-          this.gestUserService.crearCita(formData).subscribe(() => {
-            this.swalService.mostrarMensajeText('Éxito', 'Cita creada correctamente.', 'success');
-            this.location.back();
-          }, (error) => {
-            if (error.status === 422) {
-              this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
-            } else {
-              this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al crear la cita.', 'error');
-            }
-          });
+    this.swalService.mostrarMensajeCita(this.coche!.modelo, fechaSwal, formValues)
+      .then((result) => {
+        if (result.isConfirmed) {
+          if (this.editarCita) {
+            this.gestUserService.modificarCita(formData, this.cita!.id).subscribe(() => {
+              this.swalService.mostrarMensajeText('Éxito', 'Cita modificada correctamente.', 'success');
+              this.editarCita = false;
+              this.location.back();
+            }, (error) => {
+              if (error.status === 422) {
+                this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+              } else {
+                this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al crear la cita.', 'error');
+              }
+            });
+          } else {
+            this.gestUserService.crearCita(formData).subscribe(() => {
+              this.swalService.mostrarMensajeText('Éxito', 'Cita creada correctamente.', 'success');
+              this.location.back();
+            }, (error) => {
+              if (error.status === 422) {
+                this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+              } else {
+                this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al crear la cita.', 'error');
+              }
+            });
+          }
         }
-      }
-    });
+      });
   }
 
   diaSeleccionado(fecha: Date) {

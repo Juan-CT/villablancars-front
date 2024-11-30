@@ -15,10 +15,9 @@ export class CitasComponent implements OnInit {
   citaSeleccionada: Cita | null = null;
   estados: ('confirmada' | 'cancelada' | 'completada')[] = [
     'confirmada', 'cancelada', 'completada'];
+  fechaHoy: Date = new Date();
 
-  constructor(private gestUserService: GestUserService, private swalService: SwalService) {
-
-  }
+  constructor(private gestUserService: GestUserService, private swalService: SwalService) { }
 
   ngOnInit(): void {
     this.gestUserService.obtenerCitas().subscribe((datos) => {
@@ -49,5 +48,10 @@ export class CitasComponent implements OnInit {
         console.error('Error al actualizar el estado:', error);
       }
     );
+  }
+
+  comprobarFecha(fechaCita: string): boolean {
+    const fechaCitaDate = new Date(fechaCita);
+    return fechaCitaDate < this.fechaHoy;
   }
 }

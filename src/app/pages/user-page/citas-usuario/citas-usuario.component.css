@@ -23,10 +23,6 @@
   width: 175px;
 }
 
-button:hover {
-  scale: 1.15;
-}
-
 .btn-red:disabled, .btn-green:disabled {
   color: white;
   background-color: var(--color-bg);

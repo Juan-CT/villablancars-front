@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarServiceService } from '../../../services/car-service.service';
 import { Cambio, Carroceria, Coche, Marca } from '../modelo-coche';
-import Swal from 'sweetalert2';
 import { SwalService } from '../../../shared/swal.service';
 
 @Component({
@@ -111,28 +110,19 @@ export class CochesComponent implements OnInit {
   }
 
   eliminarcoche(coche_id: number) {
-    Swal.fire({
-      title: 'Eliminar Coche',
-      text: '¿Está seguro de que quiere eliminar el coche seleccionado?',
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.carService.eliminarCoche(coche_id).subscribe(
-          () => {
-            this.swalService.mostrarMensajeText('Éxito', 'Coche eliminado correctamente.', 'success');
-            this.obtenerCochesExistentes();
-          },
-          () => this.swalService.mostrarMensajeText('Error', 'Ha surgido un error al eliminar el coche.', 'error')
-        );
-      }
-    })
+    this.swalService.mostrarMensajeText(
+      'Eliminar Coche', '¿Está seguro de que quiere eliminar el coche seleccionado?', 'info', true)
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.carService.eliminarCoche(coche_id).subscribe(
+            () => {
+              this.swalService.mostrarMensajeText('Éxito', 'Coche eliminado correctamente.', 'success');
+              this.obtenerCochesExistentes();
+            },
+            () => this.swalService.mostrarMensajeText('Error', 'Ha surgido un error al eliminar el coche.', 'error')
+          );
+        }
+      })
   }
 
   obtenerCochesExistentes() {
@@ -149,7 +139,7 @@ export class CochesComponent implements OnInit {
   guardarCoche() {
     const formValues = this.formCrearCoche.value;
     const formData = new FormData();
-    // Creación del coche para enviar al backend
+
     formData.append('marca_id', Number(formValues.marca).toString());
     formData.append('carroceria_id', Number(formValues.carroceria).toString());
     formData.append('cambio_id', Number(formValues.cambio).toString());
@@ -166,46 +156,23 @@ export class CochesComponent implements OnInit {
     archivosValidos.forEach((item) => {
       formData.append('imagenes[]', item.file!, item.file!.name);
     });
-    // Confirmación de envío
-    Swal.fire({
-      title: 'Confirmar cambios',
-      html: `
-        <strong>Marca:</strong> ${this.marcas.find(m => m.id == formValues.marca)?.nombre} <br>
-        <strong>Carrocería:</strong> ${this.carrocerias.find(c => c.id == formValues.carroceria)?.nombre} <br>
-        <strong>Modelo:</strong> ${formValues.modelo} <br>
-        <strong>Año:</strong> ${formValues.anio} <br>
-        <strong>Color:</strong> ${formValues.color} <br>
-        <strong>Cambio:</strong> ${this.cambios.find(c => c.id == formValues.cambio)?.tipo} <br>
-        <strong>Kilómetros:</strong> ${formValues.kilometros} Km <br>
-        <strong>Autonomía:</strong> ${formValues.autonomia} Km <br>
-        <strong>Potencia:</strong> ${formValues.potencia} CV <br>
-        <strong>Precio:</strong> ${formValues.precio} Euros <br>
-        <strong>Descripción:</strong> ${formValues.descripcion} <br>
-      `,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    }).then((result) => {
-      if (result.isConfirmed) {
 
-        this.carService.crearCoche(formData).subscribe(() => {
-          this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
-          this.resetForm();
-          this.mostrarListar();
-        }, (error) => {
-          if (error.status === 422) {
-            this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
-          } else {
-            this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
-          }
-        });
-      }
-    });
+    this.swalService.mostrarMensajeCrearCoche(this.marcas, this.carrocerias, this.cambios, formValues)
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.carService.crearCoche(formData).subscribe(() => {
+            this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
+            this.resetForm();
+            this.mostrarListar();
+          }, (error) => {
+            if (error.status === 422) {
+              this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            } else {
+              this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+            }
+          });
+        }
+      });
   }
 
   modificarCoche() {
@@ -231,49 +198,23 @@ export class CochesComponent implements OnInit {
       formData.append('imagenes[]', item.file!, item.file!.name);
     });
 
-    Swal.fire({
-      title: 'Confirmar cambios',
-      html: `
-        <strong>Marca:</strong> ${this.marcas.find(m => m.id === cocheSinCambios.marca_id)?.nombre} ->
-        ${this.marcas.find(m => m.id == formValues.marca)?.nombre} <br>
-        <strong>Carrocería:</strong> ${this.carrocerias.find
-          (c => c.id === cocheSinCambios.carroceria_id)?.nombre} ->
-        ${this.carrocerias.find(c => c.id == formValues.carroceria)?.nombre} <br>
-        <strong>Modelo:</strong> ${cocheSinCambios.modelo} -> ${formValues.modelo} <br>
-        <strong>Año:</strong> ${cocheSinCambios.anio} -> ${formValues.anio} <br>
-        <strong>Color:</strong> ${cocheSinCambios.color} -> ${formValues.color} <br>
-        <strong>Cambio:</strong> ${this.cambios.find(c => c.id === cocheSinCambios.cambio_id)?.tipo} ->
-        ${this.cambios.find(c => c.id == formValues.cambio)?.tipo} <br>
-        <strong>Kilómetros:</strong> ${cocheSinCambios.kilometros} -> ${formValues.kilometros} Km <br>
-        <strong>Autonomía:</strong> ${cocheSinCambios.autonomia} -> ${formValues.autonomia} Km <br>
-        <strong>Potencia:</strong> ${cocheSinCambios.potencia} -> ${formValues.potencia} CV <br>
-        <strong>Precio:</strong> ${cocheSinCambios.precio} -> ${formValues.precio} Euros <br>
-        <strong>Descripción:</strong> ${cocheSinCambios.descripcion} -> ${formValues.descripcion} <br>
-      `,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    }).then((result) => {
-      if (result.isConfirmed) {
-
-        this.carService.editarCoche(formData, cocheSinCambios.id).subscribe(() => {
-          this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
-          this.resetForm();
-          this.mostrarListar();
-        }, (error) => {
-          if (error.status === 422) {
-            this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
-          } else {
-            this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
-          }
-        });
-      }
-    });
+    this.swalService.mostrarMensajeEditarCoche(
+      this.marcas, this.carrocerias, this.cambios, formValues, cocheSinCambios)
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.carService.editarCoche(formData, cocheSinCambios.id).subscribe(() => {
+            this.swalService.mostrarMensajeText('Éxito', 'El coche ha sido guardado correctamente.', 'success');
+            this.resetForm();
+            this.mostrarListar();
+          }, (error) => {
+            if (error.status === 422) {
+              this.swalService.mostrarMensajeText('Error', 'Uno o varios datos introducidos no cumplen la validación.', 'error');
+            } else {
+              this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al guardar el coche.', 'error');
+            }
+          });
+        }
+      });
   }
 
   resetForm() {
@@ -306,18 +247,9 @@ export class CochesComponent implements OnInit {
     const urlImagen = this.selectedFiles[index].url;
     const urlAEliminar = urlImagen.replace('http://127.0.0.1:8000', '');
 
-    Swal.fire({
-      title: 'Eliminar imagen',
-      icon: 'info',
-      text: '¿Está seguro de que quiere eliminar la imagen seleccionada?',
-      showCancelButton: true,
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar',
-      background: '#fff',
-      color: '#333',
-      confirmButtonColor: '#25d366',
-      cancelButtonColor: '#ff6b6b',
-    }).then((result) => {
+    this.swalService.mostrarMensajeText(
+      'Eliminar imagen', '¿Está seguro de que quiere eliminar la imagen seleccionada?', 'info'
+    ).then((result) => {
       if (result.isConfirmed) {
         this.carService.eliminarImagen(urlAEliminar).subscribe(() => {
           this.selectedFiles.splice(index, 1);
@@ -326,8 +258,7 @@ export class CochesComponent implements OnInit {
           this.swalService.mostrarMensajeText('Error', 'Ocurrió un problema al eliminar la imagen.', 'error');
         });
       }
-    })
-
+    });
   }
 
   onFileSelected(event: Event, index: number) {
@@ -336,11 +267,7 @@ export class CochesComponent implements OnInit {
       const archivo = archivos.files[0];
 
       if (this.selectedFiles.length >= 8) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Se ha alcanzado el límite de 8 imágenes.',
-        });
+        this.swalService.mostrarMensajeText('Error', 'Se ha alcanzado el límite de 8 imágenes.', 'error');
         return;
       }
 
@@ -349,11 +276,7 @@ export class CochesComponent implements OnInit {
       );
 
       if (fileExiste) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'La imagen ya ha sido seleccionado.',
-        });
+        this.swalService.mostrarMensajeText('Error', 'La imagen ya ha sido seleccionada.', 'error');
         return;
       }
 
@@ -366,5 +289,3 @@ export class CochesComponent implements OnInit {
   }
 
 }
-
-

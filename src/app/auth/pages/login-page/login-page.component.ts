@@ -3,6 +3,7 @@ import { AuthService } from '../../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +19,7 @@ export class LoginPageComponent {
   formLogin: FormGroup;
   passwordError: boolean = false;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder, private swalService: SwalService) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/)]]
@@ -36,33 +37,15 @@ export class LoginPageComponent {
           await this.authService.login(email, password);
           this.cerrarModal.emit();
         } else {
-          Swal.fire({
-            title: 'Error',
-            text: 'El email introducido no está registrado.',
-            icon: 'error',
-            confirmButtonText: 'Aceptar',
-            background: '#fff',
-            color: '#333',
-            confirmButtonColor: '#25d366',
-            customClass: {
-              popup: 'swal'
-            }
-          });
+          this.swalService.mostrarMensajeText(
+            'Error', 'El email introducido no está registrado.', 'error'
+          );
         }
-      } catch (error){
+      } catch (error) {
         console.error("Error en el login:", error);
-        Swal.fire({
-          title: 'Error',
-          text: 'El email o contraseña son incorrectos.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-          background: '#fff',
-          color: '#333',
-          confirmButtonColor: '#25d366',
-          customClass: {
-            popup: 'swal'
-          }
-        });
+        this.swalService.mostrarMensajeText(
+          'Error', 'El email o contraseña son incorrectos.', 'error'
+        );
       }
     }
   }

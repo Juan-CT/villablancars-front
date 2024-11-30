@@ -66,11 +66,14 @@ input[type="text"]:focus {
 
 .btn-reset {
   background-color: var(--color-green);
-  border-color: white;
+  border: 1px solid var(--color-black);
+  scale: 1 !important;
 }
 
 .btn-reset:disabled {
   background-color: var(--color-bg);
+  border: none;
+  cursor: default !important;
 }
 
 .paginacion button {

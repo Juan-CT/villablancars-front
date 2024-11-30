@@ -3,6 +3,7 @@ import { AuthService } from '../../auth.service';
 import { Usuario } from '../../usuario';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SwalService } from '../../../shared/swal.service';
 
 @Component({
   selector: 'app-register-page',
@@ -15,7 +16,8 @@ export class RegisterPageComponent {
   @Output() cerrarModal = new EventEmitter<void>();
 
   formRegistro: FormGroup;
-  constructor(private authService: AuthService , private fb: FormBuilder) {
+
+  constructor(private authService: AuthService , private fb: FormBuilder, private swalService: SwalService) {
     this.formRegistro = this.fb.group({
       nombre: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -43,26 +45,16 @@ export class RegisterPageComponent {
             rol: ''
           };
 
-          this.authService.guardarUsuario(usuario).subscribe((res) => {
-            Swal.fire({
-              title: 'Registrado con éxito',
-              text: 'Tu cuenta ha sido creada, revisa tu email para validar el registro.',
-              icon: 'info',
-              confirmButtonText: 'Aceptar',
-              background: '#fff',
-              color: '#333',
-              confirmButtonColor: '#25d366',
-              cancelButtonColor: '#ff6b6b',
-              customClass: {
-                popup: 'swal'
-              }
-            }).then((res) => {
+          this.authService.guardarUsuario(usuario).subscribe(() => {
+            this.swalService.mostrarMensajeText(
+              'Registrado con éxito', 'Tu cuenta ha sido creada, revisa tu email para validar el registro.', 'info'
+            ).then((res) => {
               if (res.isConfirmed) {
                 this.aLogin.emit();
               }
             });
 
-          }, error => console.log("Error al mandar el usuario al backend", error));
+          }, error => console.error("Error al mandar el usuario al backend", error));
         }
       } catch (error) {
         console.error("Error al registrar un nuevo usuario", error);

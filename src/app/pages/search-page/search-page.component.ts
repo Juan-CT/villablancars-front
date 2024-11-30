@@ -63,7 +63,7 @@ export class SearchPageComponent implements OnInit {
       (coches) => {
         this.coches = coches;
         this.totalCoches = coches.length;
-        this.totalPag = Math.ceil( this.totalCoches / this.itemsPorPag);
+        this.totalPag = Math.ceil(this.totalCoches / this.itemsPorPag);
         this.filtrarCoches();
       }, (error) => {
         console.error('Error al obtener los coches existentes', error);
@@ -97,6 +97,9 @@ export class SearchPageComponent implements OnInit {
       this.mostrarCarrocerias = false;
       this.mostrarMarcas = false;
       this.mostrarCambios = false;
+      this.filtroMarcaActivo = null;
+      this.filtroCarroceriaActivo = null;
+      this.filtroCambioActivo = null;
       this.filtrosActivos = {};
       this.modalFiltros();
     }
@@ -146,7 +149,7 @@ export class SearchPageComponent implements OnInit {
       this.pagActual = pagina;
       this.filtrarCoches();
 
-      window.scrollTo( {
+      window.scrollTo({
         top: 100,
         behavior: 'smooth'
       });
@@ -166,6 +169,11 @@ export class SearchPageComponent implements OnInit {
   getTipoCambio(cambio_Id: number): string {
     const cambio = this.cambios.find((c) => c.id === cambio_Id);
     return cambio ? cambio.tipo : '-';
+  }
+
+  hayFiltrosActivos(): boolean {
+    return Object.values(this.filtrosActivos).some((activo) => activo) ||
+      !!this.filtroMarcaActivo || !!this.filtroCarroceriaActivo || !!this.filtroCambioActivo;
   }
 
   ordenarCoches(criterio: string): void {

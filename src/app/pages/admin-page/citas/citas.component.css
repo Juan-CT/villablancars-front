@@ -1,5 +1,9 @@
+.user-container {
+  gap: 24px;
+}
+
 .cita-container {
-  width: 220px;
+  width: 285px;
   height: 350px;
   border: 1px solid var(--color-black);
   border-radius: 10px;

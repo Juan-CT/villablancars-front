@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../../auth/usuario';
 import { GestUserService } from '../../../services/gest-user.service';
+import { Cita } from '../modelo-cita';
 
 @Component({
   selector: 'app-usuarios',
@@ -9,8 +10,10 @@ import { GestUserService } from '../../../services/gest-user.service';
 })
 export class UsuariosComponent implements OnInit{
 
-
   usuarios: Usuario[] = [];
+  citasUsuario: Cita[] = [];
+  mostrarModal: boolean = false;
+  usuarioSeleccionado: Usuario | null = null;
 
   constructor(private gestUserService: GestUserService) {
 
@@ -23,4 +26,24 @@ export class UsuariosComponent implements OnInit{
       }
     );
   }
+
+  verCitas(usuario: Usuario): void {
+    this.usuarioSeleccionado = usuario;
+    this.gestUserService.obtenerCitasUsuario(usuario.idFirebase).subscribe(
+      (datos) => {
+        this.citasUsuario = datos.citas;
+        this.mostrarModal = true;
+      },
+      (error) => {
+        console.error('Error al obtener las citas del usuario:', error);
+      }
+    );
+  }
+
+  cerrarModal(): void {
+    this.mostrarModal = false;
+    this.citasUsuario = [];
+    this.usuarioSeleccionado = null;
+  }
+
 }
