@@ -25,6 +25,7 @@ export class CarPageComponent implements OnInit {
   cuadrados: number[] = [];
 
   usuarioLogueado: boolean = false;
+  modalVisible: boolean = false;
 
   constructor(private router: Router, private carDataService: CarAppointmentDataService,
     private authService: AuthService, private gestUserService: GestUserService,
@@ -51,7 +52,7 @@ export class CarPageComponent implements OnInit {
     });
   }
 
-  cambiarImagen(index: number) {
+  cambiarImagen(index: number): void {
     this.imagenFade = true;
     setTimeout(() => {
       this.imagenMuestra = this.coche!.imagenes![index].url;
@@ -59,7 +60,7 @@ export class CarPageComponent implements OnInit {
     }, 200);
   }
 
-  guardarCocheUsuario() {
+  guardarCocheUsuario(): void {
     let idF: any;
     this.authService.usuario$.subscribe(usuario => {
       idF = usuario?.idFirebase;
@@ -77,8 +78,16 @@ export class CarPageComponent implements OnInit {
 
   }
 
-  volverAtras() {
+  volverAtras(): void {
     this.location.back();
+  }
+
+  abrirModal(): void {
+    this.modalVisible = true;
+  }
+
+  cerrarModal(): void {
+    this.modalVisible = false;
   }
 
 }

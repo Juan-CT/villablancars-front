@@ -91,3 +91,7 @@ input[type="text"]:focus {
 .cars-container {
   gap: 20px;
 }
+
+.btnSelect:hover {
+  scale: 1.05 !important;
+}

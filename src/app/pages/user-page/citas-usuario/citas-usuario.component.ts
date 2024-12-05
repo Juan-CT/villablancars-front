@@ -93,4 +93,10 @@ export class CitasUsuarioComponent {
     this.router.navigate(['/coches', coche.id],);
   }
 
+  fechaCitaValida(fecha: string): boolean {
+    const hoy = new Date();
+    const fechaCita = new Date(fecha);
+    return fechaCita < hoy;
+  }
+
 }

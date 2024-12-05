@@ -4,7 +4,7 @@
 
     <div class="w-6 sm:w-5 md:w-4 lg:w-3 flex align-items-center pl-2">
       <button class="border-none text-5xl md:text-6xl px-2 sm:px-3 md:px-4
-    line-height-1 lg:hidden bg-white" (click)="toggleAppMenu($event)">
+    line-height-1 lg:hidden bg-white btnBurguer cursor-pointer" (click)="toggleAppMenu($event)">
         &#9776;
       </button>
       <img src="assets/logo.jpg" alt="Logo" routerLink="/">
@@ -70,9 +70,9 @@
 
     <div class="dropdown-menu lg:hidden text-white flex justify-content-around p-2 app-menu
   absolute w-full font-bold text-sm md:text-base" [ngClass]="{'visible': isMenuAppVisible}">
-      <a routerLink="/buscar-coche" class="link w-full text-center text-xl" (click)="toggleAppMenu($event)">Buscar coches</a>
-      <a routerLink="/vender-coche" class="link w-full text-center text-xl" (click)="toggleAppMenu($event)">Vende tu coche</a>
-      <a routerLink="/contacto" class="link w-full text-center text-xl" (click)="toggleAppMenu($event)">Contacto</a>
+      <a routerLink="/buscar-coche" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Buscar coches</a>
+      <a routerLink="/vender-coche" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Vende tu coche</a>
+      <a routerLink="/contacto" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Contacto</a>
     </div>
 
   </div>

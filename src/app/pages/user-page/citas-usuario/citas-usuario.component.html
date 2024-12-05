@@ -29,7 +29,7 @@
             Modificar cita
           </button>
           <button class="btn-red text-white font-bold cursor-pointer mt-2 lg:mt-4" (click)="anularCita(cita.id)"
-          [disabled]="cita.estado === 'cancelada' || cita.estado === 'completada'">
+          [disabled]="cita.estado === 'cancelada' || cita.estado === 'completada' || fechaCitaValida(cita.fecha)">
             Anular cita
           </button>
         </div>

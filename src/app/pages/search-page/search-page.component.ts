@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Cambio, Carroceria, Coche, Marca } from '../admin-page/modelo-coche';
 import { CarServiceService } from '../../services/car-service.service';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-page',
@@ -101,6 +100,12 @@ export class SearchPageComponent implements OnInit {
       this.filtroCarroceriaActivo = null;
       this.filtroCambioActivo = null;
       this.filtrosActivos = {};
+
+      this.pagActual = 1;
+      this.totalCoches = this.coches.length;
+      this.totalPag = Math.ceil(this.totalCoches / this.itemsPorPag);
+      this.filtrarCoches();
+
       this.modalFiltros();
     }
 

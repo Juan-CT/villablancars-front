@@ -17,9 +17,9 @@
           <input id="nuevoEmail" formControlName="nuevoEmail" type="email" class="mb-1 p-2 w-13rem"
             placeholder="Ingresa el nuevo email">
           <div *ngIf="cambiarEmailForm.get('nuevoEmail')?.invalid && cambiarEmailForm.get('nuevoEmail')?.touched"
-            class="text-danger">
+            class="error-msg-form mb-1">
             <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['required']">El email es obligatorio.</small>
-            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['email']">El email no es válido.</small>
+            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['email']">Introduce un correo electrónico válido.</small>
           </div>
         </div>
 
@@ -34,6 +34,15 @@
           <label for="nuevaPassword">Nueva Contraseña: </label>
           <input id="nuevaPassword" formControlName="nuevaPassword" type="password" class="mb-1 p-2 w-12rem"
             placeholder="Ingresa la nueva contraseña">
+            <div *ngIf="cambiarPasswordForm.get('nuevaPassword')?.invalid && (cambiarPasswordForm.get('nuevaPassword')?.touched
+            || cambiarPasswordForm.get('nuevaPassword')?.dirty)" class="error-msg-form mb-1">
+              <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['required']">
+                La contraseña es requerida.</small>
+              <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['minlength']">
+                La contraseña debe tener al menos 8 caracteres.</small>
+              <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['pattern']">
+                La contraseña debe contener letras y números.</small>
+            </div>
         </div>
 
         <button type="submit" [disabled]="cambiarPasswordForm.invalid"
