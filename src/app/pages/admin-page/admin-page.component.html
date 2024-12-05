@@ -1,0 +1,26 @@
+<div class="flex justify-content-center z-1 flex-column align-items-center">
+  <h1 class="text-2xl md:text-3xl lg:text-5xl xl:text-6xl m-4">Panel de administración</h1>
+
+  <div class="w-full mw-992 grid grid-nogutter bg-white p-3">
+
+    <p class="col-12 text-center">Áreas de gestión:</p>
+    <div class="col-4 flex justify-content-center">
+      <button class="w-6rem h-2rem text-white m-3 font-bold cursor-pointer md:text-lg"
+        routerLink="coches">Coches</button>
+    </div>
+    <div class="col-4 flex justify-content-center">
+      <button class="w-6rem h-2rem text-white m-3 font-bold cursor-pointer md:text-lg"
+        routerLink="citas">Citas</button>
+    </div>
+    <div class="col-4 flex justify-content-center">
+      <button class="w-6rem h-2rem text-white m-3 font-bold cursor-pointer md:text-lg"
+        routerLink="usuarios">Usuarios</button>
+    </div>
+
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>
+
+<div class="h-30rem" *ngIf="!rutaHijaCargada"></div>

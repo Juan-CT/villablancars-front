@@ -1,0 +1,52 @@
+<h1>Iniciar sesión</h1>
+
+<div class="separador"></div>
+
+<div>
+
+  <form [formGroup]="formLogin" class="grid grid-nogutter" (ngSubmit)="verificarLogin()">
+
+    <div class="mb-3 mt-3 col-12 sm:col-6">
+      <div class="flex flex-column">
+
+        <label class="mb-1" for="email">Email:</label>
+        <input class="mb-1 p-2" type="email" placeholder="Introduce tu email" formControlName="email"
+        [ngClass]="{'input-invalid': formLogin.get('email')?.invalid && (formLogin.get('email')?.touched)}">
+
+        <div *ngIf="formLogin.get('email')?.invalid && (formLogin.get('email')?.touched)"
+          class="error-msg-form mb-1">
+          <small>Introduce un correo electrónico válido.</small>
+        </div>
+
+        <label class="mb-1" for="password">Contraseña:</label>
+        <input class="mb-1 p-2" type="password" placeholder="Introduce tu contraseña" formControlName="password"
+        [ngClass]="{'input-invalid': formLogin.get('password')?.invalid && (formLogin.get('password')?.touched || formLogin.get('password')?.dirty)}">
+        <div *ngIf="formLogin.get('password')?.invalid && (formLogin.get('password')?.touched
+        || formLogin.get('password')?.dirty)" class="error-msg-form mb-1">
+          <small *ngIf="formLogin.get('password')?.errors?.['required']">
+            La contraseña es requerida.</small>
+          <small *ngIf="passwordError">Formato de contraseña incorrecto</small>
+        </div>
+
+      </div>
+
+      <div class="separador mt-4 mb-4"></div>
+
+      <div class="flex align-items-center flex-column mt-3 mb-3">
+        <button type="button" class="login text-white text-lg cursor-pointer font-bold mb-3 lg:w-10" (click)="verificarLogin()">
+          Iniciar sesión
+        </button>
+
+        <button type="button" (click)="irARegistro()" class="reg bg-white text-lg cursor-pointer font-bold lg:w-10">
+          ¿No tienes cuenta? Regístrate
+        </button>
+      </div>
+    </div>
+
+    <div class="hidden col-12 sm:flex sm:col-6 p-6 align-items-center">
+      <img class="w-full" src="assets/loginImg.jpg" alt="">
+    </div>
+
+  </form>
+
+</div>

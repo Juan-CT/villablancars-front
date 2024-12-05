@@ -1,0 +1,15 @@
+<div class="modal-overlay fixed top-0 left-0 right-0 bottom-0 flex align-items-center justify-content-center">
+  <div class="modal-content h-screen w-screen relative bg-white md:h-auto md:w-full"
+    (click)="$event.stopPropagation()">
+    <button class="border-none bg-white text-lg cursor-pointer font-bold absolute cerrar" (click)="cerrarModal()">X</button>
+
+    <ng-container *ngIf="vistaLogin; else registerTemplate">
+      <app-login-page (aRegistro)="cambiarVistaRegistrar()" (cerrarModal)="cerrarModal()"></app-login-page>
+    </ng-container>
+
+    <ng-template #registerTemplate>
+      <app-register-page (aLogin)="cambiarVistaLogin()" (cerrarModal)="cerrarModal()"></app-register-page>
+    </ng-template>
+
+  </div>
+</div>

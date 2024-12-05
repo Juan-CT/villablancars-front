@@ -1,0 +1,181 @@
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <h1 class="text-2xl text-center md:text-3xl lg:text-5xl xl:text-6xl m-4">Véndenos tu coche</h1>
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <p class="text-center sm:text-lg md:text-xl p-4">
+    Si estás buscando vender tu coche eléctrico, en Villablancars te
+    daremos una oferta competitiva y nos ocuparemos de todas las gestiones.
+  </p>
+  <ol class="list-disc font-light text-sm sm:text-base m-3">
+    <li class="mb-3">No hacemos estimaciones online, para evitar dar precios que luego no se cumplen.</li>
+    <li class="mb-3">Valoramos tu coche in-situ y te damos un precio de mercado competitivo.</li>
+    <li class="mb-3">La documentación necesaria para los trámites la gestionamos nosotros.</li>
+    <li class="mb-3">Si estás interesado en un nuevo coche, aceptamos el tuyo como parte de pago.</li>
+  </ol>
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <p class="text-center sm:text-lg md:text-xl mb-4 p-2">
+    Rellena el siguiente formulario aportando datos de tu coche. <br>
+    <span class="mt-2 font-italic text-sm font-bold">Los campos con * son obligatorios</span>
+  </p>
+  <p class="text-center sm:text-lg md:text-xl mb-4 p-2">
+    Contactaremos contigo a través del email que nos indiques.
+  </p>
+  <p class="text-center sm:text-lg md:text-xl font-bold mb-4 p-2">
+    ¡Recuerda, solo trabajamos con coches eléctricos!
+  </p>
+
+  <form [formGroup]="formVenderCoche" class="grid grid-nogutter align-items-center mt-2">
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="marca">*Marca </label>
+      <div class="w-8rem sm:w-14rem">
+        <input class="mb-1 p-2 w-full" formControlName="marca" type="text" id="marca" required>
+        <small
+          *ngIf="formVenderCoche.controls['marca'].hasError('required') && formVenderCoche.controls['marca'].touched">
+          La marca es obligatoria.
+        </small>
+      </div>
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="modelo">*Modelo </label>
+      <div class="w-8rem sm:w-14rem">
+        <input class="mb-1 p-2 w-full" formControlName="modelo" type="text" id="modelo" required>
+        <small
+          *ngIf="formVenderCoche.controls['modelo'].hasError('required') && formVenderCoche.controls['modelo'].touched">
+          El modelo es obligatorio.
+        </small>
+      </div>
+    </div>
+
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="color">Color </label>
+      <input class="mb-1 p-2 w-8rem sm:w-14rem" formControlName="color" id="color" type="text">
+    </div>
+
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="anio">*Año </label>
+      <div class="w-8rem">
+      <select class="mb-1 p-2 w-8rem" formControlName="anio" id="anio" required>
+        <option value="" disabled selected>Seleccione</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+      <small
+          *ngIf="formVenderCoche.controls['anio'].hasError('required') && formVenderCoche.controls['anio'].touched">
+          El año es obligatorio.
+        </small>
+    </div>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="carroceria">Carrocería </label>
+      <select class="mb-1 p-2 w-8rem" formControlName="carroceria" id="carroceria">
+        <option value="" disabled selected>Seleccione</option>
+        <option value="Berlina">Sedán</option>
+        <option value="Familiar">Hatchback</option>
+        <option value="SUV">SUV</option>
+        <option value="Coupé">Coupé</option>
+        <option value="Monovolumen">Convertible</option>
+        <option value="Pick-up">Pick-up</option>
+        <option value="Cabrio">Van</option>
+      </select>
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="cambio">Cambio </label>
+      <select class="mb-1 p-2 w-8rem" formControlName="cambio" id="cambio">
+        <option value="" disabled selected>Seleccione</option>
+        <option value="Manual">Manual</option>
+        <option value="Automático">Automático</option>
+      </select>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="kilometros">Kilómetros (Km)</label>
+      <input class="mb-1 p-2" formControlName="kilometros" min="0" id="kilometros" placeholder="Km" max="999999"
+        type="number">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="autonomia">Autonomía (Km)</label>
+      <input class="mb-1 p-2" formControlName="autonomia" min="0" max="1500" placeholder="Km" id="autonomia"
+        type="number">
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 align-items-center">
+      <label for="potencia">Potencia (CV)</label>
+      <input class="mb-1 p-2" formControlName="potencia" min="0" max="2000" id="potencia" placeholder="CV"
+        type="number">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4  pr-4 ">
+      <label for="descripcion">Más información </label><br>
+      <textarea class="mt-2 p-2 col-12" formControlName="descripcion" type="text" id="descripcion" rows="4"></textarea>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 mt-2 mb-2 pl-4  flex flex-column">
+      <label for="imagen" class="mb-4">Fotos del coche {{selectedFiles.length}} / 8</label>
+
+      <div class="flex flex-wrap">
+
+        <div *ngFor="let cuadrado of cuadrados; let i = index" (click)="elegirArchivo(i)"
+          class="mr-2 cuadrado flex justify-content-center align-items-center overflow-hidden relative">
+          <input type="file" id="imagen" (change)="onFileSelected($event, i)" accept="image/*" class="hidden"
+            [id]="'imagen' + i">
+          <img *ngIf="selectedFiles[i]" [src]="selectedFiles[i].url" alt="Imagen coche" class="miniatura">
+          <p *ngIf="selectedFiles[i]" class="text-center z-5 absolute cursor-pointer borrarImg"
+            (click)="eliminarImg(i, $event)">X</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="separador mt-4 mb-4"></div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 flex h-4rem justify-content-between pr-4 ">
+      <label for="nombre">*Nombre: </label>
+      <input class="mb-1 p-2" formControlName="nombre" id="nombre" type="text" required>
+    </div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 h-4rem flex justify-content-between pr-4 ">
+      <label for="email">*Email: </label>
+      <input class="mb-1 p-2" formControlName="email" id="email" type="email" required>
+    </div>
+
+  </form>
+
+  <div class="col-12 mt-2 mb-2 md:pl-7 flex align-items-center
+    justify-content-center flex-column sm:flex-row">
+    <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg" [disabled]="formVenderCoche.invalid"
+      (click)="enviarFormulario()">
+      Enviar formulario</button>
+    <button class="btn-reset m-3 font-bold cursor-pointer md:text-lg" (click)="resetForm()">
+      Reiniciar</button>
+  </div>
+
+</div>

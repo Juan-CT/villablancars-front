@@ -1,0 +1,52 @@
+<div class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+
+  <div class="w-full flex justify-content-center z-1 flex-column align-items-center">
+
+    <div class="w-full p-3 mb-4">
+      <h1 class="font-bold text-center">Usuarios registrados</h1>
+    </div>
+
+    <div class="user-container w-full grid grid-nogutter align-content-start justify-content-center">
+
+      <ng-container *ngFor="let usuario of usuarios">
+        <div *ngIf="usuario.rol === 'usuario'"
+          class="user-card flex flex-column justify-content-center align-items-center mb-4 p-4">
+
+          <div class="mb-3">
+            <p class="mb-2">Nombre: <br><span class="font-bold">{{usuario.nombre}}</span></p>
+            <p class="mb-2">Email: <br><span class="font-bold">{{usuario.email}}</span></p>
+          </div>
+
+          <button class="btn-green text-white font-bold cursor-pointer" (click)="verCitas(usuario)">
+            Ver citas
+          </button>
+
+        </div>
+      </ng-container>
+
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" *ngIf="mostrarModal">
+    <div class="modal-content bg-white p-5 flex flex-column align-items-center">
+      <h2 class="text-center">Citas de {{usuarioSeleccionado?.nombre}}</h2>
+
+      <div *ngIf="citasUsuario.length > 0; else sinCitas" class="cita-container flex flex-column">
+        <div *ngFor="let cita of citasUsuario" class="cita-card p-3">
+          <p class="mb-2">Fecha: <strong> {{cita.fecha | date: 'dd/MM/yyyy'}}</strong></p>
+          <p class="mb-2">Hora: <strong>{{cita.hora}}</strong></p>
+          <p class="mb-2">Modelo del coche: <strong>{{cita.coche.modelo}}</strong></p>
+          <p class="mb-2">Estado: <strong>{{cita.estado}}</strong></p>
+        </div>
+      </div>
+
+      <ng-template #sinCitas>
+        <p class="text-center">Este usuario no tiene citas registradas.</p>
+      </ng-template>
+
+      <button class="btn-red text-white font-bold cursor-pointer" (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+
+</div>

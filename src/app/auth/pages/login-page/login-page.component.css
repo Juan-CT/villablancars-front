@@ -1,0 +1,23 @@
+.login {
+  background-color: #25d366;
+  width: 250px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.reg {
+  width: 250px;
+  height: 50px;
+  border-radius: 10px;
+  border: 2px solid var(--color-black);
+}
+
+input {
+  border: 1px solid #25d366;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-invalid {
+  border-color: var(--color-error);
+}

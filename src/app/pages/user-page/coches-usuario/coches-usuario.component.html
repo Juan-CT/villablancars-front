@@ -1,0 +1,30 @@
+<div class="flex justify-content-center z-1 flex-column align-items-center p-3">
+
+  <div class="w-full mw-992 grid grid-nogutter align-items-center bg-white mt-4 p-3">
+
+    <div class="w-full p-3 mb-4">
+      <h1 class="font-bold text-center">Coches guardadados</h1>
+    </div>
+
+    <div class="w-full grid grid-nogutter align-content-start justify-content-center">
+
+      <div *ngFor="let coche of coches" class="flex flex-column w-full align-items-center mb-6">
+        <app-car-card [coche]="coche" [marcas]="marcas" [carrocerias]="carrocerias" [cambios]="cambios">
+        </app-car-card>
+
+        <div class="w-8 mt-2 mb-2 flex flex-column lg:flex-row align-items-center lg:justify-content-between">
+          <button class="btn-green text-white font-bold cursor-pointer"
+          (click)="citaCocheSeleccionado(coche)">
+            Pedir cita
+          </button>
+          <button class="btn-red text-white font-bold cursor-pointer mt-2" (click)="eliminarCoche(coche.id)">
+            Quitar de la lista
+          </button>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>

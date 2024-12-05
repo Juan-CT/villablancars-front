@@ -1,0 +1,91 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+  --color-bg: #e6e6e6;
+  --color-green: #25d366;
+  --color-black: #333;
+  --color-error: #ff6b6b ;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+}
+
+.container-root {
+  background-color: var(--color-bg);
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  min-width: 350px;
+  max-width: 992px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.separador {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent 0%, var(--color-black) 15%, var(--color-black) 85%, transparent 100%);
+  margin: 10px 0;
+}
+
+.error-msg-form {
+  color: var(--color-error);
+}
+
+.swal {
+  z-index: 9999;
+}
+
+input, textarea{
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn-black {
+  background-color: var(--color-black);
+  width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--color-green);
+}
+
+.btn-green {
+  background-color: var(--color-green);
+  width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--color-black);
+}
+
+.btn-red {
+  background-color: var(--color-error);
+  width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--color-black);
+}
+
+.btn-reset {
+  color: var(--color-black);
+  background-color: var(--color-bg);
+  width: 175px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--color-black);
+}
+
+button:hover {
+  scale: 1.15;
+}
+
+@media (min-width: 768px) {
+  .btn-green, .btn-black, .btn-red, .btn-reset {
+    width: 250px;
+    height: 50px;
+  }
+}

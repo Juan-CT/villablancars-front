@@ -1,0 +1,40 @@
+<div class="flex justify-content-center z-1 flex-column align-items-center">
+
+  <div *ngIf="usuarioLogueado" class="w-full flex flex-column">
+
+    <div *ngIf="usuarioLogueado.rol === 'admin'; else perfilUsuario"
+      class="flex flex-column align-items-center mt-6 h-30rem">
+      <p class="m-3 font-bold sm:text-2xl lg:text-3xl">Acceso al panel de Administración</p>
+      <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg md:w-16rem" (click)="irAdminPage()">
+        Ir a Administración
+      </button>
+    </div>
+
+    <ng-template #perfilUsuario>
+
+      <div class="w-full mw-992 flex flex-column md:flex-row flex-wrap align-items-center bg-white mt-4 p-3">
+        <h2 class="w-full text-center">{{usuarioLogueado.nombre}}</h2>
+        <div class="w-full md:w-4 flex justify-content-center">
+          <button class="btn-green text-white m-3 font-bold cursor-pointer md:text-lg"
+            routerLink="coches-usuario">Mis Coches guardados</button>
+        </div>
+        <div class="w-full md:w-4 flex justify-content-center">
+          <button class="btn-green text-white m-3 font-bold cursor-pointer md:text-lg"
+            routerLink="citas-usuario">Mis Citas</button>
+        </div>
+        <div class="w-full md:w-4 flex justify-content-center">
+          <button class="btn-green text-white m-3 font-bold cursor-pointer md:text-lg"
+            routerLink="datos-perfil-usuario">Mis datos</button>
+        </div>
+
+      </div>
+
+      <router-outlet></router-outlet>
+
+    </ng-template>
+
+  </div>
+
+</div>
+
+
