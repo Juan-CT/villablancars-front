@@ -1,0 +1,13 @@
+#botonScrollTop {
+  bottom: 30px;
+  right: 20px;
+  padding: 8px 12px;
+  background-color: var(--color-green);
+  border: 2px solid white;
+  border-radius: 45%;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#botonScrollTop.visible {
+  opacity: 1 !important;
+}

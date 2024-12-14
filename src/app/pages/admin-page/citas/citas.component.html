@@ -1,0 +1,64 @@
+<div class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+
+  <div class="w-full flex justify-content-center z-1 flex-column align-items-center p-3">
+
+    <div class="w-full p-3 mb-4">
+      <h1 class="font-bold text-center">Citas</h1>
+    </div>
+
+    <div class="user-container w-full grid grid-nogutter align-content-start justify-content-center">
+
+      <div *ngFor="let cita of citas" class="cita-container flex flex-column lg:flex-wrap align-items-center p-4">
+
+        <div class="flex flex-column w-full lg:w-6 lg:h-full lg:justify-content-center mb-2 lg:mb-0">
+
+          <p class="mb-2 line-height-3">Usuario: <br><span class="font-bold text-lg">
+              {{cita.usuario.email}}</span></p>
+
+          <p class="mb-2 line-height-3">Fecha y hora de la cita: <br><span class="font-bold text-lg">
+              {{cita.fecha | date: 'dd-MM-yyyy'}} - {{cita.hora}}</span></p>
+
+          <p class="mb-2 line-height-3">Modelo del coche: <br><span class="font-bold">
+              {{cita.coche.modelo}} </span></p>
+
+          <p class="mb-2 line-height-3">Estado de la cita: <br><span class="font-bold text-xl">
+              {{cita.estado}}</span></p>
+
+        </div>
+
+        <div class="mt-2 mb-2 flex flex-column lg:h-full align-items-center justify-content-center w-full lg:w-6">
+          <ng-container *ngIf="!comprobarFecha(cita.fecha); else fechaPasada">
+            <button class="btn-green text-white font-bold cursor-pointer" (click)="abrirModal(cita)"
+              [disabled]="cita.estado === 'cancelada' || cita.estado === 'completada'">
+              Cambiar estado
+            </button>
+          </ng-container>
+          <ng-template #fechaPasada>
+            <span class="font-bold text-center">Fecha pasada, no se puede modificar</span>
+          </ng-template>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModal" (click)="cerrarModal()">
+</div>
+<div class="modal bg-white flex flex-column p-4 align-items-center" *ngIf="mostrarModal"
+  (click)="$event.stopPropagation()">
+  <h3>Cambiar estado de la cita</h3>
+  <p>Selecciona un nuevo estado:</p>
+  <div class="flex flex-column align-items-center mt-3">
+    <button *ngFor="let estado of estados" (click)="cambiarEstado(citaSeleccionada!.id, estado)"
+      class="btn-estado font-bold cursor-pointer mb-3 text-lg">
+      {{ estado }}
+    </button>
+  </div>
+  <button class="btn-red border-none text-white font-bold cursor-pointer mt-3" (click)="cerrarModal()">
+    Cancelar
+  </button>
+</div>

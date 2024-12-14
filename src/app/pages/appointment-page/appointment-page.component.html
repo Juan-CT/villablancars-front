@@ -1,0 +1,79 @@
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+
+  <h1 class="w-full text-center mb-4">Formulario Cita</h1>
+  <p class="text-center sm:text-lg md:text-xl mb-4">Rellene todos los campos del formulario para pedir una cita con
+    nosotros</p>
+  <p class="text-center sm:text-lg md:text-xl mb-4">Cuando uno de nuestros administradores confirme la cita,
+    recibirá un correo electrónico con la confirmación</p>
+</div>
+
+<div class="w-full mw-992 flex align-items-center bg-white mt-4 p-3">
+  <form [formGroup]="formCrearCita" class="grid grid-nogutter align-items-center">
+
+    <div *ngIf="editarCita" class="col-12 mt-3 mb-4 text-center text-xl">
+      Selecciona una nueva fecha y hora
+    </div>
+
+    <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="nombre">Nombre: </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="nombre" type="text" id="nombre" [value]="this.usuario?.nombre"
+        [placeholder]="this.usuario?.nombre">
+
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="email">Email: </label>
+      <input class="mb-1 p-2 w-10rem" formControlName="email" type="text" id="email" [value]="this.usuario?.email"
+        [placeholder]="this.usuario?.email">
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label for="coche">Modelo coche: </label>
+      <input class="mb-1 p-2 w-8rem" formControlName="coche" id="coche" type="text" [value]="this.coche?.modelo"
+        [placeholder]="this.coche?.modelo">
+    </div>
+
+    <div class="separador mt-2 mb-2 md:hidden"></div>
+
+    <div class="col-12 md:col-6 mt-3 mb-3 pl-7 md:pl-0 flex justify-content-between pr-7">
+      <label>Elija una Fecha: </label>
+      <p-calendar [minDate]="hoy" [showIcon]="true" dateFormat="dd.mm.yy" [disabledDays]="[0,6]"
+        (onSelect)="diaSeleccionado($event)"></p-calendar>
+    </div>
+
+    <div class="separador mt-2 mb-2"></div>
+
+    <div *ngIf="diaElegido" class="col-12 mt-3 mb-3 pl-7 md:pl-0 pr-7">
+      <h4 class="mb-2">Horas disponibles para el día {{ diaElegido | date: 'dd/MM/yyyy' }}: </h4>
+      <div class="">
+        <button *ngFor="let hora of horasCitas" class="btn-hora bg-white m-2 p-2 font-bold cursor-pointer"
+          (click)="cambiarHoraElegida(hora)" [ngClass]="{'elegida' : hora === this.horaElegida,
+            'ocupada' : this.horasOcupadas.includes(hora)}">
+          {{ hora }}
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="diaElegido" class="separador mt-2 mb-2"></div>
+
+    <div class="col-12  mt-3 mb-3 pl-7 md:pl-0 pr-7">
+      <label for="descripcion" class="mensajeLabel">Mensaje (opcional): </label><br>
+      <textarea class="p-2 mt-3 col-12 md:col-6" formControlName="descripcion" type="text" id="descripcion" rows="4"
+      ></textarea>
+    </div>
+
+
+
+    <div class="col-12 mt-2 mb-2 md:pl-7 flex align-items-center
+    justify-content-center flex-column sm:flex-row">
+      <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg" (click)="guardarCita()"
+        [disabled]="formCrearCita.invalid">
+        Enviar petición</button>
+    </div>
+
+  </form>
+</div>

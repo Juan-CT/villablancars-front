@@ -1,0 +1,80 @@
+.user-container {
+  gap: 24px;
+}
+
+.cita-container {
+  width: 285px;
+  height: 375px;
+  border: 1px solid var(--color-black);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cita-container:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+@media (min-width: 768px) {
+
+  .btn-green,
+  .btn-black,
+  .btn-red,
+  .btn-reset {
+    width: 175px;
+    height: 40px;
+  }
+}
+
+@media (min-width: 992px) {
+  .cita-container {
+    width: 700px;
+    height: 250px;
+  }
+
+  .btn-green, .btn-black, .btn-red, .btn-reset {
+    width: 250px;
+    height: 50px;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  width: 350px;
+  gap: 10px;
+}
+
+.btn-estado {
+  border: 1px solid var(--color-green);
+  border-radius: 10px;
+  color: var(--color-black);
+  width: 200px;
+  height: 40px;
+}
+
+.btn-estado:hover {
+  scale: 1.15;
+}
+
+.btn-red:disabled, .btn-green:disabled {
+  color: white;
+  background-color: var(--color-bg);
+  cursor: default !important;
+}

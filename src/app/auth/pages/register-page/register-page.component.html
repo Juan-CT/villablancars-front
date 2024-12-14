@@ -1,0 +1,81 @@
+<h1>Regístrate</h1>
+
+<div class="separador"></div>
+
+<div>
+
+  <form [formGroup]="formRegistro" class="grid grid-nogutter" (ngSubmit)="registrarUsuarioFirebase()">
+
+    <div class="mb-3 mt-3 col-12 sm:col-6">
+      <div class="flex flex-column">
+
+        <label class="mb-1" for="text">Nombre:</label>
+        <input class="mb-1 p-2" type="text" placeholder="Introduce tu nombre" formControlName="nombre"
+          [ngClass]="{'input-invalid': formRegistro.get('nombre')?.invalid && (formRegistro.get('nombre')?.touched)}">
+        <div *ngIf="formRegistro.get('nombre')?.invalid && (formRegistro.get('nombre')?.touched)"
+          class="error-msg-form mb-1">
+          <small>El nombre es requerido.</small>
+        </div>
+
+        <label class="mb-1" for="email">Email:</label>
+        <input class="mb-1 p-2" type="email" placeholder="Introduce tu email" formControlName="email"
+          [ngClass]="{'input-invalid': formRegistro.get('email')?.invalid && (formRegistro.get('email')?.touched)}">
+        <div *ngIf="formRegistro.get('email')?.invalid && (formRegistro.get('email')?.touched)"
+          class="error-msg-form mb-1">
+          <small>Introduce un correo electrónico válido.</small>
+        </div>
+
+        <label class="mb-1" for="password">Contraseña:</label>
+        <input class="mb-1 p-2" type="password" placeholder="Introduce tu contraseña" formControlName="password"
+          [ngClass]="{'input-invalid': formRegistro.get('password')?.invalid && (formRegistro.get('password')?.touched
+          || formRegistro.get('password')?.dirty)}">
+        <div *ngIf="formRegistro.get('password')?.invalid && (formRegistro.get('password')?.touched
+        || formRegistro.get('password')?.dirty)" class="error-msg-form mb-1">
+          <small *ngIf="formRegistro.get('password')?.errors?.['required']">
+            La contraseña es requerida.</small>
+          <small *ngIf="formRegistro.get('password')?.errors?.['minlength']">
+            La contraseña debe tener al menos 8 caracteres.</small>
+          <small *ngIf="formRegistro.get('password')?.errors?.['pattern']">
+            La contraseña debe contener letras y números.</small>
+        </div>
+
+        <label class="mb-1" for="repetirPassword">Confirmar Contraseña:</label>
+        <input class="mb-1 p-2" type="password" placeholder="Introduce tu contraseña" formControlName="repetirPassword"
+          [ngClass]="{'input-invalid': formRegistro.get('repetirPassword')?.invalid &&
+        (formRegistro.get('repetirPassword')?.touched || formRegistro.get('repetirPassword')?.dirty)}">
+        <div *ngIf="formRegistro.get('repetirPassword')?.invalid &&
+        (formRegistro.get('repetirPassword')?.touched || formRegistro.get('repetirPassword')?.dirty)"
+          class="error-msg-form mb-1">
+          <small *ngIf="formRegistro.get('repetirPassword')?.errors?.['required']">
+            La confirmación de la contraseña es requerida.</small>
+        </div>
+
+        <div *ngIf="formRegistro.errors?.['passwordMismatch'] &&
+        (formRegistro.get('repetirPassword')?.touched || formRegistro.get('password')?.touched)"
+          class="error-msg-form mb-1">
+          <small>Las contraseñas no coinciden.</small>
+        </div>
+
+      </div>
+
+      <div class="separador mt-4 mb-4"></div>
+
+      <div class="flex align-items-center flex-column mt-3 mb-3">
+        <button type="submit" class="login text-white text-lg cursor-pointer font-bold mb-3 lg:w-10"
+          [disabled]="!formRegistro.valid">
+          Registrarse
+        </button>
+
+        <button type="button" (click)="irALogin()" class="reg bg-white text-lg cursor-pointer font-bold lg:w-10">
+          ¿Tienes cuenta?<br> Inicia sesión
+        </button>
+      </div>
+    </div>
+
+    <div class="hidden col-12 sm:flex sm:col-6 p-6 align-items-center">
+      <img class="w-full" src="assets/loginImg.jpg" alt="">
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,17 @@
+.mw-992 {
+  max-width: 992px;
+}
+
+.hero-text {
+  max-width: 40%;
+  top: 140px;
+  padding-left: 40px;
+}
+
+p {
+  max-width: 450px;
+}
+
+.btn-green:hover{
+  scale: 1.15;
+}

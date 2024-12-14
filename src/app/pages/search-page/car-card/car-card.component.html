@@ -1,0 +1,28 @@
+<div class="card flex flex-column lg:flex-row mb-3 cursor-pointer">
+
+  <div *ngIf="coche.imagenes && coche.imagenes.length > 0; else sinImagen" class="imgSlider relative w-full">
+    <button (click)="imagenAnterior()" class="absolute border-none cursor-pointer text-6xl">
+      ❮</button>
+    <img [src]="coche.imagenes![indexImagen].url" alt="Imagen coche" [class.fade]="imagenFade" (click)="verCoche()">
+    <button (click)="imagenSiguiente()" class="absolute  border-none cursor-pointer btnRight text-6xl">
+      ❯</button>
+  </div>
+
+  <ng-template #sinImagen class="imgSlider relative w-full" >
+    <div class="imgSlider relative w-full">
+      <img src="assets/car-placeholder.jpg" alt="Sin imagen" (click)="verCoche()">
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column w-full p-3 justify-content-around h-full" (click)="verCoche()">
+    <h2>{{marcas[coche.marca_id-1].nombre}} {{ coche.modelo }} </h2>
+    <div class="separador mt-1 mb-1"></div>
+    <div class="flex justify-content-between mb-1">
+      <p>Año: <strong>{{ coche.anio }}</strong></p>
+      <p><strong>{{ coche.kilometros | number:'1.0-0'}} Km</strong></p>
+    </div>
+    <p class="mb-1 ">Autonomía: <strong>{{ coche.autonomia }} Km</strong></p>
+    <p class="mb-1">Potencia: <strong>{{ coche.potencia }} CV</strong></p>
+    <p class="mt-1 text-2xl"><strong>{{ coche.precio | number:'1.0-0'}} €</strong></p>
+  </div>
+</div>

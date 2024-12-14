@@ -1,0 +1,75 @@
+<div class="flex justify-content-center z-1 flex-column align-items-center p-3">
+
+  <div class="w-full mw-992 grid grid-nogutter align-items-center bg-white mt-4 p-3">
+
+    <div class="w-full flex flex-column md:align-items-center p-3 mb-4">
+      <h2 class="mb-3">Tu información</h2>
+      <div class="w-full flex flex-column md:flex-row md:justify-content-around">
+        <p class="mb-1"><strong>Nombre:</strong> {{ usuarioLogueado!.nombre }}</p>
+        <p class="mb-1"><strong>Email:</strong> {{ usuarioLogueado!.email }}</p>
+      </div>
+    </div>
+
+    <div class="w-full flex flex-column md:flex-row p-3 md:justify-content-around">
+      <form [formGroup]="cambiarEmailForm" (ngSubmit)="cambiarEmail()" class="mb-2 w-full">
+
+        <h2 class="mb-3">Cambiar Email</h2>
+        <div class="w-full mb-2">
+          <label for="nuevoEmail">Nuevo Email: </label>
+          <input id="nuevoEmail" formControlName="nuevoEmail" type="email" class="mb-1 p-2 w-13rem"
+            placeholder="Ingresa el nuevo email">
+          <div *ngIf="cambiarEmailForm.get('nuevoEmail')?.invalid && cambiarEmailForm.get('nuevoEmail')?.touched"
+            class="error-msg-form mb-1">
+            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['required']">El email es obligatorio.</small>
+            <small *ngIf="cambiarEmailForm.get('nuevoEmail')?.errors?.['email']">Introduce un correo electrónico
+              válido.</small>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="cambiarEmailForm.invalid"
+          class="btn-green text-white font-bold md:text-lg">Actualizar Email</button>
+      </form>
+      <div class="separador mt-4 mb-4 md:hidden"></div>
+      <form [formGroup]="cambiarPasswordForm" (ngSubmit)="cambiarPassword()" class="mb-2 w-full flex flex-column">
+
+        <h2 class="mb-3">Cambiar Contraseña </h2>
+        <div class="w-full mb-2">
+          <label for="nuevaPassword">Nueva Contraseña: </label>
+          <input id="nuevaPassword" formControlName="nuevaPassword" type="password" class="mb-1 p-2 w-12rem"
+            placeholder="Ingresa la nueva contraseña">
+          <div *ngIf="cambiarPasswordForm.get('nuevaPassword')?.invalid && (cambiarPasswordForm.get('nuevaPassword')?.touched
+            || cambiarPasswordForm.get('nuevaPassword')?.dirty)" class="error-msg-form mb-1">
+            <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['required']">
+              La contraseña es requerida.</small>
+            <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['minlength']">
+              La contraseña debe tener al menos 8 caracteres.</small>
+            <small *ngIf="cambiarPasswordForm.get('nuevaPassword')?.errors?.['pattern']">
+              La contraseña debe contener letras y números.</small>
+          </div>
+        </div>
+
+        <div class="w-full mb-2">
+          <label for="confirmarPassword">Confirmar Contraseña: </label>
+          <input id="confirmarPassword" formControlName="confirmarPassword" type="password" class="mb-1 p-2 w-12rem"
+            placeholder="Confirma la contraseña">
+          <div *ngIf="cambiarPasswordForm.get('confirmarPassword')?.invalid && (cambiarPasswordForm.get('confirmarPassword')?.touched
+          || cambiarPasswordForm.get('confirmarPassword')?.dirty)" class="error-msg-form mb-1">
+            <small *ngIf="cambiarPasswordForm.get('confirmarPassword')?.errors?.['required']">
+              La confirmación de la contraseña es obligatoria.</small>
+          </div>
+
+          <div *ngIf="cambiarPasswordForm.errors?.['passwordMismatch'] && (cambiarPasswordForm.get('confirmarPassword')?.touched
+          || cambiarPasswordForm.get('nuevaPassword')?.touched)" class="error-msg-form mb-1">
+            <small>Las contraseñas no coinciden.</small>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="cambiarPasswordForm.invalid"
+          class="btn-green text-white font-bold md:text-lg">Actualizar Contraseña</button>
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

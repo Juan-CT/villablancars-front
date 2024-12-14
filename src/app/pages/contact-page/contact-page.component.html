@@ -1,0 +1,51 @@
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <h1 class="text-2xl text-center md:text-3xl lg:text-5xl xl:text-6xl m-4">Contacto</h1>
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <p class="text-center sm:text-lg md:text-xl p-4">
+    ¿Tienes alguna pregunta, sugerencia o necesitas asistencia? ¡Estamos aquí para ayudarte!
+  </p>
+
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <p class="text-center sm:text-lg md:text-xl mb-4 p-2">
+    Rellena todos los campos del siguiente formulario.
+  </p>
+  <p class="text-center sm:text-lg md:text-xl mb-4 p-2">
+    Contactaremos contigo a través del email que nos indiques.
+  </p>
+
+  <form [formGroup]="formContacto" class="grid grid-nogutter align-items-center mt-2">
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 md:pl-0 flex justify-content-between pr-4 md:pr-7 align-items-center">
+      <label for="nombre">Nombre: </label>
+      <input class="mb-1 p-2" formControlName="nombre" id="nombre" type="text" required>
+    </div>
+
+    <div class="col-12 md:col-6 mt-2 mb-2 pl-4 md:pl-0 flex justify-content-between pr-4 md:pr-0 align-items-center">
+      <label for="email">Email: </label>
+      <input class="mb-1 p-2" formControlName="email" id="email" type="email" required>
+    </div>
+
+    <div class="separador mt-4 mb-4"></div>
+
+    <div class="col-12 mt-2 mb-2 pl-4 md:pl-0 pr-4 md:pr-0 flex flex-column">
+      <label for="mensaje">Mensaje: </label>
+      <textarea class="mt-2 p-3 col-12" formControlName="mensaje" type="text" id="mensaje" rows="8"
+        ></textarea>
+    </div>
+
+  </form>
+
+  <div class="col-12 mt-2 mb-2 md:pl-7 flex align-items-center
+    justify-content-center flex-column sm:flex-row">
+    <button class="btn-black text-white m-3 font-bold cursor-pointer md:text-lg" [disabled]="formContacto.invalid"
+    (click)="enviarFormulario()">
+      Enviar formulario</button>
+    <button class="btn-reset m-3 font-bold cursor-pointer md:text-lg" (click)="resetForm()">
+      Reiniciar</button>
+  </div>
+
+</div>

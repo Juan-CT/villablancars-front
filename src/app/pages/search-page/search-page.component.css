@@ -1,0 +1,97 @@
+.btnSelect {
+  border: 1px solid var(--color-green);
+  border-radius: 10px;
+  height: 40px;
+  background-color: white;
+}
+
+input[type="text"] {
+  box-shadow: inset 0px 0px 2px var(--color-green);
+  padding-left: 10px;
+  border-radius: 10px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border: none;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+  color: var(--color-black);
+}
+
+.modal-content {
+  padding: 40px;
+  max-width: 350px;
+
+}
+
+@media(min-width: 768px) {
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
+
+.cerrar {
+  color: var(--color-black);
+  top: 20px;
+  right: 20px;
+}
+
+.filtroSel {
+  border-top: 2px solid var(--color-green);
+}
+
+.filtroSelActivo {
+  background-color: var(--color-black)!important;
+  color: white;
+  border-radius: 10px;
+}
+
+.btn-li {
+  background-color: var(--color-bg);
+  border-radius: 10px;
+}
+
+.btn-li:hover {
+  scale: 1.15;
+}
+
+.btn-reset {
+  background-color: var(--color-green);
+  border: 1px solid var(--color-black);
+  scale: 1 !important;
+}
+
+.btn-reset:disabled {
+  background-color: var(--color-bg);
+  border: none;
+  cursor: default !important;
+}
+
+.paginacion button {
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+  border-radius: 10px;
+}
+
+.paginacion button:disabled {
+  color: white;
+  background-color: var(--color-bg) !important;
+  border: none;
+}
+
+.cars-container {
+  gap: 20px;
+}
+
+.btnSelect:hover {
+  scale: 1.05 !important;
+}

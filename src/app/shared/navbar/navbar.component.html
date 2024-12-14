@@ -1,0 +1,79 @@
+<div class="flex justify-content-center">
+  <div class="navBar bg-white flex justify-content-between
+  align-items-center lg:m-3 ">
+
+    <div class="w-6 sm:w-5 md:w-4 lg:w-3 flex align-items-center pl-2">
+      <button class="border-none text-5xl md:text-6xl px-2 sm:px-3 md:px-4
+    line-height-1 lg:hidden bg-white btnBurguer cursor-pointer" (click)="toggleAppMenu($event)">
+        &#9776;
+      </button>
+      <img src="assets/logo.jpg" alt="Logo" routerLink="/">
+    </div>
+
+    <div class="hidden h-full lg:flex lg:w-6 align-items-center
+  justify-content-evenly font-bold">
+      <a routerLink="/buscar-coche" class="link w-4 text-center cursor-pointer">Buscar coches</a>
+      <a routerLink="/vender-coche" class="link w-4 text-center cursor-pointer">Vende tu coche</a>
+      <a routerLink="/contacto" class="link w-4 text-center cursor-pointer">Contacto</a>
+    </div>
+
+    <ng-container *ngIf="usuarioLogueado === null">
+      <div class="w-4 lg:w-2 h-full flex justify-content-end">
+        <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3" (click)="abrirModal()">
+          Iniciar sesión <br>o Regístrarse
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="usuarioLogueado !== null">
+      <div class="w-4 lg:w-2 h-full flex justify-content-end lg:hidden">
+        <button class="register-btn h-full border-none w-7rem md:w-8rem lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3" (click)="toggleUserMenu($event)">
+          <p>Hola, {{usuarioLogueado.nombre}}</p>
+
+          <svg *ngIf="!isMenuUserVisible" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z" />
+          </svg>
+
+          <svg *ngIf="isMenuUserVisible" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-up"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.5 10.5a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5l-6-6-6 6z" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="lg:w-2 h-full hidden justify-content-end lg:flex">
+        <button routerLink="/usuario" class="perfil-btn h-full lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3">
+          Mi perfil
+        </button>
+        <button (click)="logout()" class="register-btn h-full border-none lg:w-full
+    font-bold text-white cursor-pointer lg:text-base line-height-3">
+          Cerrar sesión
+        </button>
+      </div>
+
+    </ng-container>
+
+
+    <div class="dropdown-menu absolute right-0 text-white p-2 w-7rem md:w-8rem lg:hidden user-menu"
+      [ngClass]="{'visible': isMenuUserVisible}">
+      <ul class="list-none text-sm">
+        <li class=" mt-2 mb-2 text-center"><a class="link" routerLink="/usuario" (click)="toggleUserMenu($event)">Mi Perfil</a></li>
+        <div class="separador mt-3 mb-3"></div>
+        <li class="mb-2 text-center"><a class="link cursor-pointer" (click)="logout()">Cerrar sesión</a></li>
+      </ul>
+    </div>
+
+
+    <div class="dropdown-menu lg:hidden text-white flex justify-content-around p-2 app-menu
+  absolute w-full font-bold text-sm md:text-base" [ngClass]="{'visible': isMenuAppVisible}">
+      <a routerLink="/buscar-coche" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Buscar coches</a>
+      <a routerLink="/vender-coche" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Vende tu coche</a>
+      <a routerLink="/contacto" class="link w-full text-center sm:text-xl" (click)="toggleAppMenu($event)">Contacto</a>
+    </div>
+
+  </div>
+</div>

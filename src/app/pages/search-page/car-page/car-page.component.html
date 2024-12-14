@@ -1,0 +1,96 @@
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+
+  <div class="car-container w-full flex flex-column md:flex-row p-3">
+
+    <div *ngIf="coche!.imagenes && coche!.imagenes!.length > 0; else sinImagen"
+      class="imgSlider w-full md:w-5 flex flex-wrap p-2">
+
+      <img [src]="imagenMuestra" alt="Imagen coche" [class.fade]="imagenFade"
+        class="w-full h-16rem sm:h-22rem md:h-18rem cursor-pointer" (click)="abrirModal()">
+
+      <div *ngFor="let cuadrado of cuadrados; let i = index" (click)="cambiarImagen(i)"
+        class="mt-4 mr-2 cuadrado flex align-items-center">
+        <img [src]="coche!.imagenes[i].url" alt="Imagen coche" class="miniatura">
+      </div>
+
+      <div class="w-full mt-4 flex justify-content-center">
+        <button class="btn-green text-white font-bold cursor-pointer" [disabled]="!usuarioLogueado"
+          (click)="guardarCocheUsuario()">
+          Guardar en mi lista</button>
+      </div>
+
+    </div>
+
+    <ng-template #sinImagen>
+      <div class="imgSlider w-full md:w-5 flex flex-wrap p-2">
+
+        <img src="assets/car-placeholder.jpg" alt="Sin imagen" class="w-full h-16rem sm:h-22rem md:h-18rem">
+
+        <div class="w-full mt-4 flex justify-content-center">
+          <button class="btn-green text-white font-bold cursor-pointer" [disabled]="!usuarioLogueado"
+            (click)="guardarCocheUsuario()">
+            Guardar en mi lista</button>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <div class="w-full md:w-7 flex flex-column md:flex-row flex-wrap p-2">
+      <div class="w-full text-2xl font-bold md:text-center">{{marca}} {{coche?.modelo}}</div>
+      <div class="separador mt-3 mb-3"></div>
+      <ul class="w-full p-4">
+        <li class="w-full md:w-6 mb-3">Color: <span class="font-bold text-xl">&nbsp;{{coche?.color}}</span></li>
+        <li class="w-full md:w-6 mb-3">Año: <span class="font-bold text-xl">&nbsp;{{coche?.anio}}</span></li>
+        <li class="w-full md:w-6 mb-3">Carrocería: <span class="font-bold text-xl">&nbsp;{{carroceria}}</span></li>
+        <li class="w-full md:w-6 mb-3">Tipo de cambio: <span class="font-bold text-xl">&nbsp;{{cambio}}</span></li>
+        <li class="w-full md:w-6 mb-3">Potencia: <span class="font-bold text-xl">&nbsp;{{coche?.potencia}} CV</span>
+        </li>
+        <li class="w-full md:w-6 mb-3">Kilómetros: <span class="font-bold text-xl">&nbsp;{{coche?.kilometros |
+            number:'1.0-0'}}</span></li>
+        <li class="w-full md:w-6 mb-3">Autonomía: <span class="font-bold text-xl">&nbsp;{{coche?.autonomia |
+            number:'1.0-0'}}Km.</span></li>
+      </ul>
+      <div class="w-full text-2xl font-bold p-4 underline">
+        Precio: <span class="text-3xl">&nbsp;{{ coche?.precio | number:'1.0-0'}} €</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="modalVisible" class="fixed top-0 left-0 modal-overlay h-full w-full flex justify-content-center align-items-center"
+  (click)="cerrarModal()">
+  <div class="bg-white flex justify-content-center align-items-center modal-content"
+    (click)="$event.stopPropagation()">
+    <img [src]="imagenMuestra" alt="Imagen coche ampliada" class="modal-img">
+    <button class="btnX relative text-2xl md:text-3xl font-bold border-none cursor-pointer"
+      (click)="cerrarModal()">X</button>
+  </div>
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <div class="w-full p-3">
+    <h2>Descripción detallada</h2>
+    <p class="mt-2 line-height-4" [style.white-space]="'pre-wrap'">{{ coche?.descripcion }}</p>
+  </div>
+</div>
+
+<div class="w-full mw-992 flex flex-column align-items-center bg-white mt-4 p-3">
+  <div class="w-full p-3 flex flex-column align-items-center mb-2">
+    <h2>Solicita una cita</h2>
+    <p class="mt-2 mb-2">
+      Te atenderemos personalmente para descubrir tu futuro coche.
+    </p>
+    <button class="btn-green text-white font-bold cursor-pointer" [disabled]="!usuarioLogueado" routerLink="/cita">
+      Pedir cita</button>
+  </div>
+  <div class="separador mt-3 mb-3"></div>
+  <div class="w-full p-3 flex flex-column align-items-center mt-2">
+    <h2 class="mb-2">Volver al listado de coches</h2>
+    <button class="btn-green text-white font-bold cursor-pointer" (click)="volverAtras()">
+      Volver atrás</button>
+  </div>
+
+</div>

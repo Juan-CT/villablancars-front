@@ -1,0 +1,40 @@
+<div class="flex justify-content-center z-1 flex-column align-items-center">
+
+  <div class="w-full mw-992 grid grid-nogutter align-items-center bg-white mt-4 p-3">
+
+    <div class="w-full p-3 mb-4">
+      <h1 class="font-bold text-center">Citas</h1>
+    </div>
+
+    <div class="w-full grid grid-nogutter flex-wrap align-content-start justify-content-center">
+
+      <div *ngFor="let cita of citas" class="cita-container flex flex-column flex-wrap align-items-center mb-4 p-4">
+
+        <div class="flex flex-column w-full lg:w-6 lg:h-full lg:justify-content-center mb-2 lg:mb-0">
+          <p class="mb-2">Fecha y hora de la cita: <br><span class="font-bold text-lg">
+              {{cita.fecha | date: 'dd-MM-yyyy'}} - {{cita.hora}}</span></p>
+
+          <p class="mb-2">Modelo del coche: <br><span class="font-bold">{{cita.coche.modelo}} </span></p>
+
+          <button (click)="verCoche(cita.coche)" class="btn-car mb-2 bg-white p-1 font-bold cursor-pointer">
+            Ir a la página del coche</button>
+
+          <p class="mb-2">Estado de la cita: <br><span class="font-bold text-lg">{{cita.estado}}</span></p>
+
+        </div>
+
+        <div class="mt-2 mb-2 flex flex-column lg:h-full lg:align-items-center lg:justify-content-center w-full lg:w-6">
+          <button class="btn-green text-white font-bold cursor-pointer" (click)="modificarCita(cita)"
+          [disabled]="cita.estado === 'cancelada' || cita.estado === 'completada'">
+            Modificar cita
+          </button>
+          <button class="btn-red text-white font-bold cursor-pointer mt-2 lg:mt-4" (click)="anularCita(cita.id)"
+          [disabled]="cita.estado === 'cancelada' || cita.estado === 'completada' || fechaCitaValida(cita.fecha)">
+            Anular cita
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
